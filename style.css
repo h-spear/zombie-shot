@@ -1,0 +1,246 @@
+:root {
+	/* Color */
+	--color-black: #000000;
+	--color-white: #ffffff;
+	--color-red: #ff0000;
+	--color-brownred: #a33232;
+	--color-lightred: #d85757;
+	--color-pink: #ffb6b6;
+	--color-green: #008000;
+	--color-lightgreen: #9ccc65;
+
+	/* Font size */
+	--font-Xlarge: 72px;
+	--font-large: 54px;
+	--font-middle: 40px;
+	--font-medium: 32px;
+	--font-normal: 28px;
+	--font-regular: 18px;
+	--font-small: 16px;
+	--font-micro: 14px;
+
+	/* Size */
+	--size-field-width: 840px;
+	--size-field-height: 680px;
+
+	/* Animation duration */
+	--animation-duration: 300ms;
+}
+
+* {
+	box-sizing: border-box;
+	-ms-user-select: none;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+	cursor: url("imgs/target.png") 30 30, auto;
+}
+
+body {
+	text-align: center;
+	background-color: black;
+	margin: 0;
+}
+
+button {
+	border: none;
+	outline: none;
+	cursor: url("imgs/target2.png") 30 30, auto;
+	transition: transform 100ms ease-in;
+}
+
+h1 {
+	font-size: var(--font-medium);
+}
+
+button:hover {
+	transform: scale(1.1);
+}
+
+button *:hover {
+	cursor: url("imgs/target2.png") 30 30, auto;
+}
+
+.game {
+	transform: translateY(40px);
+	display: flex;
+	flex-direction: column;
+	width: var(--size-field-width);
+	height: var(--size-field-height);
+	margin: auto;
+	position: relative;
+	font-size: var(--font-normal);
+}
+
+.game__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 80px;
+	background-color: var(--color-lightred);
+	user-select: none;
+}
+
+.game__button {
+	width: 60px;
+	height: 60px;
+	margin-right: 40px;
+	background-color: var(--color-white);
+	border: 4px solid black;
+	border-radius: 7px;
+	font-size: 24px;
+}
+
+.game__button .fa-play {
+	color: red;
+	font-size: var(--font-normal);
+	animation: color-change 3s infinite;
+}
+
+@keyframes color-change {
+	0% {
+		color: var(--color-lightgreen);
+	}
+	50% {
+		color: var(--color-green);
+	}
+	100% {
+		color: var(--color-lightgreen);
+	}
+}
+
+.game__timer {
+	width: 100px;
+	height: 50px;
+	margin-right: 20px;
+	background-color: var(--color-brownred);
+	text-align: center;
+	border: 4px solid black;
+	font-size: var(--font-medium);
+	border-radius: 15px;
+}
+
+.game__level-box {
+	width: 200px;
+	font-size: var(--font-middle);
+}
+
+.game__info-box {
+	display: flex;
+	margin-right: 15px;
+	align-items: center;
+}
+
+.game__score-box {
+	margin: 0 20px;
+	width: 100px;
+	justify-content: space-between;
+	display: flex;
+	align-items: center;
+	user-select: none;
+}
+
+.game__zombie-logo {
+	width: 50px;
+	height: 50px;
+}
+
+.game__life {
+	width: 130px;
+	text-align: right;
+	font-size: var(--font-normal);
+}
+.game__field {
+	background: url("imgs/background-start.jpg") center/cover;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+.game__start-box {
+	background-color: rgba(0, 0, 0, 0.8);
+	margin-top: 20px;
+	border-radius: 30px;
+	width: 600px;
+	height: 560px;
+	color: var(--color-white);
+}
+
+.game__title {
+	margin: 20px;
+}
+
+.game__description {
+	display: block;
+	font-size: var(--font-regular);
+}
+
+.game__field-black {
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	z-index: 10;
+	position: relative;
+}
+
+.zombie,
+.pumpkin,
+.time,
+.life {
+	transition: all 100ms ease-in;
+}
+
+.zombie:hover,
+.pumpkin:hover,
+.time:hover,
+.life:hover {
+	transform: scale(1.1);
+	cursor: url("imgs/target2.png") 30 30, auto;
+}
+
+.time,
+.life {
+	font-size: var(--font-medium);
+}
+
+.pop-up {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: auto;
+	background-color: #00000090;
+	width: 400px;
+	height: 180px;
+	padding: 14px;
+	color: white;
+	border-radius: 20px;
+	text-align: center;
+	transform: translateY(-150%);
+}
+
+.pop-up--hide {
+	display: none;
+}
+
+.pop-up div {
+	font-size: var(--font-regular);
+}
+
+.pop-up__btn {
+	width: 60px;
+	height: 60px;
+	font-size: 24px;
+	background-color: var(--color-pink);
+	border: 2px solid black;
+	border-radius: 50%;
+}
+
+.pop-up__message {
+	display: block;
+	margin-top: 6px;
+	font-size: var(--font-medium);
+}
