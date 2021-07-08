@@ -19,9 +19,14 @@ export const Reason = Object.freeze({
 });
 
 // Builder Pattern
-export class GameBuilder {
+class GameBuilder {
   gameDuration(num) {
     this.gameDuration = num;
+    return this;
+  }
+
+  lifeCount(num) {
+    this.lifeCount = num;
     return this;
   }
 
@@ -32,23 +37,50 @@ export class GameBuilder {
 
   build() {
     return new Game(
+      this.difficulty,
       this.gameDuration,
-      this.difficulty
+      this.lifeCount
+    );
+  }
+}
+
+export class GameStaticTimeModeBuilder extends GameBuilder{
+  build() {
+    return new GameStaticTimeMode(
+      this.difficulty,
+      this.gameDuration,
+      this.lifeCount
+    );
+  }
+}
+
+export class GameSequentialModeBuilder extends GameBuilder{
+  build() {
+    return new GameSequentialModeBuilder(
+      this.difficulty,
+      this.gameDuration,
+      this.lifeCount
     );
   }
 }
 
 class Game{
-  constructor(gameDuration, difficulty) {
-    this.gameDuration = gameDuration;
+  constructor(difficulty, gameDuration = 30, lifeCount = 3) {
     this.difficulty = difficulty;
+    this.gameDuration = gameDuration;
+    this.lifeCount = lifeCount;
+    this.orgLifeCount = lifeCount;
     this.level = 1;
-    this.lifeCount = 3;
+    this.mode = 0;
 
+    // difficulty
     this.zombieCount = this.difficulty[this.level][0];
     this.minWidth = this.difficulty[this.level][1];
     this.maxWidth = this.difficulty[this.level][2];
     this.pumpkinCount = this.difficulty[this.level][3];
+
+    this.timeItemProb = '10';
+    this.lifeItemProb = '10';
 
     this.gameFieldClass = document.querySelector('.game__field');
     this.gameTimer = document.querySelector('.game__timer');
@@ -56,8 +88,8 @@ class Game{
     this.gameLevel = document.querySelector('.game__level');
     this.gameLife = document.querySelector('.game__life');
     this.gameBtn = document.querySelector('.game__button');
+    this.remainingTimeSec = gameDuration;
     this.gameBtn.addEventListener('click', () => {
-    this.remainingTimeSec;
       if(this.started) {
         this.stop(Reason.cancel);
       } else { 
@@ -71,6 +103,14 @@ class Game{
     this.started = false;
     this.score = 0;
     this.timer = undefined;
+  }
+
+  refreshTimer() {
+    this.remainingTimeSec = this.gameDuration;
+  }
+
+  refreshLifeCount() {
+    this.lifeCount = this.orgLifeCount;
   }
 
   setGameStopListener(onGameStop) {
@@ -92,8 +132,18 @@ class Game{
     this.gameField = new Field(this.zombieCount, this.minWidth, this.maxWidth, this.pumpkinCount);
     this.gameLevel.innerText = this.level;
   }
+
+  setTimeItemProbability(str){
+    this.timeItemProb = str;
+  }
+
+  setLifeItemProbability(str){
+    this.lifeItemProb = str;
+  }
   
   start() {
+    if(this.mode === 1)
+      this.remainingTimeSec = this.gameDuration;
     this.started = true;
     this.initGame();
     this.showStopButton();
@@ -140,6 +190,16 @@ class Game{
     }
   };
 
+  initGame() {
+    this.score = 0;
+    this.gameField.setLifeProb(eval(this.lifeItemProb));
+    this.gameField.setTimeProb(eval(this.timeItemProb));
+    this.updateLifeBoard();
+    this.gameScore.innerHTML = this.zombieCount;
+    this.gameField.init();
+    this.changeBackground();
+  }
+
   showStopButton() {
     const icon = this.gameBtn.querySelector('.fas');
     icon.classList.add('fa-stop');
@@ -155,9 +215,12 @@ class Game{
     this.gameTimer.style.visibility = 'visible';
     this.gameScore.style.visibility = 'visible';
   }
+
+  setInitTimer() {
+    this.remainingTimeSec = this.gameDuration;
+  }
   
   startGameTimer() {
-    this.remainingTimeSec = this.gameDuration;
     this.updateTimerText(this.remainingTimeSec);
     this.timer = setInterval(() => {
       if(this.remainingTimeSec <= 0) {
@@ -172,20 +235,11 @@ class Game{
   stopGameTimer() {
     clearInterval(this.timer);
   }
-  
+
   updateTimerText(time) {
     const minutes = Math.floor(time / 60)
     const seconds = time % 60;
     this.gameTimer.innerText = `${minutes}:${seconds}`;
-  }
-  
-  initGame() {
-    this.score = 0;
-    this.gameField.setLifeProb((35 - this.level > 10) ? (50 - this.level) : 10);
-    this.gameField.setTimeProb((this.level > 40) ? this.level / 5 : 10);
-    this.gameScore.innerHTML = this.zombieCount;
-    this.gameField.init();
-    this.changeBackground();
   }
   
   updateScoreBoard() {
@@ -209,5 +263,18 @@ class Game{
   changeBackground(){
     let rand = Math.floor(Math.random() * backImgPath.length);
     this.gameFieldClass.style.background = `url("${backImgPath[rand]}") center/cover`;
+  }
+}
+
+class GameSequentialMode extends Game{
+  constructor(difficulty, gameDuration, lifeCount){ 
+    super(difficulty, gameDuration, lifeCount);
+  }
+}
+
+class GameStaticTimeMode extends Game{
+  constructor(difficulty, gameDuration, lifeCount){ 
+    super(difficulty, gameDuration, lifeCount);
+    this.mode = 1;
   }
 }
