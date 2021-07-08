@@ -283,8 +283,8 @@ button *:hover {
 }
 
 @media screen and (max-width: 768px) {
-	.game *,
-	.pop-up * {
+	.game,
+	.pop-up {
 		display: none;
 	}
 
