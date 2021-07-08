@@ -96,7 +96,7 @@ button *:hover {
 .game__button {
 	width: 60px;
 	height: 60px;
-	margin-right: 40px;
+	margin: 0 20px;
 	background-color: var(--color-white);
 	border: 4px solid black;
 	border-radius: 7px;
@@ -137,6 +137,19 @@ button *:hover {
 	font-size: var(--font-middle);
 }
 
+.game__volume-box {
+	display: flex;
+	flex-direction: column;
+	font-size: var(--font-regular);
+	margin-top: 5px;
+}
+
+.game__volume {
+	display: flex;
+	justify-content: space-between;
+	padding: 1px 10px 0 10px;
+}
+
 .game__info-box {
 	display: flex;
 	margin-right: 15px;
@@ -144,7 +157,7 @@ button *:hover {
 }
 
 .game__score-box {
-	margin: 0 20px;
+	margin: 0 10px;
 	width: 100px;
 	justify-content: space-between;
 	display: flex;
