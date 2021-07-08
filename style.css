@@ -8,6 +8,8 @@
 	--color-pink: #ffb6b6;
 	--color-green: #008000;
 	--color-lightgreen: #9ccc65;
+	--color-orange: #ffbb00;
+	--color-deeporange: #e48100;
 
 	/* Font size */
 	--font-Xlarge: 72px;
@@ -16,9 +18,10 @@
 	--font-medium: 32px;
 	--font-normal: 28px;
 	--font-twentyfour: 24px;
-	--font-regular: 18px;
-	--font-small: 16px;
-	--font-micro: 14px;
+	--font-twenty: 20px;
+	--font-regular: 17px;
+	--font-small: 14px;
+	--font-micro: 12px;
 
 	/* Size */
 	--size-field-width: 840px;
@@ -65,10 +68,6 @@ h1 {
 	font-size: var(--font-medium);
 }
 
-button:hover {
-	transform: scale(1.1);
-}
-
 button *:hover {
 	cursor: url("imgs/target2.png") 30 30, auto;
 }
@@ -101,12 +100,56 @@ button *:hover {
 	border: 4px solid black;
 	border-radius: 7px;
 	font-size: 24px;
+	visibility: hidden;
 }
 
-.game__button .fa-play {
-	color: red;
-	font-size: var(--font-normal);
-	animation: color-change 3s infinite;
+.game__btn-box {
+	margin-top: 10px;
+}
+
+.game__mode-btn {
+	width: 200px;
+	height: 200px;
+	font-weight: bold;
+	font-size: var(--font-medium);
+	color: var(--color-white);
+	-webkit-text-stroke: 1px var(--color-black);
+	border: 3px solid var(--color-black);
+	margin: 5px;
+}
+
+.game__mode-btn:hover {
+	animation: border-change 3s infinite;
+}
+
+@keyframes border-change {
+	0% {
+		border-color: var(--color-brownred);
+	}
+	50% {
+		border-color: var(--color-red);
+	}
+	100% {
+		border-color: var(--color-brownred);
+	}
+}
+
+.game__mode-btn.mode1 {
+	background: url("imgs/background1.jpg") center/cover no-repeat;
+}
+.game__mode-btn.mode2 {
+	background: url("imgs/background2.jpg") center/cover no-repeat;
+}
+.game__mode-btn.mode3 {
+	background: url("imgs/background4.jpg") center/cover no-repeat;
+}
+.game__mode-btn.mode4 {
+	background: url("imgs/background6.jpg") center/cover no-repeat;
+}
+
+.game__button:hover,
+.pop-up__btn-box button:hover {
+	transform: scale(1.1);
 }
 
 @keyframes color-change {
@@ -186,6 +229,10 @@ button *:hover {
 
 .game__start-box {
 	background-color: rgba(0, 0, 0, 0.8);
+	position: absolute;
+	z-index: 1;
+	left: 120px;
+	top: 75px;
 	margin-top: 20px;
 	border-radius: 30px;
 	width: 600px;
@@ -200,6 +247,14 @@ button *:hover {
 .game__description {
 	display: block;
 	font-size: var(--font-regular);
+	line-height: 22px;
+}
+
+.game__description .important {
+	width: 95%;
+	border-top: 1px solid var(--color-white);
+	padding-top: 10px;
+	margin: auto;
 }
 
 .game__field-black {
@@ -208,6 +263,29 @@ button *:hover {
 	background-color: black;
 	z-index: 10;
 	position: relative;
+}
+
+.game__start {
+	font-weight: bold;
+	border: 2px solid var(--color-black);
+	animation: backgroundcolor-change 3s infinite;
+	border-radius: 8px;
+	font-size: var(--font-twentyfour);
+	width: 150px;
+	height: 40px;
+	margin-top: 8px;
+}
+
+@keyframes backgroundcolor-change {
+	0% {
+		background-color: var(--color-deeporange);
+	}
+	50% {
+		background-color: var(--color-brownred);
+	}
+	100% {
+		background-color: var(--color-deeporange);
+	}
 }
 
 .zombie,
@@ -254,19 +332,24 @@ button *:hover {
 	font-size: var(--font-regular);
 }
 
-.pop-up__btn {
+.pop-up__btn-box button {
 	width: 60px;
 	height: 60px;
 	font-size: 24px;
 	background-color: var(--color-pink);
 	border: 2px solid black;
 	border-radius: 50%;
+	margin: 0 7px;
 }
 
 .pop-up__message {
 	display: block;
 	margin-top: 6px;
 	font-size: var(--font-medium);
+}
+
+.pop-up__home {
+	display: none;
 }
 
 .mobile__notice {

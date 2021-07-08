@@ -44,9 +44,9 @@ class GameBuilder {
   }
 }
 
-export class GameStaticTimeModeBuilder extends GameBuilder{
+export class GameStrictTimeModeBuilder extends GameBuilder{
   build() {
-    return new GameStaticTimeMode(
+    return new GameStrictTimeMode(
       this.difficulty,
       this.gameDuration,
       this.lifeCount
@@ -56,7 +56,7 @@ export class GameStaticTimeModeBuilder extends GameBuilder{
 
 export class GameSequentialModeBuilder extends GameBuilder{
   build() {
-    return new GameSequentialModeBuilder(
+    return new GameSequentialMode(
       this.difficulty,
       this.gameDuration,
       this.lifeCount
@@ -90,11 +90,8 @@ class Game{
     this.gameBtn = document.querySelector('.game__button');
     this.remainingTimeSec = gameDuration;
     this.gameBtn.addEventListener('click', () => {
-      if(this.started) {
+      if(this.started)
         this.stop(Reason.cancel);
-      } else { 
-        this.start();
-      }
     });
     
     this.gameField = new Field(this.zombieCount, this.minWidth, this.maxWidth, this.pumpkinCount);
@@ -111,6 +108,13 @@ class Game{
 
   refreshLifeCount() {
     this.lifeCount = this.orgLifeCount;
+  }
+
+  refreshGame() {
+    this.level = 1;
+    this.setLevel(this.level);
+    this.refreshLifeCount();
+    this.refreshTimer();
   }
 
   setGameStopListener(onGameStop) {
@@ -161,6 +165,16 @@ class Game{
     this.onGameStop && this.onGameStop(reason);
   }
 
+  clear(){
+    this.started = false;
+    this.gameScore.innerText = '?';
+    this.gameLife.innerText = '';
+    this.gameTimer.innerText = 'TIME';
+    this.gameLevel.innerText = '1';
+    this.changeStartBackground();
+    this.gameField.fieldClear();
+  }
+
   onItemClick = (item) => {
     if(!this.started) {
       return;
@@ -202,8 +216,6 @@ class Game{
 
   showStopButton() {
     const icon = this.gameBtn.querySelector('.fas');
-    icon.classList.add('fa-stop');
-    icon.classList.remove('fa-play');
     this.gameBtn.style.visibility = 'visible';
   }
   
@@ -264,6 +276,10 @@ class Game{
     let rand = Math.floor(Math.random() * backImgPath.length);
     this.gameFieldClass.style.background = `url("${backImgPath[rand]}") center/cover`;
   }
+
+  changeStartBackground(){
+    this.gameFieldClass.style.background = `url("imgs/background-start.jpg") center/cover`;
+  }
 }
 
 class GameSequentialMode extends Game{
@@ -272,7 +288,7 @@ class GameSequentialMode extends Game{
   }
 }
 
-class GameStaticTimeMode extends Game{
+class GameStrictTimeMode extends Game{
   constructor(difficulty, gameDuration, lifeCount){ 
     super(difficulty, gameDuration, lifeCount);
     this.mode = 1;

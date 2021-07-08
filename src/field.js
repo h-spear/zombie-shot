@@ -25,6 +25,10 @@ export class Field{
     this.lifeProb;
   }
 
+  fieldClear(){
+    this.field.innerHTML = '';
+  }
+
   init() {
     this.field.innerHTML = '';
     this._makeZombies(this.zombieCount, this.minWidth, this.maxWidth);
