@@ -1,7 +1,7 @@
 'use strict'
 
 import PopUp from "./popup.js";
-import { GameStrictTimeModeBuilder,GameSequentialModeBuilder, Reason } from "./game-set.js";
+import { GameBuilder, Reason } from "./game-set.js";
 import { difficulty, loseMsg } from "./game-details.js";
 import * as sound from "./sound.js";
 
@@ -91,11 +91,12 @@ export class GameModes{
     const startMode = document.querySelector(`.start-mode${mode}`);
     startMode.addEventListener('click', () => {
       this.hideStartBox();
-      this.game = new GameSequentialModeBuilder()
-        .gameDuration(eval(`mode${mode}_gameDuration`))
-        .difficulty(difficulty)
-        .lifeCount(eval(`mode${mode}_lifeCount`))
-        .build();
+      this.game = new GameBuilder()
+      .gameDuration(eval(`mode${mode}_gameDuration`))
+      .difficulty(difficulty)
+      .lifeCount(eval(`mode${mode}_lifeCount`))
+      .mode(mode)
+      .build();
       this.game.start();
 
       this.lvBoundary = eval(`mode${mode}_levelBoundary`);

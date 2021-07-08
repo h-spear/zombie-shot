@@ -19,7 +19,7 @@ export const Reason = Object.freeze({
 });
 
 // Builder Pattern
-class GameBuilder {
+export class GameBuilder {
   gameDuration(num) {
     this.gameDuration = num;
     return this;
@@ -35,32 +35,37 @@ class GameBuilder {
     return this;
   }
 
-  build() {
-    return new Game(
-      this.difficulty,
-      this.gameDuration,
-      this.lifeCount
-    );
+  mode(num) {
+    this.mode = num;
+    return this;
   }
-}
 
-export class GameStrictTimeModeBuilder extends GameBuilder{
   build() {
-    return new GameStrictTimeMode(
-      this.difficulty,
-      this.gameDuration,
-      this.lifeCount
-    );
-  }
-}
-
-export class GameSequentialModeBuilder extends GameBuilder{
-  build() {
-    return new GameSequentialMode(
-      this.difficulty,
-      this.gameDuration,
-      this.lifeCount
-    );
+    if(this.mode == 1) {
+      return new GameStrictTimeMode(
+        this.difficulty,
+        this.gameDuration,
+        this.lifeCount
+      );
+    } else if(this.mode == 2) {
+      return new GameSequentialMode(
+        this.difficulty,
+        this.gameDuration,
+        this.lifeCount
+      );
+    } else if(this.mode == 3) {
+      return new GameSequentialMode(
+        this.difficulty,
+        this.gameDuration,
+        this.lifeCount
+      );
+    } else if(this.mode == 4) {
+      return new GameSequentialMode(
+        this.difficulty,
+        this.gameDuration,
+        this.lifeCount
+      );
+    }
   }
 }
 
