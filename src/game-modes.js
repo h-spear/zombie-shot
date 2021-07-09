@@ -2,7 +2,7 @@
 
 import PopUp from "./popup.js";
 import { GameBuilder, Reason } from "./game-set.js";
-import { difficulty, loseMsg } from "./game-details.js";
+import { difficulty, difficultyInfiniteMode, loseMsg } from "./game-details.js";
 import * as sound from "./sound.js";
 
 const mode_description = `
@@ -24,8 +24,9 @@ const mode_description = `
 const mode1_gameDuration = 30;
 const mode1_lifeCount = 3;
 const mode1_levelBoundary = [1, 3, 7, 15, 20, 35, 50, 70];
-const mode1_timeItemProbability = '(this.level / 2 < 25) ? this.level / 2 : 25';
-const mode1_LifeItemProbability = '(50 - this.level) > 10 ? (50 - this.level) : 10';
+const mode1_Item1Probability = '(this.level / 2 < 25) ? this.level / 2 : 25';
+const mode1_Item2Probability = '(50 - this.level) > 10 ? (50 - this.level) : 10';
+const mode1_blackOutInterval = 5;
 let mode1_description = mode_description + `
 <div class="important">
 <span style="font-size: 22px;"><b>Strict Time Mode</b></span>는<br>
@@ -39,8 +40,9 @@ let mode1_description = mode_description + `
 const mode2_gameDuration = 10;
 const mode2_lifeCount = 1;
 const mode2_levelBoundary = [1, 3, 7, 15, 20, 35, 50, 70];
-const mode2_timeItemProbability = '(50 - this.level > 10) ? (50 - this.level) : 10';
-const mode2_LifeItemProbability = '10';
+const mode2_Item1Probability = '(50 - this.level > 10) ? (50 - this.level) : 10';
+const mode2_Item2Probability = '10';
+const mode2_blackOutInterval = 5;
 let mode2_description = mode_description + `
 <div class="important">
 <span style="font-size: 22px;"><b>Sequential Time Mode</b></span>는<br>
@@ -48,6 +50,66 @@ let mode2_description = mode_description + `
 기본 라이프는 <b>${mode2_lifeCount}</b>, 초기 제한시간은 <b>${mode2_gameDuration}초</b>입니다.<br>
 라이프가 적으므로 조심해야하고, <b>시간 증가 아이템</b>이 중요할 것입니다!<br>
 <button class="game__start start-mode2">게임시작</button>
+</div>
+`;
+
+const mode3_gameDuration = 600;
+const mode3_lifeCount = 1;
+const mode3_levelBoundary = [1, 3, 7, 15, 20, 35, 50, 70];
+const mode3_Item1Probability = '100';
+const mode3_Item2Probability = '100';
+const mode3_blackOutInterval = 9;
+let mode3_description = `
+게임방법은 간단합니다.<br>
+화면에 나타난 좀비들을 처치하면 됩니다!<br><br>
+<span style="color: red;"><b>단, 호박을 터트려서는 안됩니다!</b></span><br>
+호박을 터트릴 경우, 게임이 종료됩니다.<br>
+상단에 남은 좀비 수, 제한시간, 라이프 등 정보가 표기됩니다.<br><br>
+단, 타겟의 스코프가 제한되어 난이도가 높을 수 있습니다.<br>
+단계가 높아질수록 스코프의 크기가 작아져 당신을 힘들게 할 것입니다.<br>
+대신 블랙아웃 타임은 ${mode3_blackOutInterval}초에 한번씩 찾아옵니다.<br><br>
+
+마지막으로, 확률적으로 생성되는 아이템들이 있습니다.<br>
+<span style="font-size: 28px">💣</span>
+범위 내 클리어　　　
+<span style="font-size: 28px">👁‍🗨</span>
+스코프 일시 증가<br><br>
+<div class="important">
+<span style="font-size: 22px;"><b>Dark Sniper Mode</b></span>는<br>
+제한시간 <b>${mode3_gameDuration}초</b>로, Strict Time Mode로 진행됩니다.<br>
+기본 라이프는 <b>${mode3_lifeCount}</b>이며 <span style="color: red;"><b>라이프, 시간 증가 아이템은 드랍되지 않습니다.<br></b></span>
+라이프가 <b>${mode3_lifeCount}</b>개이고 시야가 좁으므로, 신중하게 저격해야할 것입니다.<br>
+<button class="game__start start-mode3">게임시작</button>
+</div>
+`;
+
+const mode4_gameDuration = 300;
+const mode4_lifeCount = 1;
+const mode4_levelBoundary = [1, 10, 30, 50, 100, 300, 500, 1000];
+const mode4_Item1Probability = '100';
+const mode4_Item2Probability = '100';
+const mode4_blackOutInterval = 11;
+let mode4_description = `
+게임방법은 간단합니다.<br>
+화면에 무한히 나타나는 좀비들을 처치하면 됩니다!<br><br>
+<span style="color: red;"><b>단, 호박을 터트려서는 안됩니다!</b></span><br>
+호박을 터트릴 경우, 게임이 종료됩니다.<br>
+상단에 잡은 좀비 수, 제한시간, 라이프 등 정보가 표기됩니다.<br><br>
+좀비들은 일정 시간이 지나면 사라집니다.<br>
+시간이 지날수록 작은 좀비가 빠르게 나왔다 사라질 것입니다.<br>
+블랙아웃 타임은 ${mode4_blackOutInterval}초에 한번씩 찾아옵니다.<br><br>
+
+마지막으로, 확률적으로 생성되는 아이템들이 있습니다.<br>
+<span style="font-size: 28px">💣</span>
+필드 클리어　　　
+<span style="font-size: 28px">☀️</span>
+15초간 블랙아웃 정지(중첩X)<br><br>
+<div class="important">
+<span style="font-size: 22px;"><b>Infinite Zombie Mode</b></span>는<br>
+<b>${mode4_gameDuration}초</b>동안 많은 좀비를 잡는 모드입니다.<br>
+좀비, 호박, 아이템은 모두 랜덤한 시간 후 사라지므로,<br></b></span>
+필요한 아이템은 즉시 잡아야 할 것입니다!<br>
+<button class="game__start start-mode4">게임시작</button>
 </div>
 `;
 
@@ -67,10 +129,7 @@ export class GameModes{
       if(target.nodeName === 'BUTTON')
       {
         const mode = parseInt(target.dataset.mode);
-        if(mode === 3 || mode === 4)
-          window.alert('준비중입니다.');
-        else
-          this.gameStart(target.dataset.mode);
+        this.gameStart(mode);
       }
     });
 
@@ -93,16 +152,20 @@ export class GameModes{
       this.hideStartBox();
       this.game = new GameBuilder()
       .gameDuration(eval(`mode${mode}_gameDuration`))
-      .difficulty(difficulty)
+      .difficulty(mode === 4 ? difficultyInfiniteMode : difficulty)
       .lifeCount(eval(`mode${mode}_lifeCount`))
       .mode(mode)
       .build();
-      this.game.start();
-
+      
       this.lvBoundary = eval(`mode${mode}_levelBoundary`);
-      this.game.setTimeItemProbability(eval(`mode${mode}_timeItemProbability`));
-      this.game.setLifeItemProbability(eval(`mode${mode}_LifeItemProbability`));
-      this.game.setGameStopListener(reason => this.onGameStopFunction(reason, this.lvBoundary));
+      this.game.setItem1Probability(eval(`mode${mode}_Item1Probability`));
+      this.game.setItem2Probability(eval(`mode${mode}_Item2Probability`));
+      this.game.setBlackOutInterval(eval(`mode${mode}_blackOutInterval`));
+      if(mode === 4)
+        this.game.setGameStopListener(reason => this.onGameStopInfiniteMode(reason, this.lvBoundary));
+      else
+        this.game.setGameStopListener(reason => this.onGameStopFunction(reason, this.lvBoundary));
+      this.game.start();
     });
   }
 
@@ -117,6 +180,28 @@ export class GameModes{
     this.gameDescription.innerHTML = `게임모드를 선택하세요.<br>`;
     this.gameStartBtnBox.style.display = 'block';
   }
+
+  onGameStopInfiniteMode(reason, lvBoundary) {
+    let message = `<span style="font-size: 18px;">Zombie ${this.game.score} shoted!</span>`
+    + loseMsg(this.game.score, lvBoundary);
+    switch (reason) {
+      case Reason.cancel:
+        sound.playAlert();
+        break;
+      case Reason.lose:
+
+        sound.playPumpkin();
+        break;
+      default:
+        throw new Error('not valid reason');
+    }
+    this.game.refreshGame();
+    this.gameFinishBanner.showHomeButton();
+    this.gameFinishBanner.changeRedoButton();
+    this.gameFinishBanner.showWithText(message);
+
+  }
+
 
   onGameStopFunction(reason, lvBoundary) {
     let message;

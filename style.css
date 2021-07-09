@@ -218,6 +218,7 @@ button *:hover {
 	text-align: right;
 	font-size: var(--font-normal);
 }
+
 .game__field {
 	background: url("imgs/background-start.jpg") center/cover;
 	width: 100%;
@@ -291,14 +292,22 @@ button *:hover {
 .zombie,
 .pumpkin,
 .time,
-.life {
+.life,
+.bomb,
+.eye,
+.bomb2,
+.sun {
 	transition: all 100ms ease-in;
 }
 
 .zombie:hover,
 .pumpkin:hover,
 .time:hover,
-.life:hover {
+.life:hover,
+.bomb:hover,
+.eye:hover,
+.bomb2:hover,
+.sun:hover {
 	transform: scale(1.1);
 	cursor: url("imgs/target2.png") 30 30, auto;
 }
@@ -376,6 +385,12 @@ button *:hover {
 
 .mobile__description .highlight {
 	font-size: var(--font-twentyfour);
+}
+
+.a {
+	background-color: red;
+	width: 200px;
+	height: 300px;
 }
 
 @media screen and (max-width: 768px) {

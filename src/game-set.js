@@ -1,6 +1,6 @@
 'use strict'
 
-import { Field, ItemType } from "./field.js";
+import { Field, FieldInfiniteMode, ItemType } from "./field.js";
 import * as sound from "./sound.js";
 
 const backImgPath = [
@@ -54,13 +54,13 @@ export class GameBuilder {
         this.lifeCount
       );
     } else if(this.mode == 3) {
-      return new GameSequentialMode(
+      return new GameDarkSniperMode(
         this.difficulty,
         this.gameDuration,
         this.lifeCount
       );
     } else if(this.mode == 4) {
-      return new GameSequentialMode(
+      return new GameInfiniteZombieMode(
         this.difficulty,
         this.gameDuration,
         this.lifeCount
@@ -84,8 +84,8 @@ class Game{
     this.maxWidth = this.difficulty[this.level][2];
     this.pumpkinCount = this.difficulty[this.level][3];
 
-    this.timeItemProb = '10';
-    this.lifeItemProb = '10';
+    this.timeItemProb = '0';
+    this.lifeItemProb = '0';
 
     this.gameFieldClass = document.querySelector('.game__field');
     this.gameTimer = document.querySelector('.game__timer');
@@ -99,8 +99,6 @@ class Game{
         this.stop(Reason.cancel);
     });
     
-    this.gameField = new Field(this.zombieCount, this.minWidth, this.maxWidth, this.pumpkinCount);
-    this.gameField.setClickListener(this.onItemClick);
     
     this.started = false;
     this.score = 0;
@@ -142,16 +140,20 @@ class Game{
     this.gameLevel.innerText = this.level;
   }
 
-  setTimeItemProbability(str){
+  setItem1Probability(str){
     this.timeItemProb = str;
   }
 
-  setLifeItemProbability(str){
+  setItem2Probability(str){
     this.lifeItemProb = str;
+  }
+
+  setBlackOutInterval(str){
+    this.gameField.blackOutInterval = str;
   }
   
   start() {
-    if(this.mode === 1)
+    if(this.mode != 2)
       this.remainingTimeSec = this.gameDuration;
     this.started = true;
     this.initGame();
@@ -206,6 +208,14 @@ class Game{
       this.remainingTimeSec = this.remainingTimeSec + 5;
       this.updateTimerText(this.remainingTimeSec);
       sound.playTimeItem();
+    } else if(item === ItemType.bomb) {
+      this.remainingTimeSec = this.remainingTimeSec + 5;
+      this.updateTimerText(this.remainingTimeSec);
+      sound.playTimeItem();
+    } else if(item === ItemType.eye) {
+      this.remainingTimeSec = this.remainingTimeSec + 5;
+      this.updateTimerText(this.remainingTimeSec);
+      sound.playTimeItem();
     }
   };
 
@@ -255,7 +265,9 @@ class Game{
 
   updateTimerText(time) {
     const minutes = Math.floor(time / 60)
-    const seconds = time % 60;
+    let seconds = time % 60;
+    if(seconds < 10)
+      seconds = '0' + seconds;
     this.gameTimer.innerText = `${minutes}:${seconds}`;
   }
   
@@ -287,9 +299,121 @@ class Game{
   }
 }
 
+class GameDarkSniperMode extends Game{
+  constructor(difficulty, gameDuration, lifeCount){ 
+    super(difficulty, gameDuration, lifeCount);
+    this.mode = 3;
+
+    super.timeItemProb = '0';
+    super.lifeItemProb = '0';
+    this.bombItemProb = '0';
+    this.eyeItemProb = '0';
+  }
+
+  setItem1Probability(str){
+    this.bombItemProb = str;
+  }
+
+  setItem2Probability(str){
+    this.eyeItemProb = str;
+  }
+
+  initGame() {
+    this.score = 0;
+    this.gameField.setBombProb(eval(this.bombItemProb));
+    this.gameField.setEyeProb(eval(this.eyeItemProb));
+    this.updateLifeBoard();
+    this.gameScore.innerHTML = this.zombieCount;
+    this.gameField.initSniperMode();
+    this.changeBackground();
+  }
+}
+
+class GameInfiniteZombieMode extends Game{
+  constructor(difficulty, gameDuration, lifeCount){ 
+    super(difficulty, gameDuration, lifeCount);
+    this.mode = 4;
+
+    super.timeItemProb = '0';
+    super.lifeItemProb = '0';
+    this.bomb2ItemProb = '0';
+    this.sunItemProb = '0';
+
+    this.gameField = new FieldInfiniteMode(this.zombieCount, this.minWidth, this.maxWidth, this.pumpkinCount);
+    this.gameField.setClickListener(this.onItemClick);
+    
+  }
+
+  setItem1Probability(str){
+    this.bomb2ItemProb = str;
+  }
+
+  setItem2Probability(str){
+    this.sunItemProb = str;
+  }
+
+  stop(reason) {
+    this.started = false;
+    this.stopGameTimer();
+    this.hideGameButton();
+    sound.stopBackground();
+    this.gameField.stopShuffleTimer();
+    this.onGameStop && this.onGameStop(reason);
+  }
+
+  initGame() {
+    this.score = 0;
+    //this.gameField.setBomb2Prob(eval(this.bomb2ItemProb));
+    //this.gameField.setSunProb(eval(this.sunItemProb));
+    this.updateLifeBoard();
+    this.gameScore.innerHTML = `${this.score}`;
+    this.gameField.init();
+    this.changeBackground();
+  }
+
+  onItemClick = (item) => {
+    if(!this.started) {
+      return;
+    }
+    if(item === ItemType.zombie) {
+      this.score++;
+      this.updateScoreBoard();
+      sound.playZombieDead();
+    } else if(item === ItemType.pumpkin) {
+      this.lifeCount--;
+      this.updateLifeBoard();
+      sound.playPumpkin();
+      if(this.lifeCount === 0) {
+        this.stop(Reason.lose);
+      }
+    } else if(item === ItemType.bomb2) {
+      this.score += this.gameField.countZombie();
+      this.updateScoreBoard();
+      this.gameField.fieldClear();
+      sound.playLifeItem();
+    } else if(item === ItemType.sun) {
+      this.gameField.itemSun(15);
+      sound.playTimeItem();
+    }
+  };
+  
+  updateScoreBoard() {
+    this.gameScore.innerText = this.score;
+  }
+  
+  refreshGame() {
+    this.refreshLifeCount();
+    this.refreshTimer();
+    this.gameField.removeAllTimer();
+  }
+}
+
 class GameSequentialMode extends Game{
   constructor(difficulty, gameDuration, lifeCount){ 
     super(difficulty, gameDuration, lifeCount);
+    this.mode = 2;
+    this.gameField = new Field(this.zombieCount, this.minWidth, this.maxWidth, this.pumpkinCount);
+    this.gameField.setClickListener(this.onItemClick);
   }
 }
 
@@ -297,5 +421,7 @@ class GameStrictTimeMode extends Game{
   constructor(difficulty, gameDuration, lifeCount){ 
     super(difficulty, gameDuration, lifeCount);
     this.mode = 1;
+    this.gameField = new Field(this.zombieCount, this.minWidth, this.maxWidth, this.pumpkinCount);
+    this.gameField.setClickListener(this.onItemClick);
   }
 }
