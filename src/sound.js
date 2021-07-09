@@ -1,3 +1,6 @@
+'use strict' 
+
+import { volumeSoundA } from "./game-modes.js";
 
 const alertSound = new Audio('./sound/alert.mp3');
 
@@ -123,10 +126,24 @@ function changePumpkinVolume(vol) {
   pumpkinSound.volume = vol;
 }
 
+function changeGunVolume(vol)
+{
+  gunShotSound.forEach((sound) => {
+    sound.volume = vol;
+  })
+  gunLoadSound.forEach((sound) => {
+    sound.volume = vol;
+  })
+}
+
 function changeGameVolume(vol) {
   winSound.volume = vol;
   lifeItemSound.volume = vol;
   timeItemSound.volume = vol;
+  bombItemSound.volume = vol;
+  sunItemSound.volume = vol;
+  eyeItemSound.volume = vol;
+  nasaItemSound.volume = vol;
   alertSound.volume = vol;
 }
 
@@ -135,6 +152,8 @@ function changeVolume(vol) {
   changeZombieVolume(vol);
   changePumpkinVolume(vol);
   changeGameVolume(vol);
+  changeGunVolume(vol);
+  volumeSoundA(vol);
 }
 
 const volumeBar = document.querySelector('.volume__bar');
@@ -152,4 +171,5 @@ volumeBar.addEventListener('change', () => {
   text = text + volumeBar.value;
   changeVolume(volumeBar.value * 0.01);
   volume.innerHTML = text;
+  
 });

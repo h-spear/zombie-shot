@@ -60,8 +60,8 @@ const mode3_lifeCount = 10;
 const mode3_levelBoundary = [1, 7, 17, 29, 44, 55, 77, 99];
 const mode3_Item1Probability = '(60 - this.level) > 30 ? (50 - this.level) : 30';
 const mode3_Item2Probability = '(50 - this.level * 2) > 20 ? (50 - this.level) : 20';
-const mode3_scopeRate = '(400 - this.level * 6) > 130 ? (400 - this.level * 10) : 130';
-const mode3_blackOutInterval = 9;
+const mode3_scopeRate = '(400 - this.level * 3) > 150 ? (400 - this.level * 10) : 150';
+const mode3_blackOutInterval = 13;
 let mode3_description = `
 게임방법은 간단합니다.<br>
 화면에 나타난 좀비들을 처치하면 됩니다!<br><br>
@@ -116,13 +116,17 @@ let mode4_description = `
 </div>
 `;
 
+const soundA = new Audio('./sound/bg-start.mp3');
+
+export function volumeSoundA(vol) {
+  soundA.volume = vol;
+}
+
 export class GameModes{
   constructor(){
     this.gameStartBtn = document.querySelectorAll('.game__mode-btn');
     this.gameFinishBanner = new PopUp();
     this.game;
-
-    this.startSound = new Audio('./sound/bg-start.mp3');
 
     this.gameTitle = document.querySelector('.game__title');
     this.gameDescription = document.querySelector('.game__description');
@@ -137,7 +141,6 @@ export class GameModes{
         const mode = parseInt(target.dataset.mode);
         this.gameStart(mode);
         sound.playGunShot2();
-        sound.stopStartBg();
       }
     });
 
@@ -153,12 +156,12 @@ export class GameModes{
   }
 
   playBg(){
-    this.startSound.currentTime = 0;
-    this.startSound.play();
+    soundA.currentTime = 0;
+    soundA.play();
   }
 
   stopBg(){
-    this.startSound.pause();
+    soundA.pause();
   }
 
   gameStart(mode){
