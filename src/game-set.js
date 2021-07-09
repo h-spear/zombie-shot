@@ -1,6 +1,6 @@
 'use strict'
 
-import { Field, FieldInfiniteMode, ItemType } from "./field.js";
+import { Field, FieldInfiniteMode, FieldSniperMode, ItemType } from "./field.js";
 import * as sound from "./sound.js";
 
 const backImgPath = [
@@ -148,8 +148,8 @@ class Game{
     this.lifeItemProb = str;
   }
 
-  setBlackOutInterval(str){
-    this.gameField.blackOutInterval = str;
+  setBlackOutInterval(num){
+    this.gameField.blackOutInterval = num;
   }
   
   start() {
@@ -187,35 +187,27 @@ class Game{
       return;
     }
     if(item === ItemType.zombie) {
+      sound.playZombieDead();
       this.score++;
       this.updateScoreBoard();
-      sound.playZombieDead();
       if(this.score === this.zombieCount) {
         this.stop(Reason.win);
       }
     } else if(item === ItemType.pumpkin) {
+      sound.playPumpkin();
       this.lifeCount--;
       this.updateLifeBoard();
-      sound.playPumpkin();
       if(this.lifeCount === 0) {
         this.stop(Reason.lose);
       }
     } else if(item === ItemType.life) {
+      sound.playLifeItem();
       this.lifeCount++;
       this.updateLifeBoard();
-      sound.playLifeItem();
     } else if(item === ItemType.time) {
+      sound.playTimeItem();
       this.remainingTimeSec = this.remainingTimeSec + 5;
       this.updateTimerText(this.remainingTimeSec);
-      sound.playTimeItem();
-    } else if(item === ItemType.bomb) {
-      this.remainingTimeSec = this.remainingTimeSec + 5;
-      this.updateTimerText(this.remainingTimeSec);
-      sound.playTimeItem();
-    } else if(item === ItemType.eye) {
-      this.remainingTimeSec = this.remainingTimeSec + 5;
-      this.updateTimerText(this.remainingTimeSec);
-      sound.playTimeItem();
     }
   };
 
@@ -306,26 +298,100 @@ class GameDarkSniperMode extends Game{
 
     super.timeItemProb = '0';
     super.lifeItemProb = '0';
-    this.bombItemProb = '0';
-    this.eyeItemProb = '0';
+    this.nasaItemProb = '10';
+    this.eyeItemProb = '10';
+    
+    this.scopeRate = '400';
+    this.gameField = new FieldSniperMode(this.zombieCount, this.minWidth, this.maxWidth, this.pumpkinCount);
+    this.gameField.setClickListener(this.onItemClick);
   }
 
   setItem1Probability(str){
-    this.bombItemProb = str;
+    this.nasaItemProb = str;
   }
 
   setItem2Probability(str){
     this.eyeItemProb = str;
   }
 
+  setScopeRate(str){
+    this.scopeRate = str;
+  }
+
   initGame() {
     this.score = 0;
-    this.gameField.setBombProb(eval(this.bombItemProb));
+    this.gameField.setNasaProb(eval(this.nasaItemProb));
     this.gameField.setEyeProb(eval(this.eyeItemProb));
     this.updateLifeBoard();
     this.gameScore.innerHTML = this.zombieCount;
-    this.gameField.initSniperMode();
+    this.gameField.setScopeRate(eval(this.scopeRate));
+    this.gameField.setScopeDownsizingRate(this.scopeDownsizingRate());
+    this.gameField.init();
     this.changeBackground();
+  }
+  
+  stop(reason) {
+    this.started = false;
+    this.stopGameTimer();
+    this.hideGameButton();
+    sound.stopBackground();
+    this.gameField.removeScope();
+    this.gameField.stopShuffleTimer();
+    this.onGameStop && this.onGameStop(reason);
+  }
+  
+  setLevel(level){
+    let currentLevel = level;
+    if(level > this.difficulty[0]) {
+      currentLevel = this.difficulty[0];
+      this.zombieCount = level - Math.floor(Math.random() * 4);
+      this.pumpkinCount = level - 5 - Math.floor(Math.random() * 4);
+    } else {
+      this.zombieCount = this.difficulty[currentLevel][0];
+      this.pumpkinCount = this.difficulty[currentLevel][3];
+    }
+    this.minWidth = this.difficulty[currentLevel][1];
+    this.maxWidth = this.difficulty[currentLevel][2];
+    this.gameField = new FieldSniperMode(this.zombieCount, this.minWidth, this.maxWidth, this.pumpkinCount);
+    this.gameLevel.innerText = this.level;
+  }
+
+  onItemClick = (item) => {
+    if(!this.started) {
+      return;
+    }
+    if(item === ItemType.zombie) {
+      sound.playZombieDead();
+      this.score++;
+      this.updateScoreBoard();
+      if(this.score === this.zombieCount) {
+        this.stop(Reason.win);
+      }
+    } else if(item === ItemType.pumpkin) {
+      sound.playPumpkin();
+      this.lifeCount--;
+      this.updateLifeBoard();
+      if(this.lifeCount === 0) {
+        this.stop(Reason.lose);
+      }
+    } else if(item === ItemType.nasa) {
+      sound.playTimeItem();
+      this.gameField.stopScopeDownsizing(8);
+    } else if(item === ItemType.eye) {
+      sound.playLifeItem();
+      this.gameField.scopeSizeUp(50);
+    }
+  };
+
+  scopeDownsizingRate() {
+    if(this.level < 10)
+      return 10;
+    else if(this.level < 25)
+      return 6;
+    else if(this.level < 37)
+      return 1;
+    else
+      return 0.2;
   }
 }
 
@@ -336,7 +402,7 @@ class GameInfiniteZombieMode extends Game{
 
     super.timeItemProb = '0';
     super.lifeItemProb = '0';
-    this.bomb2ItemProb = '0';
+    this.bombItemProb = '0';
     this.sunItemProb = '0';
 
     this.gameField = new FieldInfiniteMode(this.zombieCount, this.minWidth, this.maxWidth, this.pumpkinCount);
@@ -345,25 +411,17 @@ class GameInfiniteZombieMode extends Game{
   }
 
   setItem1Probability(str){
-    this.bomb2ItemProb = str;
+    this.bombItemProb = str;
   }
 
   setItem2Probability(str){
     this.sunItemProb = str;
   }
 
-  stop(reason) {
-    this.started = false;
-    this.stopGameTimer();
-    this.hideGameButton();
-    sound.stopBackground();
-    this.gameField.stopShuffleTimer();
-    this.onGameStop && this.onGameStop(reason);
-  }
-
   initGame() {
     this.score = 0;
-    //this.gameField.setBomb2Prob(eval(this.bomb2ItemProb));
+    this.gameLevel.innerText = '∞';
+    //this.gameField.setBombProb(eval(this.bombItemProb));
     //this.gameField.setSunProb(eval(this.sunItemProb));
     this.updateLifeBoard();
     this.gameScore.innerHTML = `${this.score}`;
@@ -376,24 +434,24 @@ class GameInfiniteZombieMode extends Game{
       return;
     }
     if(item === ItemType.zombie) {
+      sound.playZombieDead();
       this.score++;
       this.updateScoreBoard();
-      sound.playZombieDead();
     } else if(item === ItemType.pumpkin) {
+      sound.playPumpkin();
       this.lifeCount--;
       this.updateLifeBoard();
-      sound.playPumpkin();
       if(this.lifeCount === 0) {
         this.stop(Reason.lose);
       }
-    } else if(item === ItemType.bomb2) {
+    } else if(item === ItemType.bomb) {
       this.score += this.gameField.countZombie();
+      sound.playLifeItem();
       this.updateScoreBoard();
       this.gameField.fieldClear();
-      sound.playLifeItem();
     } else if(item === ItemType.sun) {
-      this.gameField.itemSun(15);
       sound.playTimeItem();
+      this.gameField.itemSun(15);
     }
   };
   

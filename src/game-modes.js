@@ -5,6 +5,8 @@ import { GameBuilder, Reason } from "./game-set.js";
 import { difficulty, difficultyInfiniteMode, loseMsg } from "./game-details.js";
 import * as sound from "./sound.js";
 
+const mode_title = `좀비 샷`;
+
 const mode_description = `
 게임방법은 간단합니다.<br>
 화면에 나타난 좀비들을 처치하면 됩니다!<br><br>
@@ -23,7 +25,7 @@ const mode_description = `
 
 const mode1_gameDuration = 30;
 const mode1_lifeCount = 3;
-const mode1_levelBoundary = [1, 3, 7, 15, 20, 35, 50, 70];
+const mode1_levelBoundary = [1, 3, 7, 15, 20, 35, 50, 73];
 const mode1_Item1Probability = '(this.level / 2 < 25) ? this.level / 2 : 25';
 const mode1_Item2Probability = '(50 - this.level) > 10 ? (50 - this.level) : 10';
 const mode1_blackOutInterval = 5;
@@ -39,7 +41,7 @@ let mode1_description = mode_description + `
 
 const mode2_gameDuration = 10;
 const mode2_lifeCount = 1;
-const mode2_levelBoundary = [1, 3, 7, 15, 20, 35, 50, 70];
+const mode2_levelBoundary = [1, 3, 11, 20, 35, 50, 70, 100];
 const mode2_Item1Probability = '(50 - this.level > 10) ? (50 - this.level) : 10';
 const mode2_Item2Probability = '10';
 const mode2_blackOutInterval = 5;
@@ -53,11 +55,12 @@ let mode2_description = mode_description + `
 </div>
 `;
 
-const mode3_gameDuration = 600;
-const mode3_lifeCount = 1;
-const mode3_levelBoundary = [1, 3, 7, 15, 20, 35, 50, 70];
-const mode3_Item1Probability = '100';
-const mode3_Item2Probability = '100';
+const mode3_gameDuration = 60;
+const mode3_lifeCount = 10;
+const mode3_levelBoundary = [1, 7, 17, 29, 44, 55, 77, 99];
+const mode3_Item1Probability = '(60 - this.level) > 30 ? (50 - this.level) : 30';
+const mode3_Item2Probability = '(50 - this.level * 2) > 20 ? (50 - this.level) : 20';
+const mode3_scopeRate = '(400 - this.level * 6) > 130 ? (400 - this.level * 10) : 130';
 const mode3_blackOutInterval = 9;
 let mode3_description = `
 게임방법은 간단합니다.<br>
@@ -70,22 +73,22 @@ let mode3_description = `
 대신 블랙아웃 타임은 ${mode3_blackOutInterval}초에 한번씩 찾아옵니다.<br><br>
 
 마지막으로, 확률적으로 생성되는 아이템들이 있습니다.<br>
-<span style="font-size: 28px">💣</span>
-범위 내 클리어　　　
+<span style="font-size: 28px">🔩</span>
+스코프 축소 8초간 방지(중첩X)　　　
 <span style="font-size: 28px">👁‍🗨</span>
-스코프 일시 증가<br><br>
+스코프 범위 50 증가<br><br>
 <div class="important">
 <span style="font-size: 22px;"><b>Dark Sniper Mode</b></span>는<br>
 제한시간 <b>${mode3_gameDuration}초</b>로, Strict Time Mode로 진행됩니다.<br>
 기본 라이프는 <b>${mode3_lifeCount}</b>이며 <span style="color: red;"><b>라이프, 시간 증가 아이템은 드랍되지 않습니다.<br></b></span>
-라이프가 <b>${mode3_lifeCount}</b>개이고 시야가 좁으므로, 신중하게 저격해야할 것입니다.<br>
+시야가 좁으므로, 신중하게 저격해야할 것입니다.<br>
 <button class="game__start start-mode3">게임시작</button>
 </div>
 `;
 
 const mode4_gameDuration = 300;
 const mode4_lifeCount = 1;
-const mode4_levelBoundary = [1, 10, 30, 50, 100, 300, 500, 1000];
+const mode4_levelBoundary = [1, 10, 30, 50, 100, 150, 333, 666];
 const mode4_Item1Probability = '100';
 const mode4_Item2Probability = '100';
 const mode4_blackOutInterval = 11;
@@ -123,6 +126,7 @@ export class GameModes{
     this.gameDescription = document.querySelector('.game__description');
     this.gameStartBox = document.querySelector('.game__start-box');
     this.gameStartBtnBox = document.querySelector('.game__btn-box');
+    this.gameField = document.querySelector('.game__field');
 
     this.gameStartBtnBox.addEventListener('click', (e) => {
       const target = e.target;
@@ -144,18 +148,31 @@ export class GameModes{
   }
 
   gameStart(mode){
-    this.gameTitle.innerText = "게임방법";
-    this.gameDescription.innerHTML = eval(`mode${mode}_description`);
-    this.gameStartBtnBox.style.display = 'none';
+    this.hideStartBox();
+    this.gameField.classList.add('description');
+    const boxContainer = document.createElement('div');
+    boxContainer.setAttribute('class', 'box-container');
+    this.gameField.appendChild(boxContainer);
+    const title = document.createElement('h1');
+    title.setAttribute('class', 'game__title');
+    boxContainer.appendChild(title);
+    const description = document.createElement('span');
+    description.setAttribute('class', 'game__description');
+    boxContainer.appendChild(description);
+    title.innerText = mode_title;
+    description.innerHTML = eval(`mode${mode}_description`);
+
     const startMode = document.querySelector(`.start-mode${mode}`);
     startMode.addEventListener('click', () => {
-      this.hideStartBox();
       this.game = new GameBuilder()
       .gameDuration(eval(`mode${mode}_gameDuration`))
       .difficulty(mode === 4 ? difficultyInfiniteMode : difficulty)
       .lifeCount(eval(`mode${mode}_lifeCount`))
       .mode(mode)
       .build();
+
+      if(mode === 3)
+        this.game.setScopeRate(eval(`mode${mode}_scopeRate`));
       
       this.lvBoundary = eval(`mode${mode}_levelBoundary`);
       this.game.setItem1Probability(eval(`mode${mode}_Item1Probability`));
@@ -164,21 +181,19 @@ export class GameModes{
       if(mode === 4)
         this.game.setGameStopListener(reason => this.onGameStopInfiniteMode(reason, this.lvBoundary));
       else
-        this.game.setGameStopListener(reason => this.onGameStopFunction(reason, this.lvBoundary));
+        this.game.setGameStopListener(reason => this.onGameStop(reason, this.lvBoundary));
       this.game.start();
     });
   }
 
   hideStartBox(){
+    this.gameField.style.display = 'flex';
     this.gameStartBox.style.display = 'none';
   }
 
   showStartBox(){
-    this.game
-    this.gameStartBox.style.display = 'block';
-    this.gameTitle.innerText = '좀비 샷';
-    this.gameDescription.innerHTML = `게임모드를 선택하세요.<br>`;
-    this.gameStartBtnBox.style.display = 'block';
+    this.gameField.style.display = 'none';
+    this.gameStartBox.style.display = 'flex';
   }
 
   onGameStopInfiniteMode(reason, lvBoundary) {
@@ -199,11 +214,9 @@ export class GameModes{
     this.gameFinishBanner.showHomeButton();
     this.gameFinishBanner.changeRedoButton();
     this.gameFinishBanner.showWithText(message);
-
   }
 
-
-  onGameStopFunction(reason, lvBoundary) {
+  onGameStop(reason, lvBoundary) {
     let message;
     switch (reason) {
       case Reason.cancel:

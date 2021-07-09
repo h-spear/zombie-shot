@@ -13,41 +13,48 @@
 
 <body>
   <section class="game">
-    <header class="game__header">
-      <div class="game__level-box">
-        Stage : <span class="game__level">1</span>
-      </div>
-      <form class="game__volume-box">
-        <input type="range" class="volume__bar" min="0" max="100" step="5" value="50">
-        <span class="game__volume"><i class="fas fa-volume-up"></i> 50</span>
-      </form>
-      <div class="game__info-box">
-        <button class="game__button start-btn">
-          <i class="fas fa-stop"></i>
-        </button>
-        <span class="game__timer">TIME</span>
-        <div class="game__score-box">
-          <img src="imgs/zombies/zombie-count.png" class="game__zombie-logo" alt="">:
-          <b><span class="game__score">?</span></b>
+    <div class="game__scope"></div>
+    <section class="container">
+
+      <header class="game__header">
+        <div class="game__level-box">
+          Stage : <span class="game__level">1</span>
         </div>
-        <span class="game__life"></span>
-      </div>
-    </header>
-    <section class="game__start-box">
-      <h1 class="game__title">좀비 샷</h1>
-      <span class="game__description">
-        게임모드를 선택하세요.<br>
-      </span>
-      <div class="game__btn-box">
-        <button class="game__mode-btn mode1" data-mode="1">Strict<br>Time<br>Mode</button>
-        <button class="game__mode-btn mode2" data-mode="2">Sequential<br>Time<br>Mode</button>
-        <button class="game__mode-btn mode3" data-mode="3">Dark<br>Sniper<br>Mode</button>
-        <button class="game__mode-btn mode4" data-mode="4">Infinite<br>Zombie<br>Mode</button>
-      </div>
-    </section>
-    <section class="game__field">
+        <form class="game__volume-box">
+          <input type="range" class="volume__bar" min="0" max="100" step="5" value="50">
+          <span class="game__volume"><i class="fas fa-volume-up"></i> 50</span>
+        </form>
+        <div class="game__info-box">
+          <button class="game__button start-btn">
+            <i class="fas fa-stop"></i>
+          </button>
+          <span class="game__timer">TIME</span>
+          <div class="game__score-box">
+            <img src="imgs/zombies/zombie-count.png" class="game__zombie-logo" alt="">:
+            <b><span class="game__score">?</span></b>
+          </div>
+          <span class="game__life"></span>
+        </div>
+      </header>
+      <section class="game__start-box">
+        <div class="box-container">
+          <h1 class="game__title">좀비 샷</h1>
+          <span class="game__description">
+            게임모드를 선택하세요.<br>
+          </span>
+          <div class="game__btn-box">
+            <button class="game__mode-btn mode1" data-mode="1">Strict<br>Time<br>Mode</button>
+            <button class="game__mode-btn mode2" data-mode="2">Sequential<br>Time<br>Mode</button>
+            <button class="game__mode-btn mode3" data-mode="3">Dark<br>Sniper<br>Mode</button>
+            <button class="game__mode-btn mode4" data-mode="4">Infinite<br>Zombie<br>Mode</button>
+          </div>
+        </div>
+      </section>
+      <section class="game__field">
+      </section>
     </section>
   </section>
+  
   <section class="pop-up pop-up--hide">
     <div class="pop-up__btn-box">
       <button class="pop-up__home-btn">
@@ -72,6 +79,7 @@
       </span>
     </div>
   </section>
+
 </body>
 
 </html>

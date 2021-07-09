@@ -45,6 +45,7 @@ body {
 	text-align: center;
 	background-color: black;
 	margin: 0;
+	padding: 0;
 }
 
 button {
@@ -73,13 +74,15 @@ button *:hover {
 }
 
 .game {
-	transform: translateY(40px);
+	width: 100%;
+}
+
+.container {
 	display: flex;
+	margin: auto;
 	flex-direction: column;
 	width: var(--size-field-width);
 	height: var(--size-field-height);
-	margin: auto;
-	position: relative;
 	font-size: var(--font-normal);
 }
 
@@ -87,9 +90,12 @@ button *:hover {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	z-index: inherit;
 	height: 80px;
+	z-index: 1;
 	background-color: var(--color-lightred);
 	user-select: none;
+	margin-top: 50px;
 }
 
 .game__button {
@@ -220,29 +226,38 @@ button *:hover {
 }
 
 .game__field {
-	background: url("imgs/background-start.jpg") center/cover;
+	background-color: chartreuse;
 	width: 100%;
 	height: 100%;
 	position: relative;
-	display: flex;
+	display: none;
 	justify-content: center;
 }
 
 .game__start-box {
+	background: url("imgs/background-start.jpg") center/cover no-repeat;
+	display: flex;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+}
+
+.box-container {
 	background-color: rgba(0, 0, 0, 0.8);
-	position: absolute;
-	z-index: 1;
-	left: 120px;
-	top: 75px;
 	margin-top: 20px;
 	border-radius: 30px;
 	width: 600px;
-	height: 560px;
+	height: 530px;
 	color: var(--color-white);
 }
 
+.game__field.description {
+	background: url("imgs/background-start.jpg") center/cover no-repeat;
+	display: flex;
+}
+
 .game__title {
-	margin: 20px;
+	margin: 10px;
 }
 
 .game__description {
@@ -254,7 +269,7 @@ button *:hover {
 .game__description .important {
 	width: 95%;
 	border-top: 1px solid var(--color-white);
-	padding-top: 10px;
+	padding-top: 6px;
 	margin: auto;
 }
 
@@ -271,10 +286,10 @@ button *:hover {
 	border: 2px solid var(--color-black);
 	animation: backgroundcolor-change 3s infinite;
 	border-radius: 8px;
-	font-size: var(--font-twentyfour);
+	font-size: 24px;
 	width: 150px;
 	height: 40px;
-	margin-top: 8px;
+	margin-top: 5px;
 }
 
 @keyframes backgroundcolor-change {
@@ -391,6 +406,25 @@ button *:hover {
 	background-color: red;
 	width: 200px;
 	height: 300px;
+}
+
+.game__scope {
+	width: 400px;
+	height: 400px;
+	box-sizing: content-box;
+	position: absolute;
+	transform: translate(-2200px, -2200px);
+	background-color: transparent;
+	border: 2000px solid rgba(0, 0, 0, 0.92);
+	border-radius: 50%;
+	z-index: 1;
+	pointer-events: none;
+	visibility: hidden;
+}
+
+.hidden-area {
+	visibility: hidden;
+	position: absolute;
 }
 
 @media screen and (max-width: 768px) {

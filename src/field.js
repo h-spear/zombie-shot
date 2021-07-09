@@ -7,8 +7,8 @@ export const ItemType = Object.freeze({
   life: 'life',
   time: 'time',
   eye: 'eye',
+  nasa: 'nasa',
   bomb: 'bomb',
-  bomb2: 'bomb2',
   sun: 'sun',
 });
 
@@ -29,8 +29,6 @@ export class Field{
     this.shuffleTimer;
     this.timeProb;
     this.lifeProb;
-    this.bombProb;
-    this.eyeProb;
     this.nowSun = false;
     this.blackOutInterval = 5;
   }
@@ -48,16 +46,6 @@ export class Field{
     this._makeItem(ItemType.time, this.timeProb, 3);
   }
 
-  initSniperMode() {
-    this.field.innerHTML = '';
-    this._makeZombies(this.zombieCount, this.minWidth, this.maxWidth);
-    this._makePumpkins(this.pumpkinCount);
-    this._shuffleItems(this.blackOutInterval);
-    this._makeScope(20);
-    this._makeItem(ItemType.bomb, this.bombProb, 3);
-    this._makeItem(ItemType.eye, this.eyeProb, 3);
-  }
-
   setClickListener(onItemClick) {
     this.onItemClick = onItemClick;
   }
@@ -72,18 +60,6 @@ export class Field{
 
   setLifeProb(num) {
     this.lifeProb = num;
-  }
-
-  setBombProb(num) {
-    this.bombProb = num;
-  }
-
-  setEyeProb(num) {
-    this.eyeProb = num;
-  }
-
-  _makeScope(rad) {
-    const scope = document.createElement('img')
   }
 
   _shuffleItems(sec) {
@@ -159,8 +135,8 @@ export class Field{
           newItem.innerText = '💖';
         else if(item === ItemType.time)
           newItem.innerText = '🕐';
-        else if(item === ItemType.bomb)
-          newItem.innerText = '💣';
+        else if(item === ItemType.nasa)
+          newItem.innerText = '🔩';
         else if(item === ItemType.eye)
           newItem.innerText = '👁‍🗨';
         this._positioning(newItem, 50, 50)
@@ -197,15 +173,15 @@ export class Field{
     } else if(target.matches('.time')) {
       target.remove();
       this.onItemClick && this.onItemClick(ItemType.time);
-    } else if(target.matches('.bomb')) {
+    } else if(target.matches('.nasa')) {
       target.remove();
-      this.onItemClick && this.onItemClick(ItemType.bomb);
+      this.onItemClick && this.onItemClick(ItemType.nasa);
     } else if(target.matches('.eye')) {
       target.remove();
       this.onItemClick && this.onItemClick(ItemType.eye);
-    } else if(target.matches('.bomb2')) {
+    } else if(target.matches('.bomb')) {
       target.remove();
-      this.onItemClick && this.onItemClick(ItemType.bomb2);
+      this.onItemClick && this.onItemClick(ItemType.bomb);
     } else if(target.matches('.sun')) {
       target.remove();
       this.onItemClick && this.onItemClick(ItemType.sun);
@@ -213,10 +189,102 @@ export class Field{
   };
 }
 
+export class FieldSniperMode extends Field{
+  constructor(zombieCount, minWidth, maxWidth, pumpkinCount) {
+    super(zombieCount, minWidth,maxWidth, pumpkinCount);
+    this.nasaProb;
+    this.eyeProb;
+    this.scopeRate;
+    this.scope = document.querySelector('.game__scope');
+    this.scopeBorder = 2000;
+    this.scopeDownsizeTimer;
+    this.scopeDownsizingRate;
+    this.targetMode = false;
+  }
+  
+  init() {
+    this.field.innerHTML = '';
+    this._makeZombies(this.zombieCount, this.minWidth, this.maxWidth);
+    this._makePumpkins(this.pumpkinCount);
+    this._makeScope(this.scopeRate);
+    this._shuffleItems(this.blackOutInterval);
+    this._makeItem(ItemType.nasa, this.nasaProb, 3);
+    this._makeItem(ItemType.eye, this.eyeProb, 3);
+    this._scopeDownsizing(`${this.scopeDownsizingRate}`);
+
+    window.addEventListener('mousemove', (e) => {
+      if(!this.targetMode)
+        return;
+      const x = -this.scopeBorder + e.pageX - this.scopeRate / 2;
+      const y = -this.scopeBorder + e.pageY - this.scopeRate / 2;
+      this.scope.style.transform = `translate(${x}px, ${y}px)`
+    });
+  }
+
+  setScopeRate(str) {
+    this.scopeRate = str;
+  }
+
+  setScopeDownsizingRate(str) {
+    this.scopeDownsizingRate = str;
+  }
+
+  stopScopeDownsizingTimer() {
+    clearInterval(this.scopeDownsizeTimer);
+  }
+
+  stopScopeDownsizing(sec) {
+    clearInterval(this.scopeDownsizeTimer);
+    this.scopeDownsizeTimer = setTimeout(() => {
+      this._scopeDownsizing(`${this.scopeDownsizingRate}`);
+    }, sec * 1000);
+  }
+
+  _makeScope(rate){
+    this.targetMode = true;
+    this._scopeSizing(rate);
+    this.scope.style.transform = `translate(${-1000}px, ${-1000}px)`
+    this.scope.style.visibility = 'visible';
+  }
+
+  removeScope(){
+    this.targetMode = false;
+    this.stopScopeDownsizingTimer();
+    this.scope.style.visibility = 'hidden';
+  }
+  
+  _scopeSizing(rate){
+    this.scope.style.width = `${rate}px`;
+    this.scope.style.height = `${rate}px`;
+  }
+
+  scopeSizeUp(px){
+    this.scopeRate = this.scopeRate + px;
+    this._scopeSizing(this.scopeRate);
+  }
+
+  _scopeDownsizing(px){
+    this.scopeDownsizeTimer = setInterval(() => {
+      if(this.scopeRate <= 130)
+        clearInterval(this.scopeDownsizeTimer);
+      this.scopeRate = this.scopeRate - px;
+      this._scopeSizing(this.scopeRate);
+    }, 1000);
+  }
+
+  setNasaProb(num) {
+    this.nasaProb = num;
+  }
+
+  setEyeProb(num) {
+    this.eyeProb = num;
+  }
+}
+
 export class FieldInfiniteMode extends Field{
   constructor(zombieCount, minWidth, maxWidth, pumpkinCount) {
     super(zombieCount, minWidth,maxWidth, pumpkinCount);
-    this.bomb2Prob;
+    this.bombProb;
     this.sunProb;
 
     this.zombieTimer = [];
@@ -226,7 +294,6 @@ export class FieldInfiniteMode extends Field{
     this.itemTimer = [];
     this.itemRemoveTimer;
     this.started = false;
-    this.blackOutIntervalErr = 2;
   }
   
   init() {
@@ -265,7 +332,7 @@ export class FieldInfiniteMode extends Field{
       if(!this.started)
         return;
       this.field.childNodes.forEach((node) => {
-        if(node.matches('.bomb2') || node.matches('.sun'))
+        if(node.matches('.bomb') || node.matches('.sun'))
         {
           if((Math.random() * 100) < 60)
             this.field.removeChild(node);
@@ -275,16 +342,20 @@ export class FieldInfiniteMode extends Field{
   }
 
   _infiniteItems(){
-    this._setBomb2Timer(4, 1, 0.8);
-    this._setBomb2Timer(10, 0, 5);
-    this._setBomb2Timer(17, 0, 10);
-    this._setBomb2Timer(53, 10, 13);
-    this._setBomb2Timer(114, 0, 50);
+    this._setBombTimer(1, 6, 0.7);
+    this._setBombTimer(9, 0, 5);
+    this._setBombTimer(25, 0, 30);
+    this._setBombTimer(2, 0, 1);
+    this._setBombTimer(7, 0, 2);
+    this._setBombTimer(53, 10, 60);
+    this._setBombTimer(114, 0, 40);
     this._setSunTimer(8, 0, 3);
     this._setSunTimer(17, 0, 10);
-    this._setSunTimer(29, 8, 8);
+    this._setSunTimer(3, 0, 1);
+    this._setSunTimer(1, 1, 1);
+    this._setSunTimer(29, 8, 50);
     this._setSunTimer(52, 3, 15);
-    this._setSunTimer(77, 0, 40);
+    this._setSunTimer(77, 0, 70);
   }
 
   countZombie(){
@@ -404,7 +475,7 @@ export class FieldInfiniteMode extends Field{
     }, delay * 1000);
   }
 
-  _setBomb2Timer(time, delay, prob) {
+  _setBombTimer(time, delay, prob) {
     let timerId;
     setTimeout(() => {
       if(!this.started)
@@ -412,7 +483,7 @@ export class FieldInfiniteMode extends Field{
       timerId = setInterval(() => {
         if(Math.random() * 100 < prob)
         {
-          this._makeItem(ItemType.bomb2, this.bomb2Prob, 1);
+          this._makeItem(ItemType.bomb, this.bombProb, 1);
         }
       }, time * 1000);
       this.itemTimer.push(timerId);
@@ -434,8 +505,8 @@ export class FieldInfiniteMode extends Field{
     }, delay * 1000);
   }
   
-  setBomb2Prob(num) {
-    this.bomb2Prob = num;
+  setBombProb(num) {
+    this.bombProb = num;
   }
 
   setSunProb(num) {
@@ -446,7 +517,7 @@ export class FieldInfiniteMode extends Field{
     for(let i = 0; i < maxCount; i++) {
       const newItem = document.createElement('span');
       newItem.setAttribute('class', item);
-      if(item === ItemType.bomb2)
+      if(item === ItemType.bomb)
         newItem.innerText = '💣';
       else if(item === ItemType.sun)
         newItem.innerText = '☀️';
