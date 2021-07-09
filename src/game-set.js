@@ -86,6 +86,7 @@ class Game{
 
     this.timeItemProb = '0';
     this.lifeItemProb = '0';
+    this.gunCount = 0;
 
     this.gameFieldClass = document.querySelector('.game__field');
     this.gameTimer = document.querySelector('.game__timer');
@@ -99,6 +100,20 @@ class Game{
         this.stop(Reason.cancel);
     });
     
+    this.gameFieldClass.addEventListener('click', () => {
+      if(this.started)
+      {
+        this.gunCount++;
+        sound.playGunShotSound();
+        if(this.gunCount % 15 === 0)
+        {
+          setTimeout(() => {
+            sound.stopGunShotSound();
+            sound.playGunLoadSound();
+          },1000);
+        }
+      }
+    });
     
     this.started = false;
     this.score = 0;
@@ -375,10 +390,10 @@ class GameDarkSniperMode extends Game{
         this.stop(Reason.lose);
       }
     } else if(item === ItemType.nasa) {
-      sound.playTimeItem();
+      sound.playNasaItem();
       this.gameField.stopScopeDownsizing(8);
     } else if(item === ItemType.eye) {
-      sound.playLifeItem();
+      sound.playEyeItem();
       this.gameField.scopeSizeUp(50);
     }
   };
@@ -446,11 +461,11 @@ class GameInfiniteZombieMode extends Game{
       }
     } else if(item === ItemType.bomb) {
       this.score += this.gameField.countZombie();
-      sound.playLifeItem();
+      sound.playBombItem();
       this.updateScoreBoard();
       this.gameField.fieldClear();
     } else if(item === ItemType.sun) {
-      sound.playTimeItem();
+      sound.playSunItem();
       this.gameField.itemSun(15);
     }
   };

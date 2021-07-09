@@ -5,7 +5,7 @@ import { GameBuilder, Reason } from "./game-set.js";
 import { difficulty, difficultyInfiniteMode, loseMsg } from "./game-details.js";
 import * as sound from "./sound.js";
 
-const mode_title = `좀비 샷`;
+const mode_title = `ZOMBIE SHOT`;
 
 const mode_description = `
 게임방법은 간단합니다.<br>
@@ -122,6 +122,8 @@ export class GameModes{
     this.gameFinishBanner = new PopUp();
     this.game;
 
+    this.startSound = new Audio('./sound/bg-start.mp3');
+
     this.gameTitle = document.querySelector('.game__title');
     this.gameDescription = document.querySelector('.game__description');
     this.gameStartBox = document.querySelector('.game__start-box');
@@ -134,6 +136,8 @@ export class GameModes{
       {
         const mode = parseInt(target.dataset.mode);
         this.gameStart(mode);
+        sound.playGunShot2();
+        sound.stopStartBg();
       }
     });
 
@@ -143,8 +147,18 @@ export class GameModes{
 
     this.gameFinishBanner.setHomeClickListener(() => {
       this.game.clear();
+      this.playBg();
       this.showStartBox();
     });
+  }
+
+  playBg(){
+    this.startSound.currentTime = 0;
+    this.startSound.play();
+  }
+
+  stopBg(){
+    this.startSound.pause();
   }
 
   gameStart(mode){
@@ -164,6 +178,8 @@ export class GameModes{
 
     const startMode = document.querySelector(`.start-mode${mode}`);
     startMode.addEventListener('click', () => {
+      this.stopBg();
+      sound.playZombie3();
       this.game = new GameBuilder()
       .gameDuration(eval(`mode${mode}_gameDuration`))
       .difficulty(mode === 4 ? difficultyInfiniteMode : difficulty)

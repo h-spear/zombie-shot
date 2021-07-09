@@ -1,6 +1,5 @@
 'use strict';
 
-
 export const ItemType = Object.freeze({
   zombie: 'zombie',
   pumpkin: 'pumpkin',
@@ -31,6 +30,7 @@ export class Field{
     this.lifeProb;
     this.nowSun = false;
     this.blackOutInterval = 5;
+    this.started = false;
   }
 
   fieldClear(){

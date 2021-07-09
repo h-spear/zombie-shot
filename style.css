@@ -76,7 +76,6 @@ button *:hover {
 .game {
 	width: 100%;
 }
-
 .container {
 	display: flex;
 	margin: auto;
@@ -170,6 +169,10 @@ button *:hover {
 	}
 }
 
+body *:active {
+	cursor: url("imgs/target2.png") 30 30, auto;
+}
+
 .game__timer {
 	width: 100px;
 	height: 50px;
@@ -234,7 +237,31 @@ button *:hover {
 	justify-content: center;
 }
 
-.game__start-box {
+.main-btn {
+	width: 350px;
+	height: 350px;
+	font-weight: bold;
+	color: var(--color-white);
+	-webkit-text-stroke: 3px var(--color-black);
+	border: 3px solid var(--color-black);
+	margin: 10px;
+	background: url("imgs/img.jpg") center/cover no-repeat;
+	font-size: var(--font-large);
+	opacity: 0.6;
+	transition: opacity 700ms ease-in;
+}
+
+.main-btn:hover {
+	animation: border-change 3s infinite;
+	opacity: 1;
+}
+
+.game__start-box.invisible {
+	display: none;
+}
+
+.game__start-box,
+.main-box {
 	background: url("imgs/background-start.jpg") center/cover no-repeat;
 	display: flex;
 	width: 100%;

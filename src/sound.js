@@ -12,6 +12,17 @@ const winSound = new Audio('./sound/game_win.mp3');
 const lifeItemSound = new Audio('./sound/life-up.mp3');
 const timeItemSound = new Audio('./sound/time-item.wav');
 
+const gunShotSound = [new Audio('./sound/gun-shot.mp3'),
+                      new Audio('./sound/gun-shot2.mp3'),
+                      new Audio('./sound/gun-shot3.wav'),
+                      new Audio('./sound/gun-shot4.wav')];
+const gunLoadSound = [new Audio('./sound/gun-load.mp3'),
+                      new Audio('./sound/gun-load2.wav')];
+const nasaItemSound = new Audio('./sound/nasa.wav');
+const sunItemSound = new Audio('./sound/sun.wav');
+const bombItemSound = new Audio('./sound/bomb.mp3');
+const eyeItemSound = new Audio('./sound/eye.wav');
+
 export function playZombieDead() {
   let rand = Math.floor(Math.random() * zombieSound.length);
   playSound(zombieSound[rand]);
@@ -37,6 +48,38 @@ export function playTimeItem() {
   playSound(timeItemSound);
 }
 
+export function playNasaItem() {
+  playSound(nasaItemSound);
+}
+
+export function playEyeItem() {
+  playSound(eyeItemSound);
+}
+
+export function playSunItem() {
+  playSound(sunItemSound);
+}
+
+export function playBombItem() {
+  playSound(bombItemSound);
+}
+
+export function stopGunShotSound() {
+  gunShotSound.forEach((sound) => {
+    stopSound(sound);
+  })
+}
+
+export function playGunShotSound() {
+  let rand = Math.floor(Math.random() * gunShotSound.length);
+  playSound(gunShotSound[rand]);
+}
+
+export function playGunLoadSound() {
+  let rand = Math.floor(Math.random() * gunLoadSound.length);
+  playSound(gunLoadSound[rand]);
+}
+
 export function playBackground() {
   let rand = Math.floor(Math.random() * bgSound.length);
   playSound(bgSound[rand]);
@@ -46,6 +89,13 @@ export function stopBackground() {
   bgSound.forEach((sound) => {
     stopSound(sound);
   })
+}
+
+export function playGunShot2(){
+  playSound(gunShotSound[1]);
+}
+export function playZombie3(){
+  playSound(zombieSound[2]);
 }
 
 function playSound(sound) {
