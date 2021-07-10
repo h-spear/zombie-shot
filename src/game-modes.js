@@ -25,7 +25,7 @@ const mode_description = `
 
 const mode1_gameDuration = 30;
 const mode1_lifeCount = 3;
-const mode1_levelBoundary = [1, 3, 7, 15, 20, 35, 50, 73];
+const mode1_levelBoundary = [1, 3, 7, 15, 20, 35, 50, 75];
 const mode1_Item1Probability = '(this.level / 2 < 25) ? this.level / 2 : 25';
 const mode1_Item2Probability = '(50 - this.level) > 10 ? (50 - this.level) : 10';
 const mode1_blackOutInterval = 5;
@@ -41,9 +41,9 @@ let mode1_description = mode_description + `
 
 const mode2_gameDuration = 10;
 const mode2_lifeCount = 1;
-const mode2_levelBoundary = [1, 5, 11, 17, 29, 44, 55, 77];
-const mode2_Item1Probability = '(70 - this.level > 33) ? (50 - this.level) : 33';
-const mode2_Item2Probability = '10';
+const mode2_levelBoundary = [1, 5, 10, 15, 30, 45, 60, 80];
+const mode2_Item1Probability = '80';//time
+const mode2_Item2Probability = '20';//life
 const mode2_blackOutInterval = 5;
 let mode2_description = mode_description + `
 <div class="important">
@@ -57,9 +57,9 @@ let mode2_description = mode_description + `
 
 const mode3_gameDuration = 60;
 const mode3_lifeCount = 10;
-const mode3_levelBoundary = [1, 5, 10, 18, 25, 40, 55, 75];
-const mode3_Item1Probability = '(60 - this.level) > 30 ? (50 - this.level) : 30';
-const mode3_Item2Probability = '(50 - this.level * 2) > 30 ? (50 - this.level) : 30';
+const mode3_levelBoundary = [1, 5, 10, 17, 29, 44, 55, 77];
+const mode3_Item1Probability = '(90 - this.level) > 40 ? (50 - this.level) : 40';
+const mode3_Item2Probability = '(90 - this.level * 2) > 40 ? (50 - this.level) : 40';
 const mode3_scopeRate = '(400 - this.level * 3) > 150 ? (400 - this.level * 3) : 150';
 const mode3_blackOutInterval = 15;
 let mode3_description = `
