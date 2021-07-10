@@ -32,8 +32,8 @@ const mode1_blackOutInterval = 5;
 let mode1_description = mode_description + `
 <div class="important">
 <span style="font-size: 22px;"><b>Strict Time Mode</b></span>는<br>
-모든 스테이지의 제한시간이 같습니다.<br>
-기본 라이프는 <b>${mode1_lifeCount}</b>, 초기 제한시간은 <b>${mode1_gameDuration}초</b>입니다.<br>
+모든 스테이지의 제한시간은 <b>${mode1_gameDuration}초</b>로 같습니다.<br>
+스테이지가 넘어가도 라이프는 누적되며, 제한시간은 초기화됩니다.<br>
 스테이지가 높아질 수록 많은 수의 좀비를 빠르게 처치해야할 것입니다!<br>
 <button class="game__start start-mode1">게임시작</button>
 </div>
@@ -48,9 +48,9 @@ const mode2_blackOutInterval = 5;
 let mode2_description = mode_description + `
 <div class="important">
 <span style="font-size: 22px;"><b>Sequential Time Mode</b></span>는<br>
-스테이지가 올라가도 이전 스테이지의 제한시간으로 이어서 진행됩니다.<br>
+스테이지가 넘어가도 라이프와 제한시간이 누적되어 진행됩니다.<br>
 기본 라이프는 <b>${mode2_lifeCount}</b>, 초기 제한시간은 <b>${mode2_gameDuration}초</b>입니다.<br>
-라이프가 적으므로 조심해야하고, <b>시간 증가 아이템</b>이 중요할 것입니다!<br>
+<b>시간 증가 아이템</b>의 확보가 중요할 것입니다!<br>
 <button class="game__start start-mode2">게임시작</button>
 </div>
 `;
@@ -87,8 +87,8 @@ let mode3_description = `
 `;
 
 const mode4_gameDuration = 300;
-const mode4_lifeCount = 1;
-const mode4_levelBoundary = [1, 10, 30, 50, 100, 200, 333, 666];
+const mode4_lifeCount = 3;
+const mode4_levelBoundary = [10, 30, 50, 100, 150, 300, 444, 777];
 const mode4_Item1Probability = '100';
 const mode4_Item2Probability = '100';
 const mode4_blackOutInterval = 11;
