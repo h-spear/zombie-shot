@@ -35,6 +35,7 @@ let mode1_description = mode_description + `
 모든 스테이지의 제한시간은 <b>${mode1_gameDuration}초</b>로 같습니다.<br>
 스테이지가 넘어가도 라이프는 누적되며, 제한시간은 초기화됩니다.<br>
 스테이지가 높아질 수록 많은 수의 좀비를 빠르게 처치해야할 것입니다!<br>
+<button class="game__prev-btn"><i class="fas fa-angle-double-left"></i></button>
 <button class="game__start start-mode1">게임시작</button>
 </div>
 `;
@@ -51,6 +52,7 @@ let mode2_description = mode_description + `
 스테이지가 넘어가도 라이프와 제한시간이 누적되어 진행됩니다.<br>
 기본 라이프는 <b>${mode2_lifeCount}</b>, 초기 제한시간은 <b>${mode2_gameDuration}초</b>입니다.<br>
 <b>시간 증가 아이템</b>의 확보가 중요할 것입니다!<br>
+<button class="game__prev-btn"><i class="fas fa-angle-double-left"></i></button>
 <button class="game__start start-mode2">게임시작</button>
 </div>
 `;
@@ -82,6 +84,7 @@ let mode3_description = `
 제한시간 <b>${mode3_gameDuration}초</b>로, Strict Time Mode로 진행됩니다.<br>
 기본 라이프는 <b>${mode3_lifeCount}</b>이며 <span style="color: red;"><b>라이프, 시간 증가 아이템은 드랍되지 않습니다.<br></b></span>
 시야가 좁으므로, 신중하게 저격해야할 것입니다.<br>
+<button class="game__prev-btn"><i class="fas fa-angle-double-left"></i></button>
 <button class="game__start start-mode3">게임시작</button>
 </div>
 `;
@@ -112,6 +115,7 @@ let mode4_description = `
 <b>${mode4_gameDuration}초</b>동안 많은 좀비를 잡는 모드입니다.<br>
 좀비, 호박, 아이템은 모두 랜덤한 시간 후 사라지므로,<br></b></span>
 필요한 아이템은 즉시 잡아야 할 것입니다!<br>
+<button class="game__prev-btn"><i class="fas fa-angle-double-left"></i></button>
 <button class="game__start start-mode4">게임시작</button>
 </div>
 `;
@@ -157,6 +161,7 @@ export class GameModes{
 
   playBg(){
     soundA.currentTime = 0;
+    soundA.loop = true;
     soundA.play();
   }
 
@@ -178,6 +183,13 @@ export class GameModes{
     boxContainer.appendChild(description);
     title.innerText = mode_title;
     description.innerHTML = eval(`mode${mode}_description`);
+
+    const prevBtn = document.querySelector('.game__prev-btn');
+    prevBtn.addEventListener('click', () => {
+      this.showStartBox();
+      this.gameField.innerHTML = '';
+      this.gameField.classList.remove('description');
+    });
 
     const startMode = document.querySelector(`.start-mode${mode}`);
     startMode.addEventListener('click', () => {

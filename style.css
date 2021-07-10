@@ -276,6 +276,7 @@ body *:active {
 	border-radius: 30px;
 	width: 600px;
 	height: 530px;
+	position: relative;
 	color: var(--color-white);
 }
 
@@ -318,6 +319,27 @@ body *:active {
 	width: 150px;
 	height: 40px;
 	margin-top: 5px;
+}
+
+.game__prev-btn {
+	font-size: 44px;
+	background-color: transparent;
+	animation: prev-btn-change 5s infinite;
+	position: absolute;
+	right: 20px;
+	bottom: 5px;
+}
+
+@keyframes prev-btn-change {
+	0% {
+		color: var(--color-white);
+	}
+	50% {
+		color: grey;
+	}
+	100% {
+		color: var(--color-white);
+	}
 }
 
 @keyframes backgroundcolor-change {
