@@ -161,7 +161,7 @@ const volume = document.querySelector('.game__volume');
 volumeBar.addEventListener('change', () => {
   let text = null;
   const vol = volumeBar.value;
-  if(vol === 0)
+  if(vol == 0)
     text = '<i class="fas fa-volume-mute"></i>';
   else if(vol < 30)
     text = '<i class="fas fa-volume-down"></i>';
@@ -171,5 +171,4 @@ volumeBar.addEventListener('change', () => {
   text = text + volumeBar.value;
   changeVolume(volumeBar.value * 0.01);
   volume.innerHTML = text;
-  
 });
