@@ -41,8 +41,8 @@ let mode1_description = mode_description + `
 
 const mode2_gameDuration = 10;
 const mode2_lifeCount = 1;
-const mode2_levelBoundary = [1, 3, 11, 20, 35, 50, 70, 100];
-const mode2_Item1Probability = '(50 - this.level > 10) ? (50 - this.level) : 10';
+const mode2_levelBoundary = [1, 5, 11, 17, 29, 44, 55, 77];
+const mode2_Item1Probability = '(70 - this.level > 33) ? (50 - this.level) : 33';
 const mode2_Item2Probability = '10';
 const mode2_blackOutInterval = 5;
 let mode2_description = mode_description + `
@@ -57,11 +57,11 @@ let mode2_description = mode_description + `
 
 const mode3_gameDuration = 60;
 const mode3_lifeCount = 10;
-const mode3_levelBoundary = [1, 7, 17, 29, 44, 55, 77, 99];
+const mode3_levelBoundary = [1, 5, 10, 18, 25, 40, 55, 75];
 const mode3_Item1Probability = '(60 - this.level) > 30 ? (50 - this.level) : 30';
-const mode3_Item2Probability = '(50 - this.level * 2) > 20 ? (50 - this.level) : 20';
-const mode3_scopeRate = '(400 - this.level * 3) > 150 ? (400 - this.level * 10) : 150';
-const mode3_blackOutInterval = 13;
+const mode3_Item2Probability = '(50 - this.level * 2) > 30 ? (50 - this.level) : 30';
+const mode3_scopeRate = '(400 - this.level * 3) > 150 ? (400 - this.level * 3) : 150';
+const mode3_blackOutInterval = 15;
 let mode3_description = `
 게임방법은 간단합니다.<br>
 화면에 나타난 좀비들을 처치하면 됩니다!<br><br>
@@ -88,7 +88,7 @@ let mode3_description = `
 
 const mode4_gameDuration = 300;
 const mode4_lifeCount = 1;
-const mode4_levelBoundary = [1, 10, 30, 50, 100, 150, 333, 666];
+const mode4_levelBoundary = [1, 10, 30, 50, 100, 200, 333, 666];
 const mode4_Item1Probability = '100';
 const mode4_Item2Probability = '100';
 const mode4_blackOutInterval = 11;

@@ -31,6 +31,7 @@ export class Field{
     this.nowSun = false;
     this.blackOutInterval = 5;
     this.started = false;
+    this.infiniteMode = false;
   }
 
   fieldClear(){
@@ -39,6 +40,7 @@ export class Field{
 
   init() {
     this.field.innerHTML = '';
+    this.infiniteMode = false;
     this._makeZombies(this.zombieCount, this.minWidth, this.maxWidth);
     this._makePumpkins(this.pumpkinCount);
     this._shuffleItems(this.blackOutInterval);
@@ -299,6 +301,7 @@ export class FieldInfiniteMode extends Field{
   init() {
     this.field.innerHTML = '';
     this.started = true;
+    this.infiniteMode = true;
     this._infiniteZombies();
     this._infinitePumpkins();
     this._removeZombies();
@@ -329,8 +332,12 @@ export class FieldInfiniteMode extends Field{
 
   _removeItems(){
     this.itemRemoveTimer = setInterval(() => {
-      if(!this.started)
+      const saveTimerID = timerId;
+      if(!this.started || !this.infiniteMode)
+      {
+        clearInterval(saveTimerID);
         return;
+      }
       this.field.childNodes.forEach((node) => {
         if(node.matches('.bomb') || node.matches('.sun'))
         {
@@ -382,9 +389,15 @@ export class FieldInfiniteMode extends Field{
   _setPumpkinRemoveTimer(time, delay, prob) {
     let timerId;
     setTimeout(() => {
-      if(!this.started)
+      if(!this.started || !this.infiniteMode)
         return;
       timerId = setInterval(() => {
+        const saveTimerID = timerId;
+        if(!this.started || !this.infiniteMode)
+        {
+          clearInterval(saveTimerID);
+          return;
+        }
         this.field.childNodes.forEach((node) => {
           if(node.matches('.pumpkin'))
           {
@@ -411,9 +424,15 @@ export class FieldInfiniteMode extends Field{
   _setPumpkinTimer(maxPumpkin, time, delay) {
     let timerId;
     setTimeout(() => {
-      if(!this.started)
+      if(!this.started || !this.infiniteMode)
         return;
       timerId = setInterval(() => {
+        const saveTimerID = timerId;
+        if(!this.started || !this.infiniteMode)
+        {
+          clearInterval(saveTimerID);
+          return;
+        }
         const rand = Math.floor(Math.random() * maxPumpkin) + 1;
         this._makePumpkins(rand);
       }, time * 1000);
@@ -434,11 +453,17 @@ export class FieldInfiniteMode extends Field{
   }
 
   _setZombieRemoveTimer(time, delay, prob) {
-    if(!this.started)
-      return;
     let timerId;
     setTimeout(() => {
+      if(!this.started || !this.infiniteMode)
+        return;
       timerId = setInterval(() => {
+        const saveTimerID = timerId;
+        if(!this.started || !this.infiniteMode)
+        {
+          clearInterval(saveTimerID);
+          return;
+        }
         this.field.childNodes.forEach((node) => {
           if(node.matches('.zombie'))
           {
@@ -465,9 +490,15 @@ export class FieldInfiniteMode extends Field{
   _setZombieTimer(maxZombie, time, delay) {
     let timerId;
     setTimeout(() => {
-      if(!this.started)
+      if(!this.started || !this.infiniteMode)
         return;
       timerId = setInterval(() => {
+        const saveTimerID = timerId;
+        if(!this.started || !this.infiniteMode)
+        {
+          clearInterval(saveTimerID);
+          return;
+        }
         const rand = Math.floor(Math.random() * maxZombie) + 1;
         this._makeZombies(rand, this.minWidth, this.maxWidth);
       }, time * 1000);
@@ -478,13 +509,17 @@ export class FieldInfiniteMode extends Field{
   _setBombTimer(time, delay, prob) {
     let timerId;
     setTimeout(() => {
-      if(!this.started)
+      if(!this.started || !this.infiniteMode)
         return;
       timerId = setInterval(() => {
-        if(Math.random() * 100 < prob)
+        const saveTimerID = timerId;
+        if(!this.started || !this.infiniteMode)
         {
-          this._makeItem(ItemType.bomb, this.bombProb, 1);
+          clearInterval(saveTimerID);
+          return;
         }
+        if(Math.random() * 100 < prob)
+          this._makeItem(ItemType.bomb, this.bombProb, 1);
       }, time * 1000);
       this.itemTimer.push(timerId);
     }, delay * 1000);
@@ -493,13 +528,17 @@ export class FieldInfiniteMode extends Field{
   _setSunTimer(time, delay, prob) {
     let timerId;
     setTimeout(() => {
-      if(!this.started)
+      if(!this.started || !this.infiniteMode)
         return;
       timerId = setInterval(() => {
-        if(Math.random() * 100 < prob)
+        const saveTimerID = timerId;
+        if(!this.started || !this.infiniteMode)
         {
-          this._makeItem(ItemType.sun, this.sunProb, 1);
+          clearInterval(saveTimerID);
+          return;
         }
+        if(Math.random() * 100 < prob)
+          this._makeItem(ItemType.sun, this.sunProb, 1);
       }, time * 1000);
       this.itemTimer.push(timerId);
     }, delay * 1000);

@@ -402,7 +402,7 @@ class GameDarkSniperMode extends Game{
     if(this.level < 10)
       return 10;
     else if(this.level < 25)
-      return 6;
+      return 3;
     else if(this.level < 37)
       return 1;
     else
