@@ -235,7 +235,6 @@ export class GameModes{
         sound.playAlert();
         break;
       case Reason.lose:
-
         sound.playPumpkin();
         break;
       default:
@@ -251,7 +250,8 @@ export class GameModes{
     let message;
     switch (reason) {
       case Reason.cancel:
-        message = 'REPLAY ❓'
+        message = `<span style="font-size: 18px;">Stage ${this.game.level}</span>`
+                  + loseMsg(this.game.level, lvBoundary);
         sound.playAlert();
         this.game.refreshGame();
         this.gameFinishBanner.showHomeButton();
