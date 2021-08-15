@@ -187,8 +187,8 @@ body *:active {
 }
 
 .game__level-box {
-	width: 150px;
-	font-size: var(--font-medium);
+	width: 200px;
+	font-size: var(--font-middle);
 }
 
 .game__volume-box {
@@ -196,29 +196,26 @@ body *:active {
 	flex-direction: column;
 	font-size: var(--font-regular);
 	margin-top: 5px;
+	position: relative;
 }
 
 .game__volume {
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-end;
 	padding: 1px 10px 0 10px;
 }
 
 .game__volume__remove {
-	font-size: var(--font-twentyfour);
-	background-color: rgba(246, 243, 243, 0.7);
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	border: 1px solid #ff6262;
+	background-color: transparent;
+	font-size: var(--font-regular);
+	position: absolute;
+	bottom: 2px;
+	left: 4px;
+	padding: 0;
 }
 
 .game__volume__remove:hover {
-	transform: scale(1.1);
-}
-
-.game__volume__remove.active {
-	background-color: rgba(255, 63, 63, 0.7);
+	transform: scale(1.2);
 }
 
 .game__info-box {

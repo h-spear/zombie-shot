@@ -175,34 +175,25 @@ function changeVolume(vol) {
 function changeVolumeText(vol) {
 	let text = null;
 
-	if (vol == 0) text = '<i class="fas fa-volume-off"></i>';
+	if (vol == 0) text = '<i class="fas fa-volume-mute"></i>';
 	else if (vol < 30) text = '<i class="fas fa-volume-down"></i>';
 	else text = '<i class="fas fa-volume-up"></i>';
 
-	text = text + volumeBar.value;
-	volume.innerHTML = text;
-
-	volumeRemove.innerHTML = '<i class="fas fa-volume-up"></i>';
+	volume.innerHTML = Math.floor(vol);
+	volumeRemove.innerHTML = text;
 	volumeBar.value = vol;
 }
 
 let orgVolume = 0;
 const volumeRemove = document.querySelector(".game__volume__remove");
-volumeRemove.addEventListener("click", () => {
-	if (volumeRemove.classList.contains("active") === true) {
-		if (orgVolume == 0) {
-			orgVolume = 50;
-		}
+volumeRemove.addEventListener("click", (e) => {
+	e.preventDefault();
+	if (volumeBar.value == 0) {
 		changeVolume(orgVolume * 0.01);
 		volumeBar.value = orgVolume;
-		volumeRemove.classList.remove("active");
-		volumeRemove.innerHTML = '<i class="fas fa-volume-up"></i>';
 		changeVolumeText(orgVolume);
 	} else {
 		orgVolume = volumeBar.value;
-		volumeRemove.classList.add("active");
 		changeVolume(0);
-		volumeRemove.innerHTML = '<i class="fas fa-volume-mute"></i>';
-		volume.innerHTML = '<i class="fas fa-volume-mute"></i> 0';
 	}
 });
