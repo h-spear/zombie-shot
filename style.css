@@ -187,8 +187,8 @@ body *:active {
 }
 
 .game__level-box {
-	width: 200px;
-	font-size: var(--font-middle);
+	width: 150px;
+	font-size: var(--font-medium);
 }
 
 .game__volume-box {
@@ -202,6 +202,23 @@ body *:active {
 	display: flex;
 	justify-content: space-between;
 	padding: 1px 10px 0 10px;
+}
+
+.game__volume__remove {
+	font-size: var(--font-twentyfour);
+	background-color: rgba(246, 243, 243, 0.7);
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 1px solid #ff6262;
+}
+
+.game__volume__remove:hover {
+	transform: scale(1.1);
+}
+
+.game__volume__remove.active {
+	background-color: rgba(255, 63, 63, 0.7);
 }
 
 .game__info-box {
