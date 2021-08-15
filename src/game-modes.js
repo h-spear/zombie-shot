@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 
 import PopUp from "./popup.js";
 import { GameBuilder, Reason } from "./game-set.js";
@@ -25,11 +25,14 @@ const mode_description = `
 
 const mode1_gameDuration = 30;
 const mode1_lifeCount = 3;
-const mode1_levelBoundary = [1, 3, 7, 15, 20, 35, 50, 75];
-const mode1_Item1Probability = '(this.level / 2 < 25) ? this.level / 2 : 25';
-const mode1_Item2Probability = '(50 - this.level) > 10 ? (50 - this.level) : 10';
+const mode1_levelBoundary = [1, 3, 7, 9, 15, 20, 35, 50];
+const mode1_Item1Probability = "(this.level / 2 < 25) ? this.level / 2 : 25";
+const mode1_Item2Probability =
+	"(50 - this.level) > 10 ? (50 - this.level) : 10";
 const mode1_blackOutInterval = 5;
-let mode1_description = mode_description + `
+let mode1_description =
+	mode_description +
+	`
 <div class="important">
 <span style="font-size: 22px;"><b>Strict Time Mode</b></span>는<br>
 모든 스테이지의 제한시간은 <b>${mode1_gameDuration}초</b>로 같습니다.<br>
@@ -42,11 +45,13 @@ let mode1_description = mode_description + `
 
 const mode2_gameDuration = 10;
 const mode2_lifeCount = 1;
-const mode2_levelBoundary = [1, 5, 10, 15, 30, 45, 60, 80];
-const mode2_Item1Probability = '80';//time
-const mode2_Item2Probability = '20';//life
+const mode2_levelBoundary = [1, 3, 7, 11, 15, 23, 30, 45];
+const mode2_Item1Probability = "80"; //time
+const mode2_Item2Probability = "20"; //life
 const mode2_blackOutInterval = 5;
-let mode2_description = mode_description + `
+let mode2_description =
+	mode_description +
+	`
 <div class="important">
 <span style="font-size: 22px;"><b>Sequential Time Mode</b></span>는<br>
 스테이지가 넘어가도 라이프와 제한시간이 누적되어 진행됩니다.<br>
@@ -59,10 +64,13 @@ let mode2_description = mode_description + `
 
 const mode3_gameDuration = 60;
 const mode3_lifeCount = 10;
-const mode3_levelBoundary = [1, 5, 10, 17, 29, 44, 55, 77];
-const mode3_Item1Probability = '(90 - this.level) > 40 ? (50 - this.level) : 40';
-const mode3_Item2Probability = '(90 - this.level * 2) > 40 ? (50 - this.level) : 40';
-const mode3_scopeRate = '(400 - this.level * 3) > 150 ? (400 - this.level * 3) : 150';
+const mode3_levelBoundary = [1, 3, 5, 11, 13, 17, 24, 35];
+const mode3_Item1Probability =
+	"(90 - this.level) > 40 ? (50 - this.level) : 40";
+const mode3_Item2Probability =
+	"(90 - this.level * 2) > 40 ? (50 - this.level) : 40";
+const mode3_scopeRate =
+	"(400 - this.level * 3) > 150 ? (400 - this.level * 3) : 150";
 const mode3_blackOutInterval = 15;
 let mode3_description = `
 게임방법은 간단합니다.<br>
@@ -92,8 +100,8 @@ let mode3_description = `
 const mode4_gameDuration = 300;
 const mode4_lifeCount = 3;
 const mode4_levelBoundary = [10, 30, 50, 100, 150, 300, 444, 777];
-const mode4_Item1Probability = '100';
-const mode4_Item2Probability = '100';
+const mode4_Item1Probability = "100";
+const mode4_Item2Probability = "100";
 const mode4_blackOutInterval = 11;
 let mode4_description = `
 게임방법은 간단합니다.<br>
@@ -120,162 +128,167 @@ let mode4_description = `
 </div>
 `;
 
-const soundA = new Audio('./sound/bg-start.mp3');
+const soundA = new Audio("./sound/bg-start.mp3");
 
 export function volumeSoundA(vol) {
-  soundA.volume = vol;
+	soundA.volume = vol;
 }
 
-export class GameModes{
-  constructor(){
-    this.gameStartBtn = document.querySelectorAll('.game__mode-btn');
-    this.gameFinishBanner = new PopUp();
-    this.game;
+export class GameModes {
+	constructor() {
+		this.gameStartBtn = document.querySelectorAll(".game__mode-btn");
+		this.gameFinishBanner = new PopUp();
+		this.game;
 
-    this.gameTitle = document.querySelector('.game__title');
-    this.gameDescription = document.querySelector('.game__description');
-    this.gameStartBox = document.querySelector('.game__start-box');
-    this.gameStartBtnBox = document.querySelector('.game__btn-box');
-    this.gameField = document.querySelector('.game__field');
+		this.gameTitle = document.querySelector(".game__title");
+		this.gameDescription = document.querySelector(".game__description");
+		this.gameStartBox = document.querySelector(".game__start-box");
+		this.gameStartBtnBox = document.querySelector(".game__btn-box");
+		this.gameField = document.querySelector(".game__field");
 
-    this.gameStartBtnBox.addEventListener('click', (e) => {
-      const target = e.target;
-      if(target.nodeName === 'BUTTON')
-      {
-        const mode = parseInt(target.dataset.mode);
-        this.gameStart(mode);
-        sound.playGunShot2();
-      }
-    });
+		this.gameStartBtnBox.addEventListener("click", (e) => {
+			const target = e.target;
+			if (target.nodeName === "BUTTON") {
+				const mode = parseInt(target.dataset.mode);
+				this.gameStart(mode);
+				sound.playGunShot2();
+			}
+		});
 
-    this.gameFinishBanner.setClickListener(() => {
-      this.game.start();
-    });
+		this.gameFinishBanner.setClickListener(() => {
+			this.game.start();
+		});
 
-    this.gameFinishBanner.setHomeClickListener(() => {
-      this.game.clear();
-      this.playBg();
-      this.showStartBox();
-    });
-  }
+		this.gameFinishBanner.setHomeClickListener(() => {
+			this.game.clear();
+			this.playBg();
+			this.showStartBox();
+		});
+	}
 
-  playBg(){
-    soundA.currentTime = 0;
-    soundA.loop = true;
-    soundA.play();
-  }
+	playBg() {
+		soundA.currentTime = 0;
+		soundA.loop = true;
+		soundA.play();
+	}
 
-  stopBg(){
-    soundA.pause();
-  }
+	stopBg() {
+		soundA.pause();
+	}
 
-  gameStart(mode){
-    this.hideStartBox();
-    this.gameField.classList.add('description');
-    const boxContainer = document.createElement('div');
-    boxContainer.setAttribute('class', 'box-container');
-    this.gameField.appendChild(boxContainer);
-    const title = document.createElement('h1');
-    title.setAttribute('class', 'game__title');
-    boxContainer.appendChild(title);
-    const description = document.createElement('span');
-    description.setAttribute('class', 'game__description');
-    boxContainer.appendChild(description);
-    title.innerText = mode_title;
-    description.innerHTML = eval(`mode${mode}_description`);
+	gameStart(mode) {
+		this.hideStartBox();
+		this.gameField.classList.add("description");
+		const boxContainer = document.createElement("div");
+		boxContainer.setAttribute("class", "box-container");
+		this.gameField.appendChild(boxContainer);
+		const title = document.createElement("h1");
+		title.setAttribute("class", "game__title");
+		boxContainer.appendChild(title);
+		const description = document.createElement("span");
+		description.setAttribute("class", "game__description");
+		boxContainer.appendChild(description);
+		title.innerText = mode_title;
+		description.innerHTML = eval(`mode${mode}_description`);
 
-    const prevBtn = document.querySelector('.game__prev-btn');
-    prevBtn.addEventListener('click', () => {
-      this.showStartBox();
-      this.gameField.innerHTML = '';
-      this.gameField.classList.remove('description');
-    });
+		const prevBtn = document.querySelector(".game__prev-btn");
+		prevBtn.addEventListener("click", () => {
+			this.showStartBox();
+			this.gameField.innerHTML = "";
+			this.gameField.classList.remove("description");
+		});
 
-    const startMode = document.querySelector(`.start-mode${mode}`);
-    startMode.addEventListener('click', () => {
-      this.stopBg();
-      sound.playZombie3();
-      this.game = new GameBuilder()
-      .gameDuration(eval(`mode${mode}_gameDuration`))
-      .difficulty(mode === 4 ? difficultyInfiniteMode : difficulty)
-      .lifeCount(eval(`mode${mode}_lifeCount`))
-      .mode(mode)
-      .build();
+		const startMode = document.querySelector(`.start-mode${mode}`);
+		startMode.addEventListener("click", () => {
+			this.stopBg();
+			sound.playZombie3();
+			this.game = new GameBuilder()
+				.gameDuration(eval(`mode${mode}_gameDuration`))
+				.difficulty(mode === 4 ? difficultyInfiniteMode : difficulty)
+				.lifeCount(eval(`mode${mode}_lifeCount`))
+				.mode(mode)
+				.build();
 
-      if(mode === 3)
-        this.game.setScopeRate(eval(`mode${mode}_scopeRate`));
-      
-      this.lvBoundary = eval(`mode${mode}_levelBoundary`);
-      this.game.setItem1Probability(eval(`mode${mode}_Item1Probability`));
-      this.game.setItem2Probability(eval(`mode${mode}_Item2Probability`));
-      this.game.setBlackOutInterval(eval(`mode${mode}_blackOutInterval`));
-      if(mode === 4)
-        this.game.setGameStopListener(reason => this.onGameStopInfiniteMode(reason, this.lvBoundary));
-      else
-        this.game.setGameStopListener(reason => this.onGameStop(reason, this.lvBoundary));
-      this.game.start();
-    });
-  }
+			if (mode === 3) this.game.setScopeRate(eval(`mode${mode}_scopeRate`));
 
-  hideStartBox(){
-    this.gameField.style.display = 'flex';
-    this.gameStartBox.style.display = 'none';
-  }
+			this.lvBoundary = eval(`mode${mode}_levelBoundary`);
+			this.game.setItem1Probability(eval(`mode${mode}_Item1Probability`));
+			this.game.setItem2Probability(eval(`mode${mode}_Item2Probability`));
+			this.game.setBlackOutInterval(eval(`mode${mode}_blackOutInterval`));
+			if (mode === 4)
+				this.game.setGameStopListener((reason) =>
+					this.onGameStopInfiniteMode(reason, this.lvBoundary)
+				);
+			else
+				this.game.setGameStopListener((reason) =>
+					this.onGameStop(reason, this.lvBoundary)
+				);
+			this.game.start();
+		});
+	}
 
-  showStartBox(){
-    this.gameField.style.display = 'none';
-    this.gameStartBox.style.display = 'flex';
-  }
+	hideStartBox() {
+		this.gameField.style.display = "flex";
+		this.gameStartBox.style.display = "none";
+	}
 
-  onGameStopInfiniteMode(reason, lvBoundary) {
-    let message = `<span style="font-size: 18px;">Zombie ${this.game.score} shoted!</span>`
-    + loseMsg(this.game.score, lvBoundary);
-    switch (reason) {
-      case Reason.cancel:
-        sound.playAlert();
-        break;
-      case Reason.lose:
-        sound.playPumpkin();
-        break;
-      default:
-        throw new Error('not valid reason');
-    }
-    this.game.refreshGame();
-    this.gameFinishBanner.showHomeButton();
-    this.gameFinishBanner.changeRedoButton();
-    this.gameFinishBanner.showWithText(message);
-  }
+	showStartBox() {
+		this.gameField.style.display = "none";
+		this.gameStartBox.style.display = "flex";
+	}
 
-  onGameStop(reason, lvBoundary) {
-    let message;
-    switch (reason) {
-      case Reason.cancel:
-        message = `<span style="font-size: 18px;">Stage ${this.game.level}</span>`
-                  + loseMsg(this.game.level, lvBoundary);
-        sound.playAlert();
-        this.game.refreshGame();
-        this.gameFinishBanner.showHomeButton();
-        this.gameFinishBanner.changeRedoButton();
-        break;
-      case Reason.win:
-        message = `Stage ${this.game.level} Clear!`;
-        sound.playWin();
-        this.game.level++;
-        this.game.setLevel(this.game.level);
-        this.gameFinishBanner.hideHomeButton();
-        this.gameFinishBanner.changeNextButton();
-        break;
-      case Reason.lose:
-        message = `<span style="font-size: 18px;">Stage ${this.game.level}</span>`
-                  + loseMsg(this.game.level, lvBoundary);
-        sound.playPumpkin();
-        this.game.refreshGame();
-        this.gameFinishBanner.showHomeButton();
-        this.gameFinishBanner.changeRedoButton();
-        break;
-      default:
-        throw new Error('not valid reason');
-    }
-    this.gameFinishBanner.showWithText(message);
-  }
+	onGameStopInfiniteMode(reason, lvBoundary) {
+		let message =
+			`<span style="font-size: 18px;">Zombie ${this.game.score} shoted!</span>` +
+			loseMsg(this.game.score, lvBoundary);
+		switch (reason) {
+			case Reason.cancel:
+				sound.playAlert();
+				break;
+			case Reason.lose:
+				sound.playPumpkin();
+				break;
+			default:
+				throw new Error("not valid reason");
+		}
+		this.game.refreshGame();
+		this.gameFinishBanner.showHomeButton();
+		this.gameFinishBanner.changeRedoButton();
+		this.gameFinishBanner.showWithText(message);
+	}
+
+	onGameStop(reason, lvBoundary) {
+		let message;
+		switch (reason) {
+			case Reason.cancel:
+				message =
+					`<span style="font-size: 18px;">Stage ${this.game.level}</span>` +
+					loseMsg(this.game.level, lvBoundary);
+				sound.playAlert();
+				this.game.refreshGame();
+				this.gameFinishBanner.showHomeButton();
+				this.gameFinishBanner.changeRedoButton();
+				break;
+			case Reason.win:
+				message = `Stage ${this.game.level} Clear!`;
+				sound.playWin();
+				this.game.level++;
+				this.game.setLevel(this.game.level);
+				this.gameFinishBanner.hideHomeButton();
+				this.gameFinishBanner.changeNextButton();
+				break;
+			case Reason.lose:
+				message =
+					`<span style="font-size: 18px;">Stage ${this.game.level}</span>` +
+					loseMsg(this.game.level, lvBoundary);
+				sound.playPumpkin();
+				this.game.refreshGame();
+				this.gameFinishBanner.showHomeButton();
+				this.gameFinishBanner.changeRedoButton();
+				break;
+			default:
+				throw new Error("not valid reason");
+		}
+		this.gameFinishBanner.showWithText(message);
+	}
 }

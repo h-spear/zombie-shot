@@ -378,6 +378,7 @@ body *:active {
 .bomb2,
 .sun {
 	transition: all 100ms ease-in;
+	-webkit-user-drag: none;
 }
 
 .zombie:hover,
