@@ -1,127 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>ZOMBIE SHOT</title>
-		<link rel="stylesheet" href="style.css" />
-		<script type="module" src="src/main.js" defer></script>
-		<script
-			src="https://kit.fontawesome.com/9c053446b1.js"
-			crossorigin="anonymous"
-		></script>
-		<link rel="icon" type="image/png" href="imgs/zombies/zombie-count.png" />
-	</head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ZOMBIE SHOT</title>
+        <link rel="stylesheet" href="style.css" />
+        <script type="module" src="src/main.js" defer></script>
+        <script
+            src="https://kit.fontawesome.com/9c053446b1.js"
+            crossorigin="anonymous"
+        ></script>
+        <link
+            rel="icon"
+            type="image/png"
+            href="imgs/zombies/zombie-count.png"
+        />
+    </head>
 
-	<body>
-		<section class="game">
-			<div class="game__scope"></div>
-			<section class="container">
-				<header class="game__header">
-					<div class="game__level-box">
-						Stage : <span class="game__level">1</span>
-					</div>
-					<form class="game__volume-box">
-						<button class="game__volume__remove">
-							<i class="fas fa-volume-up"></i>
-						</button>
-						<input
-							type="range"
-							class="volume__bar"
-							min="0"
-							max="100"
-							step="5"
-							value="50"
-						/>
-						<span class="game__volume">50</span>
-					</form>
-					<div class="game__info-box">
-						<button class="game__button start-btn">
-							<i class="fas fa-stop"></i>
-						</button>
-						<span class="game__timer">TIME</span>
-						<div class="game__score-box">
-							<img
-								src="imgs/zombies/zombie-count.png"
-								class="game__zombie-logo"
-								alt=""
-							/>:
-							<b><span class="game__score">?</span></b>
-						</div>
-						<span class="game__life"></span>
-					</div>
-				</header>
-				<section class="main-box start-first">
-					<div class="box-container">
-						<h1 class="game__title">ZOMBIE SHOT</h1>
-						<span class="game__description">
-							Javascript 공부용, 심심풀이로 만든 게임입니다.<br /><br />
-							게임에 사용된 음악, 이미지는 모두<br />
-							저작권이 없는 무료 음악, 이미지를 사용하였습니다.
-						</span>
-						<div class="main__btn-box">
-							<button class="main-btn">START<br />GAME</button>
-						</div>
-					</div>
-				</section>
-				<section class="game__start-box start-second invisible">
-					<div class="box-container">
-						<h1 class="game__title">ZOMBIE SHOT</h1>
-						<span class="game__description">
-							게임모드를 선택하세요.<br />
-						</span>
-						<div class="game__btn-box">
-							<button class="game__mode-btn mode1" data-mode="1">
-								Strict<br />Time<br />Mode
-							</button>
-							<button class="game__mode-btn mode2" data-mode="2">
-								Sequential<br />Time<br />Mode
-							</button>
-							<button class="game__mode-btn mode3" data-mode="3">
-								Dark<br />Sniper<br />Mode
-							</button>
-							<button class="game__mode-btn mode4" data-mode="4">
-								Infinite<br />Zombie<br />Mode
-							</button>
-						</div>
-					</div>
-				</section>
-				<section class="game__field"></section>
-			</section>
-		</section>
+    <body>
+        <section class="game">
+            <div class="game__scope"></div>
+            <section class="container">
+                <header class="game__header">
+                    <div class="game__level-box">
+                        Stage : <span class="game__level">1</span>
+                    </div>
+                    <form class="game__volume-box">
+                        <button class="game__volume__remove">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <input
+                            type="range"
+                            class="volume__bar"
+                            min="0"
+                            max="100"
+                            step="5"
+                            value="50"
+                        />
+                        <span class="game__volume">50</span>
+                    </form>
+                    <div class="game__info-box">
+                        <button class="game__button start-btn">
+                            <i class="fas fa-stop"></i>
+                        </button>
+                        <span class="game__timer">TIME</span>
+                        <div class="game__score-box">
+                            <img
+                                src="imgs/zombies/zombie-count.png"
+                                class="game__zombie-logo"
+                                alt=""
+                            />:
+                            <b><span class="game__score">?</span></b>
+                        </div>
+                        <span class="game__life"></span>
+                    </div>
+                </header>
+                <section class="main-box start-first">
+                    <div class="box-container">
+                        <h1 class="game__title">ZOMBIE SHOT</h1>
+                        <span class="game__description">
+                            Javascript 공부용, 심심풀이로 만든 게임입니다.<br /><br />
+                            게임에 사용된 음악, 이미지는 모두<br />
+                            저작권이 없는 무료 음악, 이미지를 사용하였습니다.
+                        </span>
+                        <div class="main__btn-box">
+                            <button class="main-btn">START<br />GAME</button>
+                        </div>
+                    </div>
+                </section>
+                <section class="game__start-box start-second invisible">
+                    <div class="box-container">
+                        <h1 class="game__title">ZOMBIE SHOT</h1>
+                        <span class="game__description">
+                            게임모드를 선택하세요.<br />
+                        </span>
+                        <div class="game__btn-box">
+                            <button class="game__mode-btn mode1" data-mode="1">
+                                Strict<br />Time<br />Mode
+                            </button>
+                            <button class="game__mode-btn mode2" data-mode="2">
+                                Sequential<br />Time<br />Mode
+                            </button>
+                            <button class="game__mode-btn mode3" data-mode="3">
+                                Dark<br />Sniper<br />Mode
+                            </button>
+                            <button class="game__mode-btn mode4" data-mode="4">
+                                Infinite<br />Zombie<br />Mode
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                <section class="game__field"></section>
+            </section>
+        </section>
 
-		<section class="pop-up pop-up--hide">
-			<div class="pop-up__btn-box">
-				<button class="pop-up__home-btn">
-					<i class="fas fa-home"></i>
-				</button>
-				<button class="pop-up__btn">
-					<i class="fas fa-redo pop-up__icon"></i>
-				</button>
-			</div>
-			<div class="pop-up__msgBox">
-				<span class="pop-up__message">msg</span>
-			</div>
-		</section>
-		<a
-			href="https://github.com/h-spear/zombie-shot"
-			target="_blank"
-			class="git"
-		>
-			<i class="fab fa-github"></i>
-			h-spear
-		</a>
-		<!-- mobile -->
-		<section class="mobile__notice">
-			<div class="mobile__description">
-				<h1>NOTICE</h1>
-				<span>
-					이 게임은<br />
-					모바일 버전(가로 768px 이하의 화면)을<br />
-					지원하지 않습니다.<br /><br />
-				</span>
-			</div>
-		</section>
-	</body>
+        <section class="pop-up pop-up--hide">
+            <div class="pop-up__btn-box">
+                <button class="pop-up__home-btn">
+                    <i class="fas fa-home"></i>
+                </button>
+                <button class="pop-up__btn">
+                    <i class="fas fa-redo pop-up__icon"></i>
+                </button>
+            </div>
+            <div class="pop-up__msgBox">
+                <span class="pop-up__message">msg</span>
+            </div>
+        </section>
+        <a
+            href="https://github.com/h-spear/zombie-shot"
+            target="_blank"
+            class="git"
+        >
+            <i class="fab fa-github"></i>
+            h-spear
+        </a>
+        <!-- mobile -->
+        <section class="mobile__notice">
+            <div class="mobile__description">
+                <h1>NOTICE</h1>
+                <span>
+                    이 게임은<br />
+                    모바일 버전(가로 768px 이하의 화면)을<br />
+                    지원하지 않습니다.<br /><br />
+                </span>
+            </div>
+        </section>
+    </body>
 </html>
