@@ -20,8 +20,12 @@
 
     <body>
         <section class="game">
-            <div class="game__scope"></div>
-            <section class="container">
+            <!-- Sniper Mode Scope -->
+            <div class="game__sniper__scope"></div>
+
+            <!-- Game Main Container-->
+            <section class="game__container">
+                <!-- Game info always displayed -->
                 <header class="game__header">
                     <div class="game__level-box">
                         Stage : <span class="game__level">1</span>
@@ -41,14 +45,14 @@
                         <span class="game__volume">50</span>
                     </form>
                     <div class="game__info-box">
-                        <button class="game__button start-btn">
+                        <button class="game__pause">
                             <i class="fas fa-stop"></i>
                         </button>
                         <span class="game__timer">TIME</span>
                         <div class="game__score-box">
                             <img
                                 src="imgs/zombies/zombie-count.png"
-                                class="game__zombie-logo"
+                                class="zombie-logo"
                                 alt=""
                             />:
                             <b><span class="game__score">?</span></b>
@@ -56,21 +60,23 @@
                         <span class="game__life"></span>
                     </div>
                 </header>
-                <section class="main-box start-first">
-                    <div class="box-container">
+
+                <!-- 1. Welcome Page -->
+                <section class="game__welcome-page">
+                    <div class="game__mini-container">
                         <h1 class="game__title">ZOMBIE SHOT</h1>
                         <span class="game__description">
                             Javascript 공부용, 심심풀이로 만든 게임입니다.<br /><br />
                             게임에 사용된 음악, 이미지는 모두<br />
                             저작권이 없는 무료 음악, 이미지를 사용하였습니다.
                         </span>
-                        <div class="main__btn-box">
-                            <button class="main-btn">START<br />GAME</button>
-                        </div>
+                        <button class="game__large-btn">START<br />GAME</button>
                     </div>
                 </section>
-                <section class="game__start-box start-second invisible">
-                    <div class="box-container">
+
+                <!-- 2. Mode Page -->
+                <section class="game__mode-page invisible">
+                    <div class="game__mini-container">
                         <h1 class="game__title">ZOMBIE SHOT</h1>
                         <span class="game__description">
                             게임모드를 선택하세요.<br />
@@ -91,34 +97,42 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- 3. Game Field -->
                 <section class="game__field"></section>
             </section>
         </section>
 
-        <section class="pop-up pop-up--hide">
+        <!-- Pop Up -->
+        <section class="pop-up invisible">
             <div class="pop-up__btn-box">
                 <button class="pop-up__home-btn">
                     <i class="fas fa-home"></i>
                 </button>
-                <button class="pop-up__btn">
+                <button class="pop-up__redo-btn">
                     <i class="fas fa-redo pop-up__icon"></i>
                 </button>
             </div>
-            <div class="pop-up__msgBox">
+            <div class="pop-up__msg-box">
                 <span class="pop-up__message">msg</span>
             </div>
         </section>
-        <a
-            href="https://github.com/h-spear/zombie-shot"
-            target="_blank"
-            class="git"
-        >
-            <i class="fab fa-github"></i>
-            h-spear
-        </a>
+
+        <!-- Footer -->
+        <footer>
+            <a
+                href="https://github.com/h-spear/zombie-shot"
+                target="_blank"
+                class="git"
+            >
+                <i class="fab fa-github"></i>
+                h-spear
+            </a>
+        </footer>
+
         <!-- mobile -->
         <section class="mobile__notice">
-            <div class="mobile__description">
+            <div class="mobile__notice__description">
                 <h1>NOTICE</h1>
                 <span>
                     이 게임은<br />

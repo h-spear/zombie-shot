@@ -78,7 +78,7 @@ button *:hover {
     width: 100%;
 }
 
-.container {
+.game__container {
     display: flex;
     margin: auto;
     flex-direction: column;
@@ -99,7 +99,7 @@ button *:hover {
     margin-top: 50px;
 }
 
-.game__button {
+.game__pause {
     width: 60px;
     height: 60px;
     margin: 0 20px;
@@ -154,7 +154,7 @@ button *:hover {
     background: url('imgs/background6.jpg') center/cover no-repeat;
 }
 
-.game__button:hover,
+.game__pause:hover,
 .pop-up__btn-box button:hover {
     transform: scale(1.1);
 }
@@ -233,15 +233,15 @@ body *:active {
     user-select: none;
 }
 
-.game__zombie-logo {
-    width: 50px;
-    height: 50px;
-}
-
 .game__life {
     width: 130px;
     text-align: right;
     font-size: var(--font-normal);
+}
+
+.zombie-logo {
+    width: 50px;
+    height: 50px;
 }
 
 .game__field {
@@ -253,7 +253,7 @@ body *:active {
     justify-content: center;
 }
 
-.main-btn {
+.game__large-btn {
     width: 350px;
     height: 350px;
     font-weight: bold;
@@ -267,17 +267,13 @@ body *:active {
     transition: opacity 700ms ease-in;
 }
 
-.main-btn:hover {
+.game__large-btn:hover {
     animation: border-change 3s infinite;
     opacity: 1;
 }
 
-.game__start-box.invisible {
-    display: none;
-}
-
-.game__start-box,
-.main-box {
+.game__mode-page,
+.game__welcome-page {
     background: url('imgs/background-start.jpg') center/cover no-repeat;
     display: flex;
     width: 100%;
@@ -285,7 +281,7 @@ body *:active {
     justify-content: center;
 }
 
-.box-container {
+.game__mini-container {
     background-color: rgba(0, 0, 0, 0.8);
     margin-top: 20px;
     border-radius: 30px;
@@ -345,7 +341,7 @@ body *:active {
     bottom: 5px;
 }
 
-.game__scope {
+.game__sniper__scope {
     width: 400px;
     height: 400px;
     box-sizing: content-box;
@@ -498,17 +494,13 @@ body *:active {
     align-items: center;
 }
 
-.mobile__description {
+.mobile__notice__description {
     width: 80%;
     height: 200px;
     background-color: rgba(0, 0, 0, 0.8);
     margin: 30px 0;
     font-size: var(--font-regular);
     border-radius: 20px;
-}
-
-.mobile__description .highlight {
-    font-size: var(--font-twentyfour);
 }
 
 @media screen and (max-width: 768px) {
@@ -521,4 +513,8 @@ body *:active {
     .mobile__notice {
         display: flex;
     }
+}
+
+.invisible {
+    display: none;
 }
