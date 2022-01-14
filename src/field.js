@@ -1,5 +1,3 @@
-'use strict';
-
 export const ItemType = Object.freeze({
     zombie: 'zombie',
     pumpkin: 'pumpkin',

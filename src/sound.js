@@ -1,9 +1,6 @@
-'use strict';
-
 import { volumeSoundA } from './game-modes.js';
 
 const alertSound = new Audio('./sound/alert.mp3');
-
 const bgSound = [
     new Audio('./sound/bg.mp3'),
     new Audio('./sound/bg2.mp3'),
@@ -154,11 +151,12 @@ function changeGameVolume(vol) {
     alertSound.volume = vol;
 }
 
+// Game Volumn
 const volumeBar = document.querySelector('.volume__bar');
 const volume = document.querySelector('.game__volume');
 volumeBar.addEventListener('change', () => {
     changeVolume(volumeBar.value * 0.01);
-    volumeRemove.classList.remove('active');
+    volumeMuteBtn.classList.remove('active');
 });
 
 function changeVolume(vol) {
@@ -168,7 +166,6 @@ function changeVolume(vol) {
     changeGameVolume(vol);
     changeGunVolume(vol);
     volumeSoundA(vol);
-
     changeVolumeText(vol * 100);
 }
 
@@ -180,13 +177,13 @@ function changeVolumeText(vol) {
     else text = '<i class="fas fa-volume-up"></i>';
 
     volume.innerHTML = Math.floor(vol);
-    volumeRemove.innerHTML = text;
+    volumeMuteBtn.innerHTML = text;
     volumeBar.value = vol;
 }
 
 let orgVolume = 0;
-const volumeRemove = document.querySelector('.game__volume__remove');
-volumeRemove.addEventListener('click', (e) => {
+const volumeMuteBtn = document.querySelector('.game__volume__mute');
+volumeMuteBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (volumeBar.value == 0) {
         changeVolume(orgVolume * 0.01);

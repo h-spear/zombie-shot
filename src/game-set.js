@@ -1,5 +1,3 @@
-'use strict';
-
 import {
     Field,
     FieldInfiniteMode,
@@ -7,6 +5,7 @@ import {
     ItemType,
 } from './field.js';
 import * as sound from './sound.js';
+import { item_settings } from './game-details.js';
 
 const backImgPath = [
     'imgs/background1.jpg',
@@ -227,7 +226,8 @@ class Game {
             this.updateLifeBoard();
         } else if (item === ItemType.time) {
             sound.playTimeItem();
-            this.remainingTimeSec = this.remainingTimeSec + 5;
+            this.remainingTimeSec =
+                this.remainingTimeSec + item_settings.plus_time;
             this.updateTimerText(this.remainingTimeSec);
         }
     };
@@ -291,7 +291,7 @@ class Game {
 
     updateLifeBoard() {
         let string;
-        if (this.lifeCount > 3) string = `<b>💖 X ${this.lifeCount}</b>`;
+        if (this.lifeCount > 3) string = `💖<b> X ${this.lifeCount}</b>`;
         else string = '💖'.repeat(this.lifeCount);
         this.gameLife.innerHTML = string;
     }
@@ -406,10 +406,10 @@ class GameDarkSniperMode extends Game {
             }
         } else if (item === ItemType.nasa) {
             sound.playNasaItem();
-            this.gameField.stopScopeDownsizing(8);
+            this.gameField.stopScopeDownsizing(item_settings.nasa_duration);
         } else if (item === ItemType.eye) {
             sound.playEyeItem();
-            this.gameField.scopeSizeUp(50);
+            this.gameField.scopeSizeUp(item_settings.scope_range);
         }
     };
 
@@ -481,7 +481,7 @@ class GameInfiniteZombieMode extends Game {
             this.gameField.fieldClear();
         } else if (item === ItemType.sun) {
             sound.playSunItem();
-            this.gameField.itemSun(15);
+            this.gameField.itemSun(item_settings.sun_duration);
         }
     };
 
