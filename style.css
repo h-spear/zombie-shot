@@ -97,6 +97,7 @@ button *:hover {
     background-color: var(--color-lightred);
     user-select: none;
     margin-top: 50px;
+    position: relative;
 }
 
 .game__pause {
@@ -110,7 +111,7 @@ button *:hover {
     visibility: hidden;
 }
 
-.game__btn-box {
+.game__mode-btn-box {
     margin-top: 10px;
 }
 
@@ -129,18 +130,6 @@ button *:hover {
     animation: border-change 3s infinite;
 }
 
-@keyframes border-change {
-    0% {
-        border-color: var(--color-brownred);
-    }
-    50% {
-        border-color: var(--color-red);
-    }
-    100% {
-        border-color: var(--color-brownred);
-    }
-}
-
 .game__mode-btn.mode1 {
     background: url('imgs/background1.jpg') center/cover no-repeat;
 }
@@ -157,18 +146,6 @@ button *:hover {
 .game__pause:hover,
 .pop-up__btn-box button:hover {
     transform: scale(1.1);
-}
-
-@keyframes color-change {
-    0% {
-        color: var(--color-lightgreen);
-    }
-    50% {
-        color: var(--color-green);
-    }
-    100% {
-        color: var(--color-lightgreen);
-    }
 }
 
 body *:active {
@@ -205,7 +182,7 @@ body *:active {
     padding: 1px 10px 0 10px;
 }
 
-.game__volume__remove {
+.game__volume__mute {
     background-color: transparent;
     font-size: var(--font-regular);
     position: absolute;
@@ -214,7 +191,7 @@ body *:active {
     padding: 0;
 }
 
-.game__volume__remove:hover {
+.game__volume__mute:hover {
     transform: scale(1.2);
 }
 
@@ -335,7 +312,7 @@ body *:active {
 .game__prev-btn {
     font-size: 44px;
     background-color: transparent;
-    animation: prev-btn-change 5s infinite;
+    animation: color-change-white 5s infinite;
     position: absolute;
     right: 20px;
     bottom: 5px;
@@ -355,7 +332,31 @@ body *:active {
     visibility: hidden;
 }
 
-@keyframes prev-btn-change {
+@keyframes border-change {
+    0% {
+        border-color: var(--color-brownred);
+    }
+    50% {
+        border-color: var(--color-red);
+    }
+    100% {
+        border-color: var(--color-brownred);
+    }
+}
+
+@keyframes color-change {
+    0% {
+        color: var(--color-lightgreen);
+    }
+    50% {
+        color: var(--color-green);
+    }
+    100% {
+        color: var(--color-lightgreen);
+    }
+}
+
+@keyframes color-change-white {
     0% {
         color: var(--color-white);
     }
@@ -379,6 +380,16 @@ body *:active {
     }
 }
 
+.ranking {
+    background-color: white;
+    width: 300px;
+    height: var(--size-field-height);
+    position: absolute;
+    top: 0px;
+    right: -300px;
+}
+
+/* game items */
 .zombie,
 .pumpkin,
 .time,
@@ -421,7 +432,7 @@ body *:active {
     color: white;
     border-radius: 20px;
     text-align: center;
-    transform: translateY(-150%);
+    transform: translateY(-210%);
 }
 
 .pop-up--hide {

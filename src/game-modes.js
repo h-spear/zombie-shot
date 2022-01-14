@@ -1,9 +1,8 @@
 import PopUp from './popup.js';
 import { GameBuilder, Reason } from './game-set.js';
 import * as sound from './sound.js';
-import * as whats from './game-details.js';
+import * as whats from './settings.js';
 
-const mode_title = 'ZOMBIE SHOT';
 const soundA = new Audio('./sound/bg-start.mp3');
 
 export function volumeSoundA(vol) {
@@ -79,7 +78,7 @@ export class GameModes {
         const description = document.createElement('span');
         description.setAttribute('class', 'game__description');
         miniContainer.appendChild(description);
-        title.innerText = mode_title;
+        title.innerText = whats.mode_title;
         description.innerHTML = eval(`whats.mode${mode}_description`);
 
         const prevBtn = document.querySelector('.game__prev-btn');

@@ -7,6 +7,8 @@
  * blackOutInterval : 블랙아웃 타임이 나타나는 시간
  * scopeRate : 스나이퍼 모드에서 스코프 감소 범위
  */
+export const mode_title = 'ZOMBIE SHOT';
+
 export const mode1_settings = {
     gameDuration: 30,
     lifeCount: 3,

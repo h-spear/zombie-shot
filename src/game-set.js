@@ -5,7 +5,7 @@ import {
     ItemType,
 } from './field.js';
 import * as sound from './sound.js';
-import { item_settings } from './game-details.js';
+import { item_settings } from './settings.js';
 
 const backImgPath = [
     'imgs/background1.jpg',
