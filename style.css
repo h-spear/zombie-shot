@@ -535,7 +535,7 @@ body *:active {
     text-align: center;
     font-family: var(--font-eng2);
     transition: all var(--animation-duration) ease-in;
-    animation: appear 1s;
+    animation: appear var(--animation-duration);
 }
 
 .pop-up-wide {
