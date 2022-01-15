@@ -19,6 +19,6 @@ src/settings.js에서 모든 요소 설정
 
 ## 22.01.15
 
-Firebase DB 연동
-ranking 시스템 추가
-게임 종료 시 점수와 comment 기록 가능
+-   Firebase DB 연동
+-   ranking 시스템 추가
+-   게임 종료 시 점수와 comment 기록 가능
