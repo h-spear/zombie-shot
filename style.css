@@ -85,6 +85,8 @@ button *:hover {
 
 .game {
     width: 100%;
+    position: relative;
+    overflow: hidden;
 }
 
 .game__container {
@@ -518,18 +520,28 @@ body *:active {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    transform: translateY(-210%);
     align-items: center;
     margin: auto;
     background-color: #00000090;
     width: 400px;
     height: 180px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     padding: 14px;
     color: var(--color-white);
     border-radius: 20px;
     text-align: center;
     font-family: var(--font-eng2);
     transition: all var(--animation-duration) ease-in;
+    animation: appear 1s;
+}
+
+.pop-up-wide {
+    height: 440px;
+    transform: translate(-50%, -45%);
+    animation: translate-change 1s ease-out;
 }
 
 .pop-up div {
@@ -554,11 +566,6 @@ body *:active {
 
 .pop-up__home {
     display: none;
-}
-
-.pop-up-wide {
-    transform: translateY(-115%);
-    height: 440px;
 }
 
 .pop-up__write {
@@ -669,6 +676,24 @@ body *:active {
     }
     100% {
         color: var(--color-brownred);
+    }
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes translate-change {
+    0% {
+        transform: translate(-50%, -70%);
+    }
+    100% {
+        transform: translate(-50%, -45%);
     }
 }
 
