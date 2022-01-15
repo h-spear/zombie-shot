@@ -5,7 +5,7 @@
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: 'AIzaSyB4PUuIUuxgApIgq_KHkwq0bZ9ODXNBDd0',
+    apiKey: config.apiKey,
     authDomain: 'zombie-shot-12e8f.firebaseapp.com',
     projectId: 'zombie-shot-12e8f',
     storageBucket: 'zombie-shot-12e8f.appspot.com',

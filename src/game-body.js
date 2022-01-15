@@ -203,6 +203,7 @@ export class GameBody {
         }
         this.game.refreshGame();
         this.gameFinishBanner.hideWriteForm();
+        this.gameFinishBanner.showWriteButton();
         this.gameFinishBanner.showHomeButton();
         this.gameFinishBanner.changeRedoButton();
         this.gameFinishBanner.showWithText(message);
