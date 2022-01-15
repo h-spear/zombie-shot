@@ -2,6 +2,7 @@ import PopUp from './popup.js';
 import { GameBuilder, Reason } from './game-set.js';
 import * as sound from './sound.js';
 import * as whats from './settings.js';
+import { DatabaseService } from './service/firebase.js';
 
 const soundA = new Audio('./sound/bg-start.mp3');
 
@@ -11,6 +12,7 @@ export function volumeSoundA(vol) {
 
 export class GameModes {
     constructor() {
+        this.DB = new DatabaseService();
         this.gameModeBtn = document.querySelectorAll('.game__mode-btn');
         this.gameFinishBanner = new PopUp();
         this.game;
@@ -19,7 +21,11 @@ export class GameModes {
         this.gameDescription = document.querySelector('.game__description');
         this.gameModePage = document.querySelector('.game__mode-page');
         this.gameModeBtnBox = document.querySelector('.game__mode-btn-box');
+        this.gameRankingPage = document.querySelector('.game__ranking-page');
         this.gameField = document.querySelector('.game__field');
+        this.gameRankingPrevBtn = document.querySelector(
+            '.game__ranking-prev-btn'
+        );
 
         this.gameModeBtnBox.addEventListener('click', (e) => {
             const target = e.target;
@@ -28,6 +34,11 @@ export class GameModes {
                 this.gameStart(mode);
                 sound.playGunShot2();
             }
+        });
+
+        this.gameRankingPrevBtn.addEventListener('click', (e) => {
+            this.hideRankingPage();
+            this.gameField.classList.remove('invisible');
         });
 
         this.gameFinishBanner.setClickListener(() => {
@@ -66,6 +77,16 @@ export class GameModes {
         this.gameModePage.style.display = 'flex';
     }
 
+    hideRankingPage() {
+        this.gameField.style.display = 'flex';
+        this.gameRankingPage.style.display = 'none';
+    }
+
+    showRankingPage() {
+        this.gameField.style.display = 'none';
+        this.gameRankingPage.style.display = 'flex';
+    }
+
     makeGameDescription(mode) {
         // generate description field
         this.gameField.classList.add('description');
@@ -88,6 +109,7 @@ export class GameModes {
             this.gameField.classList.remove('description');
         });
 
+        // 게임 시작 버튼 만들기
         const startMode = document.querySelector(`.start-mode${mode}`);
         startMode.addEventListener('click', () => {
             this.stopBg();
@@ -124,6 +146,14 @@ export class GameModes {
                     this.onGameStop(reason, this.lvBoundary)
                 );
             this.game.start();
+        });
+
+        // 랭킹 버튼 만들기
+        const rankingBtn = document.querySelector('.game__ranking-btn');
+        rankingBtn.addEventListener('click', () => {
+            this.DB.loadRankingData(mode);
+            this.showRankingPage(mode);
+            this.gameField.classList.add('invisible');
         });
     }
 

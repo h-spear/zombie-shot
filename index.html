@@ -6,11 +6,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>ZOMBIE SHOT</title>
         <link rel="stylesheet" href="style.css" />
-        <script type="module" src="src/main.js" defer></script>
         <script
             src="https://kit.fontawesome.com/9c053446b1.js"
             crossorigin="anonymous"
         ></script>
+        <!-- fonts  -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Dokdo&family=Permanent+Marker&display=swap"
+            rel="stylesheet"
+        />
+        <!-- firebase -->
+        <script
+            src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"
+            defer
+        ></script>
+        <script
+            defer
+            src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"
+        ></script>
+        <script
+            type="module"
+            src="./src/service/init-firebase.js"
+            defer
+        ></script>
+        <script type="module" src="src/main.js" defer></script>
         <link
             rel="icon"
             type="image/png"
@@ -60,7 +81,7 @@
                         </div>
                         <span class="game__life"></span>
                     </div>
-                    <div class="ranking">rank</div>
+                    <!-- <div class="ranking">rank</div> -->
                 </header>
 
                 <!-- 1. Welcome Page -->
@@ -100,7 +121,31 @@
                     </div>
                 </section>
 
-                <!-- 3. Game Field -->
+                <!-- 3. Ranking Page -->
+                <section class="game__ranking-page invisible">
+                    <div class="game__mini-container">
+                        <h1 class="game__title">ZOMBIE SHOT</h1>
+                        <span class="game__rank-description">
+                            <p class="mode-title">Infinite Zombie Mode</p>
+                            다른 사람들의 기록을 확인해보세요.<br />
+                        </span>
+                        <div class="game__ranking">
+                            <div class="game__ranking-title">
+                                <div class="ranking-no">No.</div>
+                                <div class="ranking-name">Name</div>
+                                <div class="ranking-date">Date</div>
+                                <div class="ranking-score">Level</div>
+                                <div class="ranking-comment"></div>
+                            </div>
+                            <div class="game__ranking-contents"></div>
+                            <button class="game__ranking-prev-btn">
+                                <i class="fas fa-angle-double-left"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. Game Field -->
                 <section class="game__field"></section>
             </section>
         </section>

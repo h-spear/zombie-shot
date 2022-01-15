@@ -3,6 +3,7 @@
     --color-black: #000000;
     --color-white: #ffffff;
     --color-red: #ff0000;
+    --color-titlered: #e00000;
     --color-brownred: #a33232;
     --color-lightred: #d85757;
     --color-pink: #ffb6b6;
@@ -29,6 +30,11 @@
 
     /* Animation duration */
     --animation-duration: 300ms;
+
+    /* fonts */
+    --font-eng1: 'Dancing Script', cursive;
+    --font-eng2: 'Permanent Marker', cursive;
+    --font-kor1: 'Dokdo', cursive;
 }
 
 * {
@@ -165,6 +171,7 @@ body *:active {
 
 .game__level-box {
     width: 200px;
+    font-family: var(--font-eng2);
     font-size: var(--font-middle);
 }
 
@@ -250,6 +257,7 @@ body *:active {
 }
 
 .game__mode-page,
+.game__ranking-page,
 .game__welcome-page {
     background: url('imgs/background-start.jpg') center/cover no-repeat;
     display: flex;
@@ -274,7 +282,8 @@ body *:active {
 }
 
 .game__title {
-    margin: 10px;
+    margin: 8px;
+    font-family: var(--font-eng2);
 }
 
 .game__description {
@@ -290,6 +299,12 @@ body *:active {
     margin: auto;
 }
 
+.description-mode-title {
+    font-size: var(--font-twentyfour);
+    color: var(--color-titlered);
+    font-family: var(--font-eng2);
+}
+
 .game__field-black {
     width: 100%;
     height: 100%;
@@ -299,23 +314,155 @@ body *:active {
 }
 
 .game__start {
+    font-family: var(--font-kor1);
     font-weight: bold;
     border: 2px solid var(--color-black);
     animation: backgroundcolor-change 3s infinite;
     border-radius: 8px;
-    font-size: 24px;
+    font-size: var(--font-middle);
+    line-height: var(--font-middle);
     width: 150px;
     height: 40px;
     margin-top: 5px;
 }
 
-.game__prev-btn {
+.game__ranking-btn {
+    background-color: transparent;
+    animation: ranking-animate 2s infinite;
+    position: absolute;
+    right: 75px;
+    bottom: 16px;
+    font-weight: bold;
+    font-size: var(--font-twentyfour);
+    font-family: var(--font-eng1);
+}
+
+.game__prev-btn,
+.game__ranking-prev-btn {
     font-size: 44px;
     background-color: transparent;
     animation: color-change-white 5s infinite;
     position: absolute;
     right: 20px;
     bottom: 5px;
+}
+
+.mode-title {
+    color: var(--color-titlered);
+    font-size: var(--font-twentyfour);
+    letter-spacing: 4px;
+    font-weight: 700;
+    margin-top: 28px;
+    font-family: var(--font-eng2);
+}
+
+.game__rank-description {
+    display: block;
+    font-size: var(--font-normal);
+    line-height: 5px;
+    font-family: var(--font-kor1);
+    transform: translateY(-14px);
+}
+
+.game__ranking {
+    font-size: var(--font-normal);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.game__ranking-title,
+.game__ranking-content {
+    display: flex;
+    align-items: center;
+}
+
+.game__ranking-title {
+    margin-bottom: 3px;
+    font-family: var(--font-eng2);
+}
+
+.game__ranking-contents {
+    font-size: var(--font-regular);
+    width: 550px;
+}
+
+.game__ranking-content {
+    border-top: 1px solid rgba(255, 255, 255, 0.528);
+    height: 31px;
+    background-color: rgba(43, 0, 73, 0.569);
+}
+.game__ranking-content:nth-child(1) {
+    border-width: 3px;
+    border-color: var(--color-white);
+    height: 35px;
+    background-color: rgba(255, 66, 66, 0.583);
+}
+.game__ranking-content:nth-child(2) {
+    background-color: rgba(100, 61, 255, 0.604);
+}
+.game__ranking-content:nth-child(3) {
+    background-color: rgba(251, 251, 0, 0.583);
+}
+.game__ranking-content:nth-child(10) {
+    height: 35px;
+    border-bottom: 3px solid var(--color-white);
+}
+
+.ranking-no {
+    width: 50px;
+}
+.ranking-name {
+    width: 220px;
+}
+.ranking-date {
+    width: 140px;
+}
+.ranking-score {
+    width: 100px;
+}
+
+.game__ranking-content > .ranking-comment:hover {
+    padding: 10px;
+    width: 200px;
+    height: 310px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    top: 31%;
+    left: 90%;
+    opacity: 1;
+    color: var(--color-white);
+}
+
+.ranking-comment {
+    width: 40px;
+    height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    color: transparent;
+    transition: opacity var(--animation-duration);
+    z-index: 1;
+}
+
+.ranking-comment > .comment-info {
+    font-size: var(--font-middle);
+    line-height: var(--font-middle);
+    font-family: var(--font-kor1);
+    margin-bottom: 10px;
+    height: 80px;
+}
+
+.ranking-comment > .comment-content {
+    width: 180px;
+    height: 200px;
+}
+
+.ranking-emoji {
+    width: 30px;
+    position: absolute;
+    right: 30px;
 }
 
 .game__sniper__scope {
@@ -377,6 +524,18 @@ body *:active {
     }
     100% {
         background-color: var(--color-deeporange);
+    }
+}
+
+@keyframes ranking-animate {
+    0% {
+        color: var(--color-brownred);
+    }
+    50% {
+        color: var(--color-red);
+    }
+    100% {
+        color: var(--color-brownred);
     }
 }
 
