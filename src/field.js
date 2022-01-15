@@ -9,8 +9,8 @@ export const ItemType = Object.freeze({
     sun: 'sun',
 });
 
-const zombieTypeCount = 8;
-const ZombieHeightRatio = [2.7, 2.2, 1.6, 1.9, 1.6, 1.2, 2, 1.8];
+const zombieTypeCount = 11;
+const ZombieHeightRatio = [2.7, 2.2, 1.6, 1.9, 1.6, 1.2, 2, 1.8, 1.6, 1.9, 1.4];
 const pumpkinTypeCount = 6;
 
 export class Field {
@@ -119,6 +119,9 @@ export class Field {
         item.setAttribute('class', type);
         item.classList.add('zombie');
         item.setAttribute('src', `imgs/zombies/${type}.png`);
+        if (Math.random() < 0.5) {
+            item.classList.add('reverse');
+        }
         this._positioning(item, width, height);
         this.field.appendChild(item);
     }

@@ -31,9 +31,9 @@ export const mode3_settings = {
     gameDuration: 60,
     lifeCount: 10,
     levelBoundary: [1, 3, 5, 11, 13, 17, 24, 35],
-    Item1Probability: '(90 - this.level) > 40 ? (50 - this.level) : 40', // nasa
-    Item2Probability: '(90 - this.level * 2) > 40 ? (50 - this.level) : 40', // eye
-    scopeRate: '(400 - this.level * 3) > 150 ? (400 - this.level * 3) : 150',
+    Item1Probability: 'this.level < 40 ? (81 - this.level) : 30', // nasa
+    Item2Probability: 'this.level < 25 ? (50 - this.level) : 45', // eye
+    scopeRate: 'this.level < 40 ? (440 - this.level * 7) : 150',
     blackOutInterval: 15,
 };
 
@@ -158,8 +158,8 @@ export const mode3_description = `
 <span style="color: red;"><b>단, 호박을 터트려서는 안됩니다!</b></span><br>
 호박을 터트릴 경우, 게임이 종료됩니다.<br>
 상단에 남은 좀비 수, 제한시간, 라이프 등 정보가 표기됩니다.<br><br>
-단, 타겟의 스코프가 제한되어 난이도가 높을 수 있습니다.<br>
-단계가 높아질수록 스코프의 크기가 작아져 당신을 힘들게 할 것입니다.<br>
+이 모드에서는 타겟의 스코프가 제한되어 난이도가 높을 수 있습니다.<br>
+시간이 지날수록 스코프의 크기가 작아져 당신을 힘들게 할 것입니다.<br>
 대신 블랙아웃 타임은 ${mode3_settings.blackOutInterval}초에 한번씩 찾아옵니다.<br><br>
 
 마지막으로, 확률적으로 생성되는 아이템들이 있습니다.<br>

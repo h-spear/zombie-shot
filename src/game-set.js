@@ -14,6 +14,11 @@ const backImgPath = [
     'imgs/background4.jpg',
     'imgs/background5.jpg',
     'imgs/background6.jpg',
+    'imgs/background7.jpg',
+    'imgs/background8.jpg',
+    'imgs/background9.jpg',
+    'imgs/background10.jpg',
+    'imgs/background11.jpg',
 ];
 
 export const Reason = Object.freeze({
@@ -311,7 +316,7 @@ class Game {
     }
 
     changeStartBackground() {
-        this.gameFieldClass.style.background = `url("imgs/background-start.jpg") center/cover`;
+        this.gameFieldClass.style.background = `url("imgs/background-description.jpg") center/cover`;
     }
 }
 
