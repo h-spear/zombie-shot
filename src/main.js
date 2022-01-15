@@ -1,8 +1,8 @@
 'use strict';
 
-import { GameModes } from './game-modes.js';
+import { GameBody } from './game-body.js';
 
-const Game = new GameModes();
+const Game = new GameBody();
 const gameContainer = document.querySelector('.game__container');
 const mainBtn = document.querySelector('.game__large-btn');
 const welcomePage = document.querySelector('.game__welcome-page');

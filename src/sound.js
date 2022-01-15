@@ -1,4 +1,4 @@
-import { volumeSoundA } from './game-modes.js';
+import { volumeSoundA } from './game-body.js';
 
 const alertSound = new Audio('./sound/alert.mp3');
 const bgSound = [

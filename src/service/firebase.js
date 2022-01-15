@@ -1,6 +1,7 @@
 import { db } from './init-firebase.js';
 
 const emojis = ['🤴🏻', '🤩', '🤗', '😎', '😆', '😀', '😀', '🙂', '🙂', '🙂'];
+
 export class DatabaseService {
     constructor() {
         this.rankingModeTitle = document.querySelector('.mode-title');
@@ -56,4 +57,22 @@ export class DatabaseService {
                 this.generateRankingContents(data);
             });
     }
+
+    saveRankingData(mode, name, comment, score) {
+        db.collection(`mode${mode}`).add({
+            no: Date.now(),
+            name,
+            comment,
+            score,
+            date: getToday(),
+        });
+    }
+}
+
+function getToday() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    return year + '-' + month + '-' + day;
 }

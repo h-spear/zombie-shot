@@ -1,21 +1,23 @@
 import PopUp from './popup.js';
 import { GameBuilder, Reason } from './game-set.js';
 import * as sound from './sound.js';
-import * as whats from './settings.js';
+import * as settings from './settings.js';
 import { DatabaseService } from './service/firebase.js';
 
 const soundA = new Audio('./sound/bg-start.mp3');
+const pattern_gap = /\s/g;
 
 export function volumeSoundA(vol) {
     soundA.volume = vol;
 }
 
-export class GameModes {
+export class GameBody {
     constructor() {
         this.DB = new DatabaseService();
         this.gameModeBtn = document.querySelectorAll('.game__mode-btn');
         this.gameFinishBanner = new PopUp();
         this.game;
+        this.gameMode;
 
         this.gameTitle = document.querySelector('.game__title');
         this.gameDescription = document.querySelector('.game__description');
@@ -30,8 +32,8 @@ export class GameModes {
         this.gameModeBtnBox.addEventListener('click', (e) => {
             const target = e.target;
             if (target.nodeName === 'BUTTON') {
-                const mode = parseInt(target.dataset.mode);
-                this.gameStart(mode);
+                this.gameMode = parseInt(target.dataset.mode);
+                this.gameStart(this.gameMode);
                 sound.playGunShot2();
             }
         });
@@ -49,6 +51,28 @@ export class GameModes {
             this.game.clear();
             this.playBg();
             this.showModePage();
+        });
+
+        this.gameFinishBanner.setWriteClickListener(() => {
+            this.gameFinishBanner.toggleWriteForm();
+        });
+
+        this.gameFinishBanner.setSubmitListener(() => {
+            const { name, comment } = this.gameFinishBanner.getFormData();
+            if (
+                name.replace(pattern_gap, '') === '' ||
+                comment.replace(pattern_gap, '') === ''
+            ) {
+                alert('Blanks exist!');
+                return;
+            }
+
+            const score =
+                this.gameMode === 4 ? this.game.score : this.game.currentLevel;
+            this.DB.saveRankingData(this.gameMode, name, comment, score);
+            alert('Success!');
+            this.gameFinishBanner.hideWriteForm();
+            this.gameFinishBanner.hideWriteButton();
         });
     }
 
@@ -99,8 +123,8 @@ export class GameModes {
         const description = document.createElement('span');
         description.setAttribute('class', 'game__description');
         miniContainer.appendChild(description);
-        title.innerText = whats.mode_title;
-        description.innerHTML = eval(`whats.mode${mode}_description`);
+        title.innerText = settings.mode_title;
+        description.innerHTML = eval(`settings.mode${mode}_description`);
 
         const prevBtn = document.querySelector('.game__prev-btn');
         prevBtn.addEventListener('click', () => {
@@ -115,27 +139,33 @@ export class GameModes {
             this.stopBg();
             sound.playZombie3();
             this.game = new GameBuilder()
-                .gameDuration(eval(`whats.mode${mode}_settings.gameDuration`))
-                .difficulty(
-                    mode === 4 ? whats.difficultyInfiniteMode : whats.difficulty
+                .gameDuration(
+                    eval(`settings.mode${mode}_settings.gameDuration`)
                 )
-                .lifeCount(eval(`whats.mode${mode}_settings.lifeCount`))
+                .difficulty(
+                    mode === 4
+                        ? settings.difficultyInfiniteMode
+                        : settings.difficulty
+                )
+                .lifeCount(eval(`settings.mode${mode}_settings.lifeCount`))
                 .mode(mode)
                 .build();
             if (mode === 3)
                 this.game.setScopeRate(
-                    eval(`whats.mode${mode}_settings.scopeRate`)
+                    eval(`settings.mode${mode}_settings.scopeRate`)
                 );
 
-            this.lvBoundary = eval(`whats.mode${mode}_settings.levelBoundary`);
+            this.lvBoundary = eval(
+                `settings.mode${mode}_settings.levelBoundary`
+            );
             this.game.setItem1Probability(
-                eval(`whats.mode${mode}_settings.Item1Probability`)
+                eval(`settings.mode${mode}_settings.Item1Probability`)
             );
             this.game.setItem2Probability(
-                eval(`whats.mode${mode}_settings.Item2Probability`)
+                eval(`settings.mode${mode}_settings.Item2Probability`)
             );
             this.game.setBlackOutInterval(
-                eval(`whats.mode${mode}_settings.blackOutInterval`)
+                eval(`settings.mode${mode}_settings.blackOutInterval`)
             );
             if (mode === 4)
                 this.game.setGameStopListener((reason) =>
@@ -159,8 +189,8 @@ export class GameModes {
 
     onGameStopInfiniteMode(reason, lvBoundary) {
         let message =
-            `<span style="font-size: 18px;">Zombie ${this.game.score} shoted!</span>` +
-            whats.loseMsg(this.game.score, lvBoundary);
+            `<span style="font-size: 20px;">Zombie ${this.game.score} shoted!</span>` +
+            settings.loseMsg(this.game.score, lvBoundary);
         switch (reason) {
             case Reason.cancel:
                 sound.playAlert();
@@ -172,6 +202,7 @@ export class GameModes {
                 throw new Error('not valid reason');
         }
         this.game.refreshGame();
+        this.gameFinishBanner.hideWriteForm();
         this.gameFinishBanner.showHomeButton();
         this.gameFinishBanner.changeRedoButton();
         this.gameFinishBanner.showWithText(message);
@@ -182,10 +213,12 @@ export class GameModes {
         switch (reason) {
             case Reason.cancel:
                 message =
-                    `<span style="font-size: 18px;">Stage ${this.game.level}</span>` +
-                    whats.loseMsg(this.game.level, lvBoundary);
+                    `<span style="font-size: 22px;">Stage ${this.game.level}</span>` +
+                    settings.loseMsg(this.game.level, lvBoundary);
                 sound.playAlert();
                 this.game.refreshGame();
+                this.gameFinishBanner.hideWriteForm();
+                this.gameFinishBanner.showWriteButton();
                 this.gameFinishBanner.showHomeButton();
                 this.gameFinishBanner.changeRedoButton();
                 break;
@@ -194,15 +227,19 @@ export class GameModes {
                 sound.playWin();
                 this.game.level++;
                 this.game.setLevel(this.game.level);
+                this.gameFinishBanner.hideWriteForm();
+                this.gameFinishBanner.hideWriteButton();
                 this.gameFinishBanner.hideHomeButton();
                 this.gameFinishBanner.changeNextButton();
                 break;
             case Reason.lose:
                 message =
                     `<span style="font-size: 18px;">Stage ${this.game.level}</span>` +
-                    whats.loseMsg(this.game.level, lvBoundary);
+                    settings.loseMsg(this.game.level, lvBoundary);
                 sound.playPumpkin();
                 this.game.refreshGame();
+                this.gameFinishBanner.hideWriteForm();
+                this.gameFinishBanner.showWriteButton();
                 this.gameFinishBanner.showHomeButton();
                 this.gameFinishBanner.changeRedoButton();
                 break;

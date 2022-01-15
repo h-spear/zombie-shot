@@ -14,7 +14,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Dokdo&family=Permanent+Marker&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Dokdo&family=Gowun+Dodum&family=Jua&family=Permanent+Marker&display=swap"
             rel="stylesheet"
         />
         <!-- firebase -->
@@ -159,9 +159,47 @@
                 <button class="pop-up__redo-btn">
                     <i class="fas fa-redo pop-up__icon"></i>
                 </button>
+                <button class="pop-up__write-btn">
+                    <i class="fas fa-pen-nib"></i>
+                </button>
             </div>
             <div class="pop-up__msg-box">
                 <span class="pop-up__message">msg</span>
+            </div>
+            <div class="pop-up__write invisible">
+                만약 순위가 10위권 안에 들었다면<br />
+                작성한 코멘트가 랭킹에 표시됩니다!
+                <form class="pop-up__write-form">
+                    <div class="pop-up__write-comment">
+                        <p>COMMENT</p>
+                        <textarea
+                            class="form-comment"
+                            id="comment"
+                            name="comment"
+                            cols="50"
+                            rows="4"
+                            maxlength="100"
+                            required
+                            placeholder="코멘트를 입력하세요."
+                        ></textarea>
+                    </div>
+                    <div class="pop-up__write-name">
+                        <span>NAME</span>
+                        <input
+                            class="form-name"
+                            type="text"
+                            id="name"
+                            name="name"
+                            required
+                            minlength="1"
+                            maxlength="10"
+                            placeholder="닉네임을 입력하세요"
+                        />
+                        <button class="pop-up__write-submit" type="submit">
+                            Submit
+                        </button>
+                    </div>
+                </form>
             </div>
         </section>
 

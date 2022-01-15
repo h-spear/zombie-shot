@@ -80,6 +80,7 @@ class Game {
         this.lifeCount = lifeCount;
         this.orgLifeCount = lifeCount;
         this.level = 1;
+        this.currentLevel = 0;
         this.mode = 0;
 
         // difficulty
@@ -130,6 +131,9 @@ class Game {
     }
 
     refreshGame() {
+        if (this.mode !== 4) {
+            this.currentLevel = this.level;
+        }
         this.level = 1;
         this.setLevel(this.level);
         this.refreshLifeCount();
@@ -141,17 +145,17 @@ class Game {
     }
 
     setLevel(level) {
-        let currentLevel = level;
+        let tmpLevel = level;
         if (level > this.difficulty[0]) {
-            currentLevel = this.difficulty[0];
+            tmpLevel = this.difficulty[0];
             this.zombieCount = level - Math.floor(Math.random() * 4);
             this.pumpkinCount = level - 5 - Math.floor(Math.random() * 4);
         } else {
-            this.zombieCount = this.difficulty[currentLevel][0];
-            this.pumpkinCount = this.difficulty[currentLevel][3];
+            this.zombieCount = this.difficulty[tmpLevel][0];
+            this.pumpkinCount = this.difficulty[tmpLevel][3];
         }
-        this.minWidth = this.difficulty[currentLevel][1];
-        this.maxWidth = this.difficulty[currentLevel][2];
+        this.minWidth = this.difficulty[tmpLevel][1];
+        this.maxWidth = this.difficulty[tmpLevel][2];
         this.gameField = new Field(
             this.zombieCount,
             this.minWidth,
@@ -366,17 +370,17 @@ class GameDarkSniperMode extends Game {
     }
 
     setLevel(level) {
-        let currentLevel = level;
+        let tmpLevel = level;
         if (level > this.difficulty[0]) {
-            currentLevel = this.difficulty[0];
+            tmpLevel = this.difficulty[0];
             this.zombieCount = level - Math.floor(Math.random() * 4);
             this.pumpkinCount = level - 5 - Math.floor(Math.random() * 4);
         } else {
-            this.zombieCount = this.difficulty[currentLevel][0];
-            this.pumpkinCount = this.difficulty[currentLevel][3];
+            this.zombieCount = this.difficulty[tmpLevel][0];
+            this.pumpkinCount = this.difficulty[tmpLevel][3];
         }
-        this.minWidth = this.difficulty[currentLevel][1];
-        this.maxWidth = this.difficulty[currentLevel][2];
+        this.minWidth = this.difficulty[tmpLevel][1];
+        this.maxWidth = this.difficulty[tmpLevel][2];
         this.gameField = new FieldSniperMode(
             this.zombieCount,
             this.minWidth,
