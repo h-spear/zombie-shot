@@ -1,6 +1,6 @@
 import { db } from './init-firebase.js';
 
-const emojis = ['🤴🏻', '🤩', '🤗', '😎', '😆', '😀', '😀', '🙂', '🙂', '🙂'];
+const emojis = ['🤴🏻', '🤩', '😍', '🤗', '😎', '😆', '😀', '😏', '😳', '🙂'];
 
 export class DatabaseService {
     constructor() {

@@ -785,10 +785,10 @@ body *:active {
 }
 
 .mobile__notice__description > span > img {
-    width: 200px;
+    width: 150px;
     position: absolute;
-    top: -50px;
-    left: -60px;
+    top: 10px;
+    left: -50px;
 }
 
 @media screen and (max-width: 768px) {
