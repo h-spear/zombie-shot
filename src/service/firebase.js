@@ -75,7 +75,11 @@ export class DatabaseService {
                     data.push(doc.data());
                 });
                 data.sort(function (a, b) {
-                    return b.score - a.score;
+                    if (a.score > b.score) return -1;
+                    else if (a.score < b.score) return 1;
+                    else if (a.date > b.date) return 1;
+                    else if (a.date < b.date) return -1;
+                    return 0;
                 });
                 this.generateRankingContents(data);
             });

@@ -52,7 +52,8 @@
                 <!-- Game info always displayed -->
                 <header class="game__header">
                     <div class="game__level-box">
-                        Stage : <span class="game__level">1</span>
+                        <span class="game__level-title small">ZOMBIE-SHOT</span
+                        ><span class="game__level"></span>
                     </div>
                     <form class="game__volume-box">
                         <button class="game__volume__mute">
@@ -68,7 +69,7 @@
                         />
                         <span class="game__volume">50</span>
                     </form>
-                    <div class="game__info-box">
+                    <div class="game__info-box hidden">
                         <button class="game__pause">
                             <i class="fas fa-stop"></i>
                         </button>
@@ -79,11 +80,20 @@
                                 class="zombie-logo"
                                 alt=""
                             />:
-                            <b><span class="game__score">?</span></b>
+                            <b><span class="game__score"></span></b>
                         </div>
                         <span class="game__life"></span>
                     </div>
-                    <!-- <div class="ranking">rank</div> -->
+                    <div class="game__header-msg">
+                        <marquee hspace="0" vspace="0" scrollamount="10"
+                            ><i
+                                style="font-size: 28px"
+                                class="fas fa-bullhorn"
+                            ></i
+                            >　게임에 사용된 음악, 이미지는 모두 저작권이 없는
+                            무료 음악, 이미지를 사용하였습니다.
+                        </marquee>
+                    </div>
                 </header>
 
                 <!-- 1. Welcome Page -->
@@ -96,7 +106,7 @@
                             게임에 사용된 음악, 이미지는 모두<br />
                             저작권이 없는 무료 음악, 이미지를 사용하였습니다.
                         </span>
-                        <button class="game__large-btn">START<br />GAME</button>
+                        <button class="game__large-btn">ENTER<br />GAME</button>
                     </div>
                 </section>
 
@@ -107,7 +117,6 @@
                         <span class="game__description">
                             게임모드를 선택하세요.<br />
                         </span>
-                        <button class="game__notice-btn">update log</button>
                         <div class="game__mode-btn-box">
                             <button class="game__mode-btn mode1" data-mode="1">
                                 Strict<br />Time<br />Mode
@@ -115,14 +124,35 @@
                             <button class="game__mode-btn mode2" data-mode="2">
                                 Sequential<br />Time<br />Mode
                             </button>
+                            <br />
                             <button class="game__mode-btn mode3" data-mode="3">
                                 Dark<br />Sniper<br />Mode
                             </button>
                             <button class="game__mode-btn mode4" data-mode="4">
                                 Infinite<br />Zombie<br />Mode
                             </button>
+                            <!-- <button class="game__mode-btn mode5" data-mode="5">
+                                Coming<br />Soon<br />　
+                            </button>
+                            <button class="game__mode-btn mode6" data-mode="6">
+                                Coming<br />Soon<br />　
+                            </button> -->
                         </div>
                     </div>
+                    <div class="game__btn-container">
+                        <button class="game__notice-btn" data-content="2">
+                            Zombies
+                        </button>
+                        <button class="game__notice-btn" data-content="1">
+                            How to play
+                        </button>
+                        <button class="game__notice-btn" data-content="3">
+                            Ranking
+                        </button>
+                    </div>
+                    <button class="game__update-log-btn" data-content="0">
+                        update log
+                    </button>
                 </section>
 
                 <!-- 3. Ranking Page -->
@@ -155,18 +185,18 @@
                 <section class="game__notice-page invisible">
                     <div class="game__mini-container">
                         <h1 class="game__title">ZOMBIE SHOT</h1>
-                        <h2 class="notice-title">Update log</h2>
                         <div class="notice-content">
+                            <h2 class="notice-title">Update log</h2>
                             <h3 class="notice-large">21.07.08</h3>
                             <span class="notice-small">
                                 좀비 잡기 게임 생성<br />
                                 볼륨 조절 기능 추가
                             </span>
-                            <h3 class="notice-large">22.07.09</h3>
+                            <h3 class="notice-large">21.07.09</h3>
                             <span class="notice-small">
                                 4가지 게임 모드 추가<br />
                             </span>
-                            <h3 class="notice-large">21.01.14</h3>
+                            <h3 class="notice-large">22.01.14</h3>
                             <span class="notice-small">
                                 난이도 상승, 게임 폰트, 아이템 오류 수정<br />
                             </span>
@@ -174,7 +204,79 @@
                             <span class="notice-small">
                                 Firebase DB 연동<br />
                                 랭킹, comment 기능 추가<br />
-                                좀비, 배경 이미지 추가<br />
+                            </span>
+                            <h3 class="notice-large">22.01.17</h3>
+                            <span class="notice-small"> 인터페이스 수정 </span>
+                        </div>
+                        <div class="notice-content">
+                            <h2 class="notice-title">How to play</h2>
+                            <span class="game__description">
+                                게임방법은 간단합니다.<br />
+                                화면에 나타난 좀비들을 클릭하여 처치하면 됩니다!
+                                <br /><br />
+                                <span style="color: red">
+                                    <b> 단, 호박을 터트려서는 안됩니다! </b>
+                                </span>
+                                <br />
+                                호박을 터트릴 경우, 게임이 종료됩니다.<br />
+                                상단에 잡은 좀비 수, 제한시간, 라이프 등 정보가
+                                표기됩니다.<br /><br />
+                                또한, 일정시간마다
+                                <span style="font-size: 24px; color: red">
+                                    블랙아웃 타임</span
+                                >이 찾아옵니다.<br />
+                                블랙아웃이 찾아오면 1초동안 검은 화면으로
+                                뒤덮이고,<br />
+                                블랙아웃 후에는 좀비와 호박의 위치가 변경되어
+                                있을 것입니다!<br /><br />
+                                게임에는 네 가지 모드가 존재하고<br />각
+                                모드마다 일부 다른 규칙이 적용되고 있으니<br />
+                                모드별로 공략을 잘 세워 게임을 플레이하는 것이
+                                중요합니다. <br /><br />마지막으로, 확률적으로
+                                생성되는 아이템들이 있습니다.<br />
+
+                                <p style="font-size: 24px; margin-top: 14px">
+                                    💖　🕐　🔩　👁‍🗨　💣　☀️
+                                </p>
+                            </span>
+                        </div>
+                        <div class="notice-content">
+                            <h2 class="notice-title">zombies</h2>
+                            <span class="game__description"> </span>
+                            <div class="img-box">
+                                <img src="imgs/zombies/zombie1.png" alt="" />
+                                <img src="imgs/zombies/zombie2.png" alt="" />
+                                <img src="imgs/zombies/zombie4.png" alt="" />
+                                <img src="imgs/zombies/zombie5.png" alt="" />
+                                <br />
+                                <img src="imgs/zombies/zombie7.png" alt="" />
+                                <img src="imgs/zombies/zombie8.png" alt="" />
+                                <img src="imgs/zombies/zombie9.png" alt="" />
+                                <img src="imgs/zombies/zombie11.png" alt="" />
+                            </div>
+                        </div>
+                        <div class="notice-content">
+                            <h2 class="notice-title">RANKING</h2>
+                            <span class="game__description">
+                                랭킹에서 다른 사람의 플레이 기록을 볼 수
+                                있습니다.<br />
+                                랭킹은 모드별로 찾아볼 수 있습니다.<br />
+                                자신의 순위를 확인하세요!
+                                <br /><br />
+                                <div class="game__ranking-mode-box">
+                                    <button data-mode="1">
+                                        STRICT TIME MODE
+                                    </button>
+                                    <button data-mode="2">
+                                        SEQUENTIAL TIME MODE
+                                    </button>
+                                    <button data-mode="3">
+                                        DARK SNIPER MODE
+                                    </button>
+                                    <button data-mode="4">
+                                        INFINITE ZOMBIE MODE
+                                    </button>
+                                </div>
                             </span>
                         </div>
                         <button class="game__notice-prev-btn">

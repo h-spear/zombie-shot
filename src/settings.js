@@ -108,98 +108,153 @@ function loseText(text, font_size = 32) {
     return `<br><span style="font-size: ${font_size}px;">${text}</span>`;
 }
 
-export const base_description = `
-게임방법은 간단합니다.<br>
-화면에 나타난 좀비들을 처치하면 됩니다!<br><br>
-<span style="color: red;"><b>단, 호박을 터트려서는 안됩니다!</b></span><br>
-호박을 터트릴 경우, 라이프가 <b>1</b>씩 감소합니다.<br>
-상단에 남은 좀비 수, 제한시간, 라이프 등 정보가 표기됩니다.<br><br>
-또한, 5초에 한번씩 <span style="font-size: 24px; color: red;">
-블랙아웃 타임</span>이 찾아옵니다.<br>
-블랙아웃이 찾아오면 1초동안 검은 화면으로 뒤덮이고,<br>
-블랙아웃 후에는 좀비와 호박의 위치가 변경되어 있을 것입니다!<br><br>
-마지막으로, 확률적으로 생성되는 아이템들이 있습니다.<br>
-<span style="font-size: 28px">💖</span>
-라이프 1 회복
-<span style="font-size: 28px">🕐</span>
-시간 ${item_settings.plus_time}초 증가<br><br>`;
+export const base_description = ``;
 
-export const mode1_description =
-    base_description +
-    `
-<div class="important">
-<span class="description-mode-title"><b>Strict Time Mode</b></span>는<br>
-모든 스테이지의 제한시간은 <b>${mode1_settings.gameDuration}초</b>로 같습니다.<br>
-스테이지가 넘어가도 라이프는 누적되며, 제한시간은 초기화됩니다.<br>
-스테이지가 높아질 수록 많은 수의 좀비를 빠르게 처치해야할 것입니다!<br>
-<button class="game__prev-btn"><i class="fas fa-angle-double-left"></i></button>
+export const mode1_description = `
+<span class="description-mode-title"><b>Strict Time Mode</b></span>에서<br>
+모든 스테이지의 제한시간이 같습니다.<br>
+스테이지가 넘어가도 라이프는 누적됩니다.<br>
+스테이지가 높아질 수록 많은 수의 좀비를 빠르게 처치해야할 것입니다!<br><br>
+
+<div class="description-box">
+    <div class="description-minibox">
+        <h3 style="font-size:30px">제한시간</h3><p style="">30초</p>
+        <span>매 라운드 초기화</span>
+    </div>
+    <div class="description-minibox">
+        <h3>기본 라이프</h3><p style="font-size:28px;">💖💖💖</p>
+        <span>아이템 획득 시 누적</span>
+    </div>
+    <div class="description-minibox">
+        <h3>블랙아웃</h3><p style="font-size:24px;">${mode1_settings.blackOutInterval}초에 한번</p>
+        <span>1초간 검은 화면</span>
+    </div>
+</div>
+<div class="description-item">
+    <p>드랍되는 아이템</p>
+    <div>
+        <div><span style="font-size: 28px; margin-right:10px">💖</span>라이프<br></div>
+        <span>라이프 1 증가</span>
+    </div>
+    <div>
+        <div><span style="font-size: 28px; margin-right:10px">🕐</span>시계<br></div>
+        <span>제한시간 ${item_settings.plus_time}초 증가</span>
+    </div>
+</div>
 <button class="game__start start-mode1">게임시작</button>
-<button class="game__ranking-btn">Ranking</button>
+<button style="margin-top: 15px;" class='game__how-to-play-btn'>게임방법</button>
+<button class="game__prev-btn"><i class="fas fa-angle-double-left"></i></button>
 </div>
 `;
 
-export const mode2_description =
-    base_description +
-    `
-<div class="important">
+export const mode2_description = `
 <span class="description-mode-title"><b>Sequential Time Mode</b></span>는<br>
 스테이지가 넘어가도 라이프와 제한시간이 누적되어 진행됩니다.<br>
-기본 라이프는 <b>${mode2_settings.lifeCount}</b>, 초기 제한시간은 <b>${mode2_settings.gameDuration}초</b>입니다.<br>
-<b>시간 증가 아이템</b>의 확보가 중요할 것입니다!<br>
-<button class="game__prev-btn"><i class="fas fa-angle-double-left"></i></button>
+기본 라이프는 <b>${mode2_settings.lifeCount}</b>, 초기 제공시간은 <b>${mode2_settings.gameDuration}초</b>입니다.<br>
+<b>시간 증가 아이템</b>의 확보가 중요할 것입니다!<br><br>
+<div class="description-box">
+    <div class="description-minibox">
+        <h3 style="font-size:24px; letter-spacing:-2px;">초기 제공시간</h3><p style="">${mode2_settings.gameDuration}</p>
+        <span>아이템 획득 시 누적</span>
+    </div>
+    <div class="description-minibox">
+        <h3>기본 라이프</h3><p style="font-size:28px;">💖</p>
+        <span>아이템 획득 시 누적</span>
+    </div>
+    <div class="description-minibox">
+        <h3>블랙아웃</h3><p style="font-size:24px;">${mode2_settings.blackOutInterval}초에 한번</p>
+        <span>1초간 검은 화면</span>
+    </div>
+</div>
+<div class="description-item">
+    <p>드랍되는 아이템</p>
+    <div>
+        <div><span style="font-size: 28px; margin-right:10px">💖</span>라이프<br></div>
+        <span>라이프 1 증가</span>
+    </div>
+    <div>
+        <div><span style="font-size: 28px; margin-right:10px">🕐</span>시계<br></div>
+        <span>제한시간 ${item_settings.plus_time}초 증가</span>
+    </div>
+</div>
 <button class="game__start start-mode2">게임시작</button>
-<button class="game__ranking-btn">Ranking</button>
+<button style="margin-top: 15px;" class='game__how-to-play-btn'>게임방법</button>
+<button class="game__prev-btn"><i class="fas fa-angle-double-left"></i></button>
 </div>
 `;
 
 export const mode3_description = `
-게임방법은 간단합니다.<br>
-화면에 나타난 좀비들을 처치하면 됩니다!<br><br>
-<span style="color: red;"><b>단, 호박을 터트려서는 안됩니다!</b></span><br>
-호박을 터트릴 경우, 게임이 종료됩니다.<br>
-상단에 남은 좀비 수, 제한시간, 라이프 등 정보가 표기됩니다.<br><br>
-이 모드에서는 타겟의 스코프가 제한되어 난이도가 높을 수 있습니다.<br>
-시간이 지날수록 스코프의 크기가 작아져 당신을 힘들게 할 것입니다.<br>
-대신 블랙아웃 타임은 ${mode3_settings.blackOutInterval}초에 한번씩 찾아옵니다.<br><br>
-
-마지막으로, 확률적으로 생성되는 아이템들이 있습니다.<br>
-<span style="font-size: 28px">🔩</span>
-스코프 축소 ${item_settings.nasa_duration}초간 방지(중첩X)
-<span style="font-size: 28px">👁‍🗨</span>
-스코프 범위 ${item_settings.scope_range} 증가<br><br>
-<div class="important">
 <span class="description-mode-title"><b>Dark Sniper Mode</b></span>는<br>
-제한시간 <b>${mode3_settings.gameDuration}초</b>로, Strict Time Mode로 진행됩니다.<br>
-기본 라이프는 <b>${mode3_settings.lifeCount}</b>이며 <span style="color: red;"><b>라이프, 시간 증가 아이템은 드랍되지 않습니다.<br></b></span>
-시야가 좁으므로, 신중하게 저격해야할 것입니다.<br>
+기본적으로 STRICT TIME MODE 방식으로 진행되지만,<br>
+타겟의 스코프가 제한되어 난이도가 높을 수 있습니다.<br>
+시간이 지날수록 스코프의 크기가 작아져 당신을 힘들게 할 것입니다.<br>
+대신 기본 제공 라이프, 시간, 블랙아웃 타임 주기가 더 널널할 것입니다.<br>
+<div class="description-box" style="margin-top:10px">
+    <div class="description-minibox">
+        <h3 style="font-size:30px">제한시간</h3><p style="">${mode3_settings.gameDuration}</p>
+        <span style="letter-spacing:-1px;">아이템이 드랍되지 않음</span>
+    </div>
+    <div class="description-minibox">
+        <h3>기본 라이프</h3><p style="font-size:28px;">💖 X ${mode3_settings.lifeCount}</p>
+        <span style="letter-spacing:-1px;">아이템이 드랍되지 않음</span>
+    </div>
+    <div class="description-minibox">
+        <h3>블랙아웃</h3><p style="font-size:24px;">${mode3_settings.blackOutInterval}초에 한번</p>
+        <span>1초간 검은 화면</span>
+    </div>
+</div>
+<div class="description-item" style="margin-top:55px">
+    <p>드랍되는 아이템</p>
+    <div>
+        <div><span style="font-size: 28px; margin-right:10px">🔩</span>나사<br></div>
+        <span style="font-size: 14px">스코프 축소 ${item_settings.nasa_duration}초간 방지(중첩X)</span>
+    </div>
+    <div>
+        <div><span style="font-size: 28px; margin-right:10px">👁‍🗨</span>눈<br></div>
+        <span>스코프 범위 ${item_settings.scope_range} 증가</span>
+    </div>
+</div>
+<button style="margin-top: 15px;"class="game__start start-mode3">게임시작</button>
+<button style="margin-top: 15px;" class='game__how-to-play-btn'>게임방법</button>
 <button class="game__prev-btn"><i class="fas fa-angle-double-left"></i></button>
-<button class="game__start start-mode3">게임시작</button>
-<button class="game__ranking-btn">Ranking</button>
 </div>
 `;
 
 export const mode4_description = `
-게임방법은 간단합니다.<br>
-화면에 무한히 나타나는 좀비들을 처치하면 됩니다!<br><br>
-<span style="color: red;"><b>단, 호박을 터트려서는 안됩니다!</b></span><br>
-호박을 터트릴 경우, 게임이 종료됩니다.<br>
-상단에 잡은 좀비 수, 제한시간, 라이프 등 정보가 표기됩니다.<br><br>
-좀비들은 일정 시간이 지나면 사라집니다.<br>
-시간이 지날수록 작은 좀비가 빠르게 나왔다 사라질 것입니다.<br>
-블랙아웃 타임은 ${mode4_settings.blackOutInterval}초에 한번씩 찾아옵니다.<br><br>
-
-마지막으로, 확률적으로 생성되는 아이템들이 있습니다.<br>
-<span style="font-size: 28px">💣</span>
-필드 클리어
-<span style="font-size: 28px">☀️</span>
-${item_settings.sun_duration}초간 블랙아웃 정지(중첩X)<br><br>
-<div class="important">
 <span class="description-mode-title"><b>Infinite Zombie Mode</b></span>는<br>
-<b>${mode4_settings.gameDuration}초</b>동안 많은 좀비를 잡는 모드입니다.<br>
-좀비, 호박, 아이템은 모두 랜덤한 시간 후 사라지므로,<br></b></span>
+화면에 무한히 나타나는 좀비들을 처치하면 됩니다!<br>
+<b>${mode4_settings.gameDuration}초</b>동안 나타나는 좀비를 많이 잡는 모드입니다.<br>
+좀비, 호박, 아이템은 모두 랜덤하게 나타나고 사라지므로,<br></b></span>
 필요한 아이템은 즉시 잡아야 할 것입니다!<br>
-<button class="game__prev-btn"><i class="fas fa-angle-double-left"></i></button>
-<button class="game__start start-mode4">게임시작</button>
-<button class="game__ranking-btn">Ranking</button>
+<div class="description-box" style="margin-top:10px">
+    <div class="description-minibox">
+        <h3 style="font-size:30px">제한시간</h3><p style="">${mode4_settings.gameDuration}</p>
+        <span style="letter-spacing:-1px;">아이템이 드랍되지 않음</span>
+    </div>
+    <div class="description-minibox">
+        <h3>기본 라이프</h3><p style="font-size:28px;">💖 X ${mode4_settings.lifeCount}</p>
+        <span style="letter-spacing:-1px;">아이템이 드랍되지 않음</span>
+    </div>
+    <div class="description-minibox">
+        <h3>블랙아웃</h3><p style="font-size:24px;">${mode4_settings.blackOutInterval}초에 한번</p>
+        <span>1초간 검은 화면</span>
+    </div>
 </div>
+<div class="description-item" style="margin-top:55px">
+    <p>드랍되는 아이템</p>
+    <div>
+        <div><span style="font-size: 28px; margin-right:10px">💣</span>폭탄<br></div>
+        <span>필드 클리어</span>
+    </div>
+    <div>
+        <div><span style="font-size: 28px; margin-right:10px">☀️</span>태양<br></div>
+        <span style="font-size: 14px">${item_settings.sun_duration}초간 블랙아웃 정지(중첩X)<br></span>
+    </div>
+</div>
+<button style="margin-top: 15px;" class="game__start start-mode4">게임시작</button>
+<button style="margin-top: 15px;" class='game__how-to-play-btn'>게임방법</button>
+<button class="game__prev-btn"><i class="fas fa-angle-double-left"></i></button>
+</div>
+
+
 `;

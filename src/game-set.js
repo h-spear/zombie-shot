@@ -102,13 +102,20 @@ class Game {
         this.gameTimer = document.querySelector('.game__timer');
         this.gameScore = document.querySelector('.game__score');
         this.gameLevel = document.querySelector('.game__level');
+        this.gameLevelTitle = document.querySelector('.game__level-title');
         this.gameLife = document.querySelector('.game__life');
         this.gameBtn = document.querySelector('.game__pause');
+        this.gameInfoBox = document.querySelector('.game__info-box');
+        this.gameHeaderMsg = document.querySelector('.game__header-msg');
         this.remainingTimeSec = gameDuration;
         this.gameBtn.addEventListener('click', () => {
             if (this.started) this.stop(Reason.cancel);
         });
 
+        this.gameLevelTitle.innerText = 'Stage : ';
+        this.gameLevelTitle.classList.remove('small');
+        this.setLevel(this.level);
+        this.showInfoBox();
         this.gameFieldClass.addEventListener('click', () => {
             if (this.started) {
                 this.gunCount++;
@@ -125,6 +132,16 @@ class Game {
         this.started = false;
         this.score = 0;
         this.timer = undefined;
+    }
+
+    hideInfoBox() {
+        this.gameInfoBox.classList.add('hidden');
+        this.gameHeaderMsg.classList.remove('hidden');
+    }
+
+    showInfoBox() {
+        this.gameInfoBox.classList.remove('hidden');
+        this.gameHeaderMsg.classList.add('hidden');
     }
 
     refreshTimer() {
@@ -203,10 +220,13 @@ class Game {
 
     clear() {
         this.started = false;
-        this.gameScore.innerText = '?';
+        this.gameScore.innerText = '';
         this.gameLife.innerText = '';
         this.gameTimer.innerText = 'TIME';
-        this.gameLevel.innerText = '1';
+        this.gameLevel.innerText = '';
+        this.gameLevelTitle.innerText = 'ZOMBIE-SHOT';
+        this.gameLevelTitle.classList.add('small');
+        this.hideInfoBox();
         this.changeStartBackground();
         this.gameField.fieldClear();
     }
@@ -448,6 +468,8 @@ class GameInfiniteZombieMode extends Game {
         );
         this.gameField.setClickListener(this.onItemClick);
     }
+
+    setLevel(str) {}
 
     setItem1Probability(str) {
         this.bombItemProb = str;

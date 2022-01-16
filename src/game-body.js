@@ -18,15 +18,23 @@ export class GameBody {
         this.game;
         this.gameMode;
 
+        this.currentPage;
         this.gameTitle = document.querySelector('.game__title');
         this.gameDescription = document.querySelector('.game__description');
         this.gameModeBtn = document.querySelectorAll('.game__mode-btn');
         this.gameModeBtnBox = document.querySelector('.game__mode-btn-box');
         this.gameModePage = document.querySelector('.game__mode-page');
         this.gameRankingPage = document.querySelector('.game__ranking-page');
-        this.gameNoticeBtn = document.querySelector('.game__notice-btn');
         this.gameNoticePage = document.querySelector('.game__notice-page');
+        //this.gameLogBtn = document.querySelector('.game__log-btn');
+        //this.gameRuleBtn = document.querySelector('.game__rule-btn');
         this.gameField = document.querySelector('.game__field');
+        this.gameNoticeBtnBox = document.querySelector('.game__btn-container');
+        this.gameNoticeContents = document.querySelectorAll('.notice-content');
+        this.gameLogBtn = document.querySelector('.game__update-log-btn');
+        this.gameRankingModeBox = document.querySelector(
+            '.game__ranking-mode-box'
+        );
         this.gameRankingPrevBtn = document.querySelector(
             '.game__ranking-prev-btn'
         );
@@ -35,30 +43,62 @@ export class GameBody {
             '.game__notice-prev-btn'
         );
 
-        this.gameNoticeBtn.addEventListener('click', () => {
+        this.gameMode;
+
+        this.gameNoticeBtnBox.addEventListener('click', (e) => {
+            const selected = e.target.dataset.content;
+
+            if (selected === undefined) {
+                return;
+            }
             this.hideModePage();
-            this.showNoticePage();
-            sound.playGunShot2();
+            this.showNoticePage(selected);
+        });
+
+        this.gameLogBtn.addEventListener('click', (e) => {
+            this.hideModePage();
+            this.showNoticePage(0);
         });
 
         this.gameNoticePrevBtn.addEventListener('click', () => {
+            for (let i = 0; i < 4; i++)
+                this.gameNoticePage.classList.remove(`notice${i}`);
             this.hideNoticePage();
-            this.showModePage();
             sound.playGunShot2();
+            if (this.currentPage !== 'description') {
+                this.showModePage();
+                return;
+            }
         });
 
         this.gameModeBtnBox.addEventListener('click', (e) => {
             const target = e.target;
             if (target.nodeName === 'BUTTON') {
                 this.gameMode = parseInt(target.dataset.mode);
+
+                // 준비중인 모드 접근 불가
+                if (this.gameMode > 4) {
+                    alert('Coming Soon');
+                    return;
+                }
                 this.gameStart(this.gameMode);
                 sound.playGunShot2();
             }
         });
 
+        this.gameRankingModeBox.addEventListener('click', (e) => {
+            const mode = e.target.dataset.mode;
+            if (mode === undefined) return;
+
+            this.DB.loadRankingData(mode);
+            this.showRankingPage(mode);
+            this.gameNoticePage.style.display = 'none';
+            sound.playGunShot2();
+        });
+
         this.gameRankingPrevBtn.addEventListener('click', () => {
             this.hideRankingPage();
-            this.gameField.classList.remove('invisible');
+            this.showNoticePage(3);
             sound.playGunShot2();
         });
 
@@ -116,9 +156,14 @@ export class GameBody {
         this.gameNoticePage.style.display = 'none';
     }
 
-    showNoticePage() {
+    showNoticePage(selected) {
+        this.gameNoticePage.classList.add(`notice${selected}`);
         this.gameField.style.display = 'none';
         this.gameNoticePage.style.display = 'flex';
+        this.gameNoticeContents.forEach((content) => {
+            content.classList.add('invisible');
+        });
+        this.gameNoticeContents[selected].classList.remove('invisible');
     }
 
     hideModePage() {
@@ -127,6 +172,7 @@ export class GameBody {
     }
 
     showModePage() {
+        this.currentPage = 'modesel';
         this.gameField.style.display = 'none';
         this.gameModePage.style.display = 'flex';
     }
@@ -209,11 +255,10 @@ export class GameBody {
             this.game.start();
         });
 
-        // 랭킹 버튼 만들기
-        const rankingBtn = document.querySelector('.game__ranking-btn');
-        rankingBtn.addEventListener('click', () => {
-            this.DB.loadRankingData(mode);
-            this.showRankingPage(mode);
+        const howToPlayBtn = document.querySelector('.game__how-to-play-btn');
+        howToPlayBtn.addEventListener('click', () => {
+            this.currentPage = 'description';
+            this.showNoticePage(1);
             this.gameField.classList.add('invisible');
             sound.playGunShot2();
         });

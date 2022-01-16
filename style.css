@@ -59,6 +59,10 @@ body {
     font-family: var(--font-com1);
 }
 
+body *:active {
+    cursor: url('imgs/target2.png') 30 30, auto;
+}
+
 button {
     border: none;
     outline: none;
@@ -123,31 +127,25 @@ button *:hover {
     visibility: hidden;
 }
 
-.game__notice-btn {
-    background-color: transparent;
-    animation: color-change-red 2s infinite;
-    position: absolute;
-    top: 54px;
-    left: 424px;
-    font-weight: bold;
-    font-size: var(--font-normal);
-    font-family: var(--font-eng1);
-}
-
 .game__mode-btn-box {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .game__mode-btn {
-    width: 200px;
-    height: 200px;
+    width: 170px;
+    height: 170px;
     font-weight: bold;
     font-family: var(--font-eng2);
-    font-size: var(--font-medium);
+    font-size: var(--font-normal);
     color: var(--color-white);
     -webkit-text-stroke: 1px var(--color-black);
     border: 3px solid var(--color-black);
     margin: 5px;
+}
+
+.game__pause:hover,
+.pop-up__btn-box button:hover {
+    transform: scale(1.1);
 }
 
 .game__mode-btn:hover {
@@ -166,14 +164,40 @@ button *:hover {
 .game__mode-btn.mode4 {
     background: url('imgs/background9.jpg') center/cover no-repeat;
 }
-
-.game__pause:hover,
-.pop-up__btn-box button:hover {
-    transform: scale(1.1);
+.game__mode-btn.mode5 {
+    background: url('imgs/background7.jpg') center/cover no-repeat;
+}
+.game__mode-btn.mode6 {
+    background: url('imgs/background10.jpg') center/cover no-repeat;
 }
 
-body *:active {
-    cursor: url('imgs/target2.png') 30 30, auto;
+.game__btn-container {
+    position: absolute;
+    bottom: 35px;
+    display: flex;
+    justify-content: space-around;
+    width: 550px;
+}
+
+.game__notice-btn {
+    background-color: transparent;
+    animation: color-change-red 2s infinite;
+    bottom: 5px;
+    right: 10px;
+    font-weight: bold;
+    font-size: var(--font-medium);
+    font-family: var(--font-eng1);
+}
+
+.game__update-log-btn {
+    position: absolute;
+    background-color: transparent;
+    animation: color-change-red 2s infinite;
+    font-weight: bold;
+    font-size: var(--font-twentyfour);
+    font-family: var(--font-eng1);
+    bottom: 0px;
+    right: 10px;
 }
 
 .game__timer {
@@ -193,6 +217,7 @@ body *:active {
     font-family: var(--font-eng2);
     letter-spacing: -2px;
     font-size: var(--font-middle);
+    height: 100%;
 }
 
 .game__volume-box {
@@ -201,6 +226,10 @@ body *:active {
     font-size: var(--font-regular);
     margin-top: 5px;
     position: relative;
+}
+
+.game__level-title.small {
+    font-size: var(--font-normal);
 }
 
 .game__volume {
@@ -226,6 +255,19 @@ body *:active {
     display: flex;
     margin-right: 15px;
     align-items: center;
+}
+
+.game__header-msg {
+    position: absolute;
+    left: 370px;
+    width: 450px;
+    height: 30px;
+    display: flex;
+    margin-right: 15px;
+    font-family: var(--font-kor2);
+    align-items: center;
+    font-size: var(--font-twenty);
+    overflow: hidden;
 }
 
 .game__score-box {
@@ -295,11 +337,21 @@ body *:active {
 }
 
 .game__mode-page {
+    position: relative;
     background: url('imgs/background-mode.jpg') center/cover no-repeat;
 }
 
-.game__notice-page {
-    background: url('imgs/background-notice.jpg') center/cover no-repeat;
+.game__notice-page.notice0 {
+    background: url('imgs/background-notice0.jpg') center/cover no-repeat;
+}
+.game__notice-page.notice1 {
+    background: url('imgs/background-notice1.jpg') center/cover no-repeat;
+}
+.game__notice-page.notice2 {
+    background: url('imgs/background-notice2.jpg') center/cover no-repeat;
+}
+.game__notice-page.notice3 {
+    background: url('imgs/background-notice3.jpg') center/cover no-repeat;
 }
 
 .game__mini-container {
@@ -347,6 +399,77 @@ body *:active {
     font-family: var(--font-eng2);
 }
 
+.description-box {
+    font-size: var(--font-normal);
+    display: flex;
+    justify-content: center;
+}
+
+.description-minibox {
+    margin: 0 10px;
+    line-height: var(--font-normal);
+    display: flex;
+    flex-direction: column;
+    border: 2px solid;
+    animation: border-only-change 3s infinite;
+    border-radius: 2px;
+    width: 140px;
+    height: 140px;
+    justify-content: center;
+}
+
+.description-minibox > h3 {
+    margin: 0;
+    font-size: var(--font-twentyfour);
+    line-height: 70px;
+    height: 70px;
+}
+.description-minibox > p {
+    font-size: var(--font-middle);
+    height: 110px;
+    margin: 0;
+}
+.description-minibox > span {
+    font-size: var(--font-small);
+    transform: translateY(-5px);
+}
+
+.description-item {
+    margin: auto;
+    margin-top: 60px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.description-item > p {
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -250%);
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.description-item > div > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    font-size: var(--font-twenty);
+    height: 50px;
+}
+.description-item > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-regular);
+    height: 80px;
+    width: 200px;
+}
+
 .game__field-black {
     width: 100%;
     height: 100%;
@@ -355,7 +478,8 @@ body *:active {
     position: relative;
 }
 
-.game__start {
+.game__start,
+.game__how-to-play-btn {
     font-family: var(--font-kor1);
     font-weight: bold;
     border: 2px solid var(--color-black);
@@ -365,7 +489,11 @@ body *:active {
     line-height: var(--font-middle);
     width: 150px;
     height: 40px;
-    margin-top: 5px;
+    margin: 20px 5px 0 5px;
+}
+
+.game__how-to-play-btn {
+    animation: backgroundcolor-change2 3s infinite;
 }
 
 .notice-title {
@@ -373,7 +501,8 @@ body *:active {
     font-size: var(--font-medium);
     margin: 0px;
     font-family: var(--font-eng2);
-    transform: translateY(-15px);
+    transform: translateY(5px);
+    margin-bottom: 5px;
 }
 
 .notice-content {
@@ -383,10 +512,44 @@ body *:active {
 .notice-large {
     color: red;
     font-size: var(--font-twentyfour);
-    margin: 15px 0 0 0;
+    margin: 20px 0 0 0;
 }
+
 .notice-small {
+    display: block;
+    font-family: var(--font-kor2);
+    line-height: var(--font-twentyfour);
     font-size: var(--font-twenty);
+}
+
+.img-box > img {
+    margin: 10px 10px 0 10px;
+}
+.img-box > img:nth-child(1) {
+    width: 70px;
+}
+.img-box > img:nth-child(2) {
+    width: 83px;
+}
+.img-box > img:nth-child(3) {
+    width: 98px;
+    transform: scaleX(-1);
+}
+.img-box > img:nth-child(4) {
+    width: 120px;
+    transform: scaleX(-1);
+}
+.img-box > img:nth-child(6) {
+    width: 90px;
+}
+.img-box > img:nth-child(7) {
+    width: 90px;
+}
+.img-box > img:nth-child(8) {
+    width: 80px;
+}
+.img-box > img:nth-child(9) {
+    width: 120px;
 }
 
 .mode-title {
@@ -398,15 +561,17 @@ body *:active {
     font-family: var(--font-eng2);
 }
 
-.game__ranking-btn {
+.game__ranking-mode-box > button {
     background-color: transparent;
-    animation: color-change-red 2s infinite;
-    position: absolute;
-    right: 75px;
-    bottom: 16px;
-    font-weight: bold;
-    font-size: var(--font-twentyfour);
-    font-family: var(--font-eng1);
+    margin: 15px 0;
+    color: var(--color-white);
+    font-size: var(--font-medium);
+    font-family: var(--font-com1);
+    transition: all var(--animation-duration);
+}
+
+.game__ranking-mode-box > button:hover {
+    color: red;
 }
 
 .game__notice-prev-btn {
@@ -690,6 +855,18 @@ body *:active {
     }
 }
 
+@keyframes border-only-change {
+    0% {
+        border-color: rgba(255, 255, 255, 0.528);
+    }
+    50% {
+        border-color: var(--color-red);
+    }
+    100% {
+        border-color: rgba(255, 255, 255, 0.528);
+    }
+}
+
 @keyframes color-change {
     0% {
         color: var(--color-lightgreen);
@@ -723,6 +900,18 @@ body *:active {
     }
     100% {
         background-color: var(--color-deeporange);
+    }
+}
+
+@keyframes backgroundcolor-change2 {
+    0% {
+        background-color: var(--color-lightgreen);
+    }
+    50% {
+        background-color: var(--color-green);
+    }
+    100% {
+        background-color: var(--color-lightgreen);
     }
 }
 
