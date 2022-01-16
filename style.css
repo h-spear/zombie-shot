@@ -30,6 +30,7 @@
 
     /* Animation duration */
     --animation-duration: 300ms;
+    --animation-duration2: 800ms;
 
     /* fonts */
     --font-eng1: 'Dancing Script', cursive;
@@ -120,6 +121,17 @@ button *:hover {
     border-radius: 7px;
     font-size: 24px;
     visibility: hidden;
+}
+
+.game__notice-btn {
+    background-color: transparent;
+    animation: color-change-red 2s infinite;
+    position: absolute;
+    top: 54px;
+    left: 424px;
+    font-weight: bold;
+    font-size: var(--font-normal);
+    font-family: var(--font-eng1);
 }
 
 .game__mode-btn-box {
@@ -237,7 +249,6 @@ body *:active {
 }
 
 .game__field {
-    background-color: chartreuse;
     width: 100%;
     height: 100%;
     position: relative;
@@ -265,6 +276,7 @@ body *:active {
     opacity: 1;
 }
 
+.game__notice-page,
 .game__mode-page,
 .game__ranking-page,
 .game__welcome-page {
@@ -272,7 +284,6 @@ body *:active {
     width: 100%;
     height: 100%;
     justify-content: center;
-    background: url('imgs/background-welcome.jpg') center/cover no-repeat;
 }
 
 .game__welcome-page {
@@ -285,6 +296,10 @@ body *:active {
 
 .game__mode-page {
     background: url('imgs/background-mode.jpg') center/cover no-repeat;
+}
+
+.game__notice-page {
+    background: url('imgs/background-notice.jpg') center/cover no-repeat;
 }
 
 .game__mini-container {
@@ -353,25 +368,25 @@ body *:active {
     margin-top: 5px;
 }
 
-.game__ranking-btn {
-    background-color: transparent;
-    animation: color-change-red 2s infinite;
-    position: absolute;
-    right: 75px;
-    bottom: 16px;
-    font-weight: bold;
-    font-size: var(--font-twentyfour);
-    font-family: var(--font-eng1);
+.notice-title {
+    color: red;
+    font-size: var(--font-medium);
+    margin: 0px;
+    font-family: var(--font-eng2);
+    transform: translateY(-15px);
 }
 
-.game__prev-btn,
-.game__ranking-prev-btn {
-    font-size: 44px;
-    background-color: transparent;
-    animation: color-change-white 5s infinite;
-    position: absolute;
-    right: 20px;
-    bottom: 5px;
+.notice-content {
+    transform: translateY(-20px);
+}
+
+.notice-large {
+    color: red;
+    font-size: var(--font-twentyfour);
+    margin: 15px 0 0 0;
+}
+.notice-small {
+    font-size: var(--font-twenty);
 }
 
 .mode-title {
@@ -383,6 +398,34 @@ body *:active {
     font-family: var(--font-eng2);
 }
 
+.game__ranking-btn {
+    background-color: transparent;
+    animation: color-change-red 2s infinite;
+    position: absolute;
+    right: 75px;
+    bottom: 16px;
+    font-weight: bold;
+    font-size: var(--font-twentyfour);
+    font-family: var(--font-eng1);
+}
+
+.game__notice-prev-btn {
+    font-size: 44px;
+    background-color: transparent;
+    animation: color-change-white 5s infinite;
+    position: absolute;
+    right: 20px;
+    bottom: 5px;
+}
+.game__prev-btn,
+.game__ranking-prev-btn {
+    font-size: 44px;
+    background-color: transparent;
+    animation: color-change-white 5s infinite;
+    position: absolute;
+    right: 20px;
+    bottom: 5px;
+}
 .game__rank-description {
     display: block;
     font-size: var(--font-normal);
@@ -451,46 +494,62 @@ body *:active {
     width: 100px;
 }
 
-.game__ranking-content > .ranking-comment:hover {
-    padding: 10px;
-    width: 200px;
-    height: 310px;
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.75);
-    top: 31%;
-    left: 90%;
-    opacity: 1;
-    color: var(--color-white);
+.ranking-no.title,
+.ranking-name.title,
+.ranking-score.title,
+.ranking-date.title {
+    transform: translateX(-20px);
 }
 
 .ranking-comment {
-    width: 40px;
-    height: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    opacity: 0;
-    color: transparent;
-    transition: opacity var(--animation-duration);
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    position: absolute;
+    width: 400px;
+    height: 313px;
+    top: 49%;
+    left: 50%;
+    transform: translate(-50%, -31%);
+    font-family: var(--font-kor1);
     z-index: 1;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    opacity: 1;
+    transition: opacity var(--animation-duration2);
 }
 
-.ranking-comment > .comment-info {
+.ranking-comment > .comment-rank {
     font-size: var(--font-middle);
     line-height: var(--font-middle);
-    font-family: var(--font-kor1);
-    margin-bottom: 10px;
-    height: 80px;
+    height: 40px;
+}
+
+.ranking-comment > .comment-name {
+    font-size: var(--font-middle);
+    line-height: var(--font-middle);
+    height: 30px;
 }
 
 .ranking-comment > .comment-content {
-    width: 180px;
+    margin-top: 10px;
+    width: 330px;
     height: 200px;
+    font-family: var(--font-kor2);
+    overflow: scroll;
 }
 
 .ranking-emoji {
+    background-color: transparent;
     width: 30px;
     position: absolute;
+    font-size: var(--font-twenty);
     right: 30px;
+}
+
+.ranking-emoji:hover {
+    transform: scale(1.1);
 }
 
 .ranking {
@@ -765,7 +824,7 @@ body *:active {
     display: none;
     color: white;
     position: absolute;
-    background: url('imgs/background-notice.jpg') center/cover;
+    background: url('imgs/background-mobile.jpg') center/cover;
     width: 100%;
     height: 100%;
     top: 0;
@@ -805,6 +864,10 @@ body *:active {
 
 .invisible {
     display: none;
+}
+.hidden {
+    visibility: hidden;
+    opacity: 0;
 }
 
 .reverse {

@@ -14,20 +14,38 @@ export function volumeSoundA(vol) {
 export class GameBody {
     constructor() {
         this.DB = new DatabaseService();
-        this.gameModeBtn = document.querySelectorAll('.game__mode-btn');
         this.gameFinishBanner = new PopUp();
         this.game;
         this.gameMode;
 
         this.gameTitle = document.querySelector('.game__title');
         this.gameDescription = document.querySelector('.game__description');
-        this.gameModePage = document.querySelector('.game__mode-page');
+        this.gameModeBtn = document.querySelectorAll('.game__mode-btn');
         this.gameModeBtnBox = document.querySelector('.game__mode-btn-box');
+        this.gameModePage = document.querySelector('.game__mode-page');
         this.gameRankingPage = document.querySelector('.game__ranking-page');
+        this.gameNoticeBtn = document.querySelector('.game__notice-btn');
+        this.gameNoticePage = document.querySelector('.game__notice-page');
         this.gameField = document.querySelector('.game__field');
         this.gameRankingPrevBtn = document.querySelector(
             '.game__ranking-prev-btn'
         );
+
+        this.gameNoticePrevBtn = document.querySelector(
+            '.game__notice-prev-btn'
+        );
+
+        this.gameNoticeBtn.addEventListener('click', () => {
+            this.hideModePage();
+            this.showNoticePage();
+            sound.playGunShot2();
+        });
+
+        this.gameNoticePrevBtn.addEventListener('click', () => {
+            this.hideNoticePage();
+            this.showModePage();
+            sound.playGunShot2();
+        });
 
         this.gameModeBtnBox.addEventListener('click', (e) => {
             const target = e.target;
@@ -38,9 +56,10 @@ export class GameBody {
             }
         });
 
-        this.gameRankingPrevBtn.addEventListener('click', (e) => {
+        this.gameRankingPrevBtn.addEventListener('click', () => {
             this.hideRankingPage();
             this.gameField.classList.remove('invisible');
+            sound.playGunShot2();
         });
 
         this.gameFinishBanner.setClickListener(() => {
@@ -67,9 +86,10 @@ export class GameBody {
                 return;
             }
 
+            const replaced = comment.replace(/(?:\r\n|\r|\n)/g, '<br />');
             const score =
                 this.gameMode === 4 ? this.game.score : this.game.currentLevel;
-            this.DB.saveRankingData(this.gameMode, name, comment, score);
+            this.DB.saveRankingData(this.gameMode, name, replaced, score);
             alert('Success!');
             this.gameFinishBanner.hideWriteForm();
             this.gameFinishBanner.hideWriteButton();
@@ -89,6 +109,16 @@ export class GameBody {
     gameStart(mode) {
         this.hideModePage();
         this.makeGameDescription(mode);
+    }
+
+    hideNoticePage() {
+        this.gameField.style.display = 'flex';
+        this.gameNoticePage.style.display = 'none';
+    }
+
+    showNoticePage() {
+        this.gameField.style.display = 'none';
+        this.gameNoticePage.style.display = 'flex';
     }
 
     hideModePage() {
@@ -131,6 +161,7 @@ export class GameBody {
             this.showModePage();
             this.gameField.innerHTML = '';
             this.gameField.classList.remove('description');
+            sound.playGunShot2();
         });
 
         // 게임 시작 버튼 만들기
@@ -184,6 +215,7 @@ export class GameBody {
             this.DB.loadRankingData(mode);
             this.showRankingPage(mode);
             this.gameField.classList.add('invisible');
+            sound.playGunShot2();
         });
     }
 

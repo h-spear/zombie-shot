@@ -19,9 +19,10 @@ export class DatabaseService {
             <div class="ranking-name">${name}</div>
             <div class="ranking-date">${date}</div>
             <div class="ranking-score">${score}</div>
-            <div class="ranking-emoji">${emojis[rank - 1]}</div>
-            <div class="ranking-comment">
-                <div class="comment-info">${rank}위<br/>${name}</div>
+            <button class="ranking-emoji">${emojis[rank - 1]}</button>
+            <div class="ranking-comment hidden">
+                <div class="comment-rank">${rank}위</div>
+                <div class="comment-name">${name}</div>
                 <div class="comment-content">${comment}</div>
             </div>
         </div>`;
@@ -37,6 +38,28 @@ export class DatabaseService {
             i++;
         });
         while (i <= 10) this.pushRankingTag(i++, '', '', '', '');
+        const gameRankingEmojis = document.querySelectorAll('.ranking-emoji');
+        const gameRankingComments =
+            document.querySelectorAll('.ranking-comment');
+        gameRankingEmojis.forEach((emoji, index) => {
+            emoji.addEventListener('click', () => {
+                if (gameRankingComments[index].childNodes[5].textContent === '')
+                    return;
+                if (!gameRankingComments[index].classList.contains('hidden')) {
+                    gameRankingComments[index].classList.add('hidden');
+                    return;
+                }
+                gameRankingComments.forEach((comment) => {
+                    comment.classList.add('hidden');
+                });
+                gameRankingComments[index].classList.remove('hidden');
+            });
+        });
+        gameRankingComments.forEach((comment) => {
+            comment.addEventListener('click', () => {
+                comment.classList.add('hidden');
+            });
+        });
     }
 
     loadRankingData(selectMode) {
